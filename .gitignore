@@ -24,3 +24,6 @@ ex_clash-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# Files containing secrets
+**/*.secret.exs

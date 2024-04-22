@@ -22,7 +22,6 @@ defmodule ExClash.MixProject do
   defp deps do
     [
       {:req, "~> 0.4.0"},
-      {:jason, "~> 1.4"}
     ]
   end
 end

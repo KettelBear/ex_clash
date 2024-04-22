@@ -1,10 +1,11 @@
 defmodule ExClash.Clan.WarLeague do
-  @moduledoc false
+  @moduledoc """
+  /clans/{clanTag}/currentwar/leaguegroup
+  /clanwarleagues/wars/{warTag}
+  """
 
-  # This will be moved to its own module.
   @spec league_group(clan_tag :: String.t()) :: map()
-  def league_group(clan_tag) do
-    _ = "/clans/#{clan_tag}/currentwar/leaguegroup"
-    %{}
+  def league_group(_clan_tag) do
+   %{}
   end
 end
