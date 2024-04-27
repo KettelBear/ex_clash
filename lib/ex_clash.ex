@@ -50,7 +50,12 @@ defmodule ExClash do
       :camel_case
   """
   @spec camel_to_atom(camel :: String.t()) :: atom()
-  def camel_to_atom(camel), do: camel |> Macro.underscore() |> String.to_existing_atom()
+  def camel_to_atom(camel) do
+    camel |> Macro.underscore() |> String.to_existing_atom()
+  rescue
+    # TODO: Evaluate if this is necessary...
+    _ -> camel |> Macro.underscore() |> String.to_atom()
+  end
 
   @doc """
   """
@@ -70,47 +75,6 @@ defmodule ExClash do
   The response body from the HTTP request is JSON. This will handle converting
   the keys into snake case atoms, then put them in the `clash_struct`. Since
   the struct needs to be passed in, it is not recursive.
-
-  ## Examples
-
-      iex> ExClash.get!("/clans/#9RPU22RU/warlog", limit: 1)
-      %{
-        "items" => [
-          %{
-            "attacksPerMember" => 2,
-            "endTime" => "20240419T031544.000Z",
-            "clan" => %{
-              "attacks" => 50,
-              "badgeUrls" => %{
-                "large" => "https://api-assets.clashofclans.com/badges/512/KBtwIToS85C-c3ROYqXdkB7DkmMY4zUP3BjJ8IDK1Qw.png",
-                "medium" => "https://api-assets.clashofclans.com/badges/200/KBtwIToS85C-c3ROYqXdkB7DkmMY4zUP3BjJ8IDK1Qw.png",
-                "small" => "https://api-assets.clashofclans.com/badges/70/KBtwIToS85C-c3ROYqXdkB7DkmMY4zUP3BjJ8IDK1Qw.png"
-              },
-              "clanLevel" => 24,
-              "destructionPercentage" => 91.166664,
-              "expEarned" => 384,
-              "name" => "Reddit Frost",
-              "stars" => 73,
-              "tag" => "#9RPU22RU"
-            },
-            "opponent" => %{
-              "badgeUrls" => %{
-                "large" => "https://api-assets.clashofclans.com/badges/512/2Msa5ORBekyNP5IV9k-N-L2bfehNIuY1zwdIv-E08Mk.png",
-                "medium" => "https://api-assets.clashofclans.com/badges/200/2Msa5ORBekyNP5IV9k-N-L2bfehNIuY1zwdIv-E08Mk.png",
-                "small" => "https://api-assets.clashofclans.com/badges/70/2Msa5ORBekyNP5IV9k-N-L2bfehNIuY1zwdIv-E08Mk.png"
-              },
-              "clanLevel" => 20,
-              "destructionPercentage" => 100.0,
-              "name" => "Reckless R&R",
-              "stars" => 90,
-              "tag" => "#202QPPRU2"
-            },
-            "result" => "lose",
-            "teamSize" => 30
-          }
-        ],
-        "paging" => %{"cursors" => %{"after" => "eyJwb3MiOjF9"}}
-      }
   """
   @spec resp_to_struct(api_response :: map(), clash_struct :: atom()) :: struct()
   def resp_to_struct(api_response, clash_struct) do

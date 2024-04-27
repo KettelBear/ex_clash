@@ -1,9 +1,11 @@
 defmodule ExClash.War do
   @moduledoc false
 
+  alias ExClash.War.Clan, as: WarClan
+
   @type t() :: %__MODULE__{
-    clan: ExClash.Clan.t(),
-    opponent: ExClash.Clan.t(),
+    clan: WarClan.t(),
+    opponent: WarClan.t(),
     result: String.t(),
     team_size: integer(),
     attacks_per_member: integer(),
@@ -43,6 +45,8 @@ defmodule ExClash.War do
     :end_time,
   ]
 
+  @doc false
+  @spec format(api_war :: map()) :: __MODULE__.t()
   def format(api_war) do
     {api_clan, api_war} = Map.pop(api_war, "clan")
     {api_opponent, api_war} = Map.pop(api_war, "opponent")
@@ -50,8 +54,8 @@ defmodule ExClash.War do
 
     %__MODULE__{
       ExClash.resp_to_struct(api_war, __MODULE__) |
-      clan: ExClash.War.Clan.format(api_clan),
-      opponent: ExClash.War.Clan.format(api_opponent),
+      clan: WarClan.format(api_clan),
+      opponent: WarClan.format(api_opponent),
       state: convert_state(state)
     }
   end
