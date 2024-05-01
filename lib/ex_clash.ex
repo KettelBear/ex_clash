@@ -10,14 +10,16 @@ defmodule ExClash do
   def base_url, do: @base_url
 
   @doc """
-  Will append the path to the end of the base URL.
+  Will append the path to the end of the base URL, then encode any necessary
+  characters. The octothorp is not encoded by default in URI.encode/2, so there
+  is a specific call to handle it.
   """
   @spec url(path :: String.t()) :: String.t()
-  def url(path), do: "#{@base_url}#{path}" |> encode_octo()
+  def url(path), do: "#{@base_url}#{path}" |> URI.encode() |> encode_octo()
 
   @doc """
-  Fetches the token from the environment. Will raise if the environment
-  value is not set.
+  Fetches the token from the environment. Will raise if the environment value
+  is not set.
   """
   @spec token!() :: String.t()
   def token!, do: Application.fetch_env!(:ex_clash, :token)
@@ -27,17 +29,6 @@ defmodule ExClash do
   """
   @spec auth!() :: {:bearer, String.t()}
   def auth!(), do: {:bearer, token!()}
-
-  @doc """
-  Translates any existing octothorpe into its URL encoded equivalent.
-
-  ## Examples
-
-      iex> ExClash.encode_octo("www.example.com/player?tag=#ABCD")
-      "www.example.com/player?tag=%23ABCD"
-  """
-  @spec encode_octo(url :: String.t()) :: String.t()
-  def encode_octo(url), do: String.replace(url, "#", "%23")
 
   @doc """
   Translates the camelCase from an API JSON response body into an atom that is
@@ -51,10 +42,7 @@ defmodule ExClash do
   """
   @spec camel_to_atom(camel :: String.t()) :: atom()
   def camel_to_atom(camel) do
-    camel |> Macro.underscore() |> String.to_existing_atom()
-  rescue
-    # TODO: Evaluate if this is necessary...
-    _ -> camel |> Macro.underscore() |> String.to_atom()
+    camel |> Macro.underscore() |> String.to_atom()
   end
 
   @doc """
@@ -62,9 +50,8 @@ defmodule ExClash do
   # TODO: This function will need to be severly updated to handle other responses.
   @spec get!(path :: String.t(), query_params :: Keyword.t()) :: map()
   def get!(path, query_params \\ []) do
-    [auth: auth!(), params: query_params]
-    |> Req.new()
-    |> Req.get!(url: url(path))
+    Req.new(auth: auth!(), url: url(path), params: query_params)
+    |> Req.get!()
     |> case do
       %Req.Response{status: 200, body: body} -> body
       _ -> {:error, :server_error}
@@ -75,13 +62,17 @@ defmodule ExClash do
   The response body from the HTTP request is JSON. This will handle converting
   the keys into snake case atoms, then put them in the `clash_struct`. Since
   the struct needs to be passed in, it is not recursive.
+
+  ## Examples
+
+      iex> ExClash.resp_to_struct(%{"myApiKey" => "Some value"}, ExampleStruct)
+      %ExampleStruct{my_api_key: "Some value"}
   """
   @spec resp_to_struct(api_response :: map(), clash_struct :: atom()) :: struct()
   def resp_to_struct(api_response, clash_struct) do
-    Enum.map(api_response, fn {key, value} ->
+    Map.new(api_response, fn {key, value} ->
       {camel_to_atom(key), maybe_datetime(value)}
     end)
-    |> Map.new()
     |> then(&struct(clash_struct, &1))
   end
 
@@ -98,4 +89,6 @@ defmodule ExClash do
       _ -> {:error, :invalid_datetime}
     end
   end
+
+  defp encode_octo(unencoded), do: String.replace(unencoded, "#", "%23")
 end

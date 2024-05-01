@@ -2,6 +2,16 @@ defmodule ExClash.Clan do
   @moduledoc """
   """
 
+  @search_filters %{
+    war_frequency: "warFrequency",
+    location_id: "locationId",
+    min_members: "minMembers",
+    max_members: "maxMembers",
+    min_clan_points: "minClanPoints",
+    min_clan_level: "minClanLevel",
+    label_ids: "labelIds"
+  }
+
   @type clan_type() :: :open | :invite_only | :closed
 
   @type war_frequency() ::
@@ -71,21 +81,73 @@ defmodule ExClash.Clan do
     :clan_capital,
   ]
 
-  def search do
-    """
-    /clans
-    """
+  @doc """
+  Search for clans using the various `filters`. The `page` options can go right
+  into the `filters` list.
+
+  ## Param Options
+
+    ### Filter Options
+
+    * `name` - Search clans by name. If name is used as part of search query, it
+               needs to be at least three characters long. Name search parameter
+               is interpreted as wild card search, so it may appear anywhere in
+               the clan name.
+
+    TODO: Find the values for War Frequency, as I'm pretty sure they're part of an Enum.
+          Add those values to the documentation.
+    * `war_frequency` - Filter by clan war frequency.
+
+    TODO: Check if I have the right documentation for the get locations.
+    * `location_id` - Filter by clan location identifier. For list of available
+                      locations, refer to `ExClash.Locations.get/0` operation.
+
+    * `min_memebers` - Filter by minimum number of clan members.
+
+    * `max_members` - Filter by maximum number of clan members.
+
+    * `min_clan_points` - Filter by minimum amount of clan points.
+
+    * `min_clan_level` - Filter by minimum clan level.
+
+    TODO: Verify the label IDs, if they need any verification, or anything.
+    * `label_ids` - List of label IDs to use for filtering results.
+
+    ### Paging Options
+
+    * `limit` - Limit the number of items returned in the response.
+
+    * `after` - Return only items that occur after this marker.
+
+    * `before` - Return only items that occur before this marker.
+
+  ## Examples
+
+      iex> ExClash.Clan.search(name: "My Clan", min_clan_level: 10, limit: 5)
+      {
+        [
+          %ExClash.Clan{tag: "#JU2QJCLG", name: "MY CLAN", clan_level: 15, ...},
+          %ExClash.Clan{tag: "#VCP2CVC8", name: "My clan", clan_level: 18, ...},
+          %ExClash.Clan{tag: "#2YJ0L2VY9", name: "my clan", clan_level: 13, ...},
+          %ExClash.Clan{tag: "#G0RY89LU", name: "MY CLAN", clan_level: 19, ...},
+          %ExClash.Clan{tag: "#2PYGGVYQC", name: "my clan", clan_level: 17, ...}
+        ],
+        %ExClash.Paging{after: "eyJwb3MiOjV9", before: nil}
+      }
+  """
+  @spec search() :: {list(__MODULE__.t()), ExClash.Paging.t()}
+  def search(filters \\ []) do
+    %{"items" => clans, "paging" => paging} = ExClash.get!("/clans", Enum.map(filters, &convert_filters/1))
+
+    {Enum.map(clans, &format/1), ExClash.Paging.format(paging)}
   end
 
   # TODO:
   @doc """
+
   """
   @spec details(tag :: String.t()) :: __MODULE__.t()
-  def details(tag) do
-    "/clans/#{tag}"
-    |> ExClash.get!()
-    |> format()
-  end
+  def details(tag), do: ExClash.get!("/clans/#{tag}") |> format()
 
   def memebers(_tag) do
     """
@@ -163,4 +225,6 @@ defmodule ExClash.Clan do
 
   defp format_frequency(nil), do: nil
   defp format_frequency(freq), do: ExClash.camel_to_atom(freq)
+
+  defp convert_filters({key, value}), do: {Map.get(@search_filters, key, key), value}
 end
