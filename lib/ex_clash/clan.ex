@@ -1,4 +1,5 @@
 defmodule ExClash.Clan do
+  # TODO: Fill out the `moduledoc` for this module.
   @moduledoc """
   """
 
@@ -31,6 +32,7 @@ defmodule ExClash.Clan do
     location: ExClash.Location.t(),
     is_family_friendly: boolean(),
     badge_urls: ExClash.Badges.t(),
+    chat_language: ExClash.ChatLanguage.t(),
     clan_level: integer(),
     clan_points: integer(),
     clan_builder_base_points: integer(),
@@ -60,6 +62,7 @@ defmodule ExClash.Clan do
     :location,
     :is_family_friendly,
     :badge_urls,
+    :chat_language,
     :clan_level,
     :clan_points,
     :clan_builder_base_points,
@@ -142,13 +145,45 @@ defmodule ExClash.Clan do
     {Enum.map(clans, &format/1), ExClash.Paging.format(paging)}
   end
 
-  # TODO:
   @doc """
+  Retrieve the details for the provided `tag`.
 
+  ## Examples
+
+      iex> ExClash.Clan.details("#G0RY89LU")
+      %ExClash.Clan{
+        tag: "#G0RY89LU",
+        name: "MY CLAN",
+        type: :invite_only,
+        description: "",
+        location: nil,
+        is_family_friendly: false,
+        badge_urls: %ExClash.Badges{...},
+        clan_level: 19,
+        clan_points: 47181,
+        clan_builder_base_points: 41464,
+        clan_capital_points: 3159,
+        capital_league: nil,
+        required_trophies: 2200,
+        war_frequency: :always,
+        war_win_streak: 0,
+        war_wins: 272,
+        war_ties: nil,
+        war_losses: nil,
+        is_war_log_public: false,
+        war_league: nil,
+        members: 45,
+        member_list: nil,
+        labels: nil,
+        required_builder_base_trophies: 0,
+        required_townhall_level: 15,
+        clan_capital: nil
+      }
   """
   @spec details(tag :: String.t()) :: __MODULE__.t()
   def details(tag), do: ExClash.get!("/clans/#{tag}") |> format()
 
+  # TODO: Implementation, spec, and doc
   def memebers(_tag) do
     """
     /clans/{clanTag}/members
@@ -200,25 +235,67 @@ defmodule ExClash.Clan do
   end
 
   defp format(api_clan) do
-    # TODO:
-    {_api_location, api_clan} = Map.pop(api_clan, "location")
-    {_cap_league, api_clan} = Map.pop(api_clan, "capitalLeague")
-    {_war_league, api_clan} = Map.pop(api_clan, "warLeague")
+    # TODO: Finish extracting info fomr API.
+    # Provided is an example of a clan member: ExClash.Clan.Player
+    # %{
+    #   "builderBaseLeague" => %{"id" => 44000034, "name" => "Platinum League I"},
+    #   "builderBaseTrophies" => 4903,
+    #   "clanRank" => 1,
+    #   "donations" => 1667,
+    #   "donationsReceived" => 1435,
+    #   "expLevel" => 256,
+    #   "league" => %{
+    #     "iconUrls" => %{
+    #       "medium" => "https://api-assets.clashofclans.com/leagues/288/R2zmhyqQ0_lKcDR5EyghXCxgyC9mm_mVMIjAbmGoZtw.png",
+    #       "small" => "https://api-assets.clashofclans.com/leagues/72/R2zmhyqQ0_lKcDR5EyghXCxgyC9mm_mVMIjAbmGoZtw.png",
+    #       "tiny" => "https://api-assets.clashofclans.com/leagues/36/R2zmhyqQ0_lKcDR5EyghXCxgyC9mm_mVMIjAbmGoZtw.png"
+    #     },
+    #     "id" => 29000022,
+    #     "name" => "Legend League"
+    #   },
+    #   "name" => "OnlineheRo",
+    #   "playerHouse" => %{
+    #     "elements" => [
+    #       %{"id" => 82000000, "type" => "ground"},
+    #       %{"id" => 82000048, "type" => "walls"},
+    #       %{"id" => 82000082, "type" => "roof"},
+    #       %{"id" => 82000058, "type" => "decoration"}
+    #     ]
+    #   },
+    #   "previousClanRank" => 1,
+    #   "role" => "coLeader",
+    #   "tag" => "#P88YU2GVY",
+    #   "townHallLevel" => 16,
+    #   "trophies" => 5295
+    # },
     {_member_list, api_clan} = Map.pop(api_clan, "memberList")
-    {_labels, api_clan} = Map.pop(api_clan, "labels")
-    {_capital, api_clan} = Map.pop(api_clan, "clanCapital")
 
     {badges, api_clan} = Map.pop(api_clan, "badgeUrls")
+    {capital, api_clan} = Map.pop(api_clan, "clanCapital")
+    {capital_league, api_clan} = Map.pop(api_clan, "capitalLeague")
+    {chat_language, api_clan} = Map.pop(api_clan, "chatLanguage")
+    {labels, api_clan} = Map.pop(api_clan, "labels")
+    {location, api_clan} = Map.pop(api_clan, "location")
     {type, api_clan} = Map.pop(api_clan, "type")
     {war_freq, api_clan} = Map.pop(api_clan, "warFrequency")
+    {war_league, api_clan} = Map.pop(api_clan, "warLeague")
 
     %__MODULE__{
       ExClash.resp_to_struct(api_clan, __MODULE__) |
       badge_urls: ExClash.resp_to_struct(badges, ExClash.Badges),
+      capital_league: ExClash.League.format(capital_league),
+      chat_language: format_chat_lang(chat_language),
+      clan_capital: ExClash.Clan.Capital.format(capital),
+      labels: Enum.map(labels, &ExClash.Label.format/1),
+      location: ExClash.resp_to_struct(location, ExClash.Location),
       type: format_type(type),
-      war_frequency: format_frequency(war_freq)
+      war_frequency: format_frequency(war_freq),
+      war_league: ExClash.League.format(war_league)
     }
   end
+
+  defp format_chat_lang(nil), do: nil
+  defp format_chat_lang(lang), do: ExClash.resp_to_struct(lang, ExClash.ChatLanguage)
 
   defp format_type(nil), do: nil
   defp format_type(type), do: ExClash.camel_to_atom(type)

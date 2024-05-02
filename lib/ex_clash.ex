@@ -15,7 +15,7 @@ defmodule ExClash do
   is a specific call to handle it.
   """
   @spec url(path :: String.t()) :: String.t()
-  def url(path), do: "#{@base_url}#{path}" |> URI.encode() |> encode_octo()
+  def url(path), do: "#{base_url()}#{path}" |> URI.encode() |> encode_octo()
 
   @doc """
   Fetches the token from the environment. Will raise if the environment value
@@ -41,9 +41,7 @@ defmodule ExClash do
       :camel_case
   """
   @spec camel_to_atom(camel :: String.t()) :: atom()
-  def camel_to_atom(camel) do
-    camel |> Macro.underscore() |> String.to_atom()
-  end
+  def camel_to_atom(camel), do: camel |> Macro.underscore() |> String.to_atom()
 
   @doc """
   """
