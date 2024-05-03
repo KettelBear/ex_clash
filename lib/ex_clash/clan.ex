@@ -25,33 +25,33 @@ defmodule ExClash.Clan do
     | :any
 
   @type t() :: %__MODULE__{
-    tag: String.t(),
-    name: String.t(),
-    type: clan_type(),
-    description: String.t(),
-    location: ExClash.Location.t(),
-    is_family_friendly: boolean(),
     badge_urls: ExClash.Badges.t(),
+    capital_league: ExClash.League.t(),
     chat_language: ExClash.ChatLanguage.t(),
+    clan_builder_base_points: integer(),
+    clan_capital: ExClash.Clan.Capital.t(),
+    clan_capital_points: integer(),
     clan_level: integer(),
     clan_points: integer(),
-    clan_builder_base_points: integer(),
-    clan_capital_points: integer(),
-    capital_league: ExClash.League.t(),
-    required_trophies: integer(),
-    war_frequency: war_frequency(),
-    war_win_streak: integer(),
-    war_wins: integer(),
-    war_ties: integer(),
-    war_losses: integer(),
+    description: String.t(),
+    is_family_friendly: boolean(),
     is_war_log_public: boolean(),
-    war_league: ExClash.League.t(),
+    labels: [ExClash.Label.t()],
+    location: ExClash.Location.t(),
     members: integer(),
     member_list: [ExClash.Clan.Player.t()],
-    labels: [ExClash.Label.t()],
+    name: String.t(),
     required_builder_base_trophies: integer(),
     required_townhall_level: integer(),
-    clan_capital: ExClash.Clan.Capital.t(),
+    required_trophies: integer(),
+    tag: String.t(),
+    type: clan_type(),
+    war_frequency: war_frequency(),
+    war_league: ExClash.League.t(),
+    war_losses: integer(),
+    war_ties: integer(),
+    war_win_streak: integer(),
+    war_wins: integer()
   }
 
   defstruct [
@@ -190,6 +190,9 @@ defmodule ExClash.Clan do
     """
   end
 
+  # TODO: Both WAR_LOG and CURRENT_WAR; if the clan's warlog is not public,
+  # then a 403 will be returned. I definitely need to handle that far more
+  # gracefully than error over the fact that Map cannot pop a tuple.
   @doc """
   Return the war log for the provided clan tag. Will fetch the most recent war
   going back in time, unless the after tag is provided. If `after` is provided
@@ -235,40 +238,6 @@ defmodule ExClash.Clan do
   end
 
   defp format(api_clan) do
-    # TODO: Finish extracting info fomr API.
-    # Provided is an example of a clan member: ExClash.Clan.Player
-    # %{
-    #   "builderBaseLeague" => %{"id" => 44000034, "name" => "Platinum League I"},
-    #   "builderBaseTrophies" => 4903,
-    #   "clanRank" => 1,
-    #   "donations" => 1667,
-    #   "donationsReceived" => 1435,
-    #   "expLevel" => 256,
-    #   "league" => %{
-    #     "iconUrls" => %{
-    #       "medium" => "https://api-assets.clashofclans.com/leagues/288/R2zmhyqQ0_lKcDR5EyghXCxgyC9mm_mVMIjAbmGoZtw.png",
-    #       "small" => "https://api-assets.clashofclans.com/leagues/72/R2zmhyqQ0_lKcDR5EyghXCxgyC9mm_mVMIjAbmGoZtw.png",
-    #       "tiny" => "https://api-assets.clashofclans.com/leagues/36/R2zmhyqQ0_lKcDR5EyghXCxgyC9mm_mVMIjAbmGoZtw.png"
-    #     },
-    #     "id" => 29000022,
-    #     "name" => "Legend League"
-    #   },
-    #   "name" => "OnlineheRo",
-    #   "playerHouse" => %{
-    #     "elements" => [
-    #       %{"id" => 82000000, "type" => "ground"},
-    #       %{"id" => 82000048, "type" => "walls"},
-    #       %{"id" => 82000082, "type" => "roof"},
-    #       %{"id" => 82000058, "type" => "decoration"}
-    #     ]
-    #   },
-    #   "previousClanRank" => 1,
-    #   "role" => "coLeader",
-    #   "tag" => "#P88YU2GVY",
-    #   "townHallLevel" => 16,
-    #   "trophies" => 5295
-    # },
-    {_member_list, api_clan} = Map.pop(api_clan, "memberList")
 
     {badges, api_clan} = Map.pop(api_clan, "badgeUrls")
     {capital, api_clan} = Map.pop(api_clan, "clanCapital")
@@ -276,6 +245,7 @@ defmodule ExClash.Clan do
     {chat_language, api_clan} = Map.pop(api_clan, "chatLanguage")
     {labels, api_clan} = Map.pop(api_clan, "labels")
     {location, api_clan} = Map.pop(api_clan, "location")
+    {member_list, api_clan} = Map.pop(api_clan, "memberList")
     {type, api_clan} = Map.pop(api_clan, "type")
     {war_freq, api_clan} = Map.pop(api_clan, "warFrequency")
     {war_league, api_clan} = Map.pop(api_clan, "warLeague")
@@ -288,6 +258,7 @@ defmodule ExClash.Clan do
       clan_capital: ExClash.Clan.Capital.format(capital),
       labels: Enum.map(labels, &ExClash.Label.format/1),
       location: ExClash.resp_to_struct(location, ExClash.Location),
+      member_list: Enum.map(member_list, &ExClash.Clan.Player.format/1),
       type: format_type(type),
       war_frequency: format_frequency(war_freq),
       war_league: ExClash.League.format(war_league)
