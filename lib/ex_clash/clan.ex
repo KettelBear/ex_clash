@@ -140,7 +140,7 @@ defmodule ExClash.Clan do
   """
   @spec search() :: {list(__MODULE__.t()), ExClash.Paging.t()}
   def search(filters \\ []) do
-    %{"items" => clans, "paging" => paging} = ExClash.get!("/clans", Enum.map(filters, &convert_filters/1))
+    %{"items" => clans, "paging" => paging} = ExClash.get("/clans", Enum.map(filters, &convert_filters/1))
 
     {Enum.map(clans, &format/1), ExClash.Paging.format(paging)}
   end
@@ -181,13 +181,37 @@ defmodule ExClash.Clan do
       }
   """
   @spec details(tag :: String.t()) :: __MODULE__.t()
-  def details(tag), do: ExClash.get!("/clans/#{tag}") |> format()
+  def details(tag), do: ExClash.get("/clans/#{tag}") |> format()
 
-  # TODO: Implementation, spec, and doc
-  def memebers(_tag) do
-    """
-    /clans/{clanTag}/members
-    """
+  @doc """
+  Get the list of members for the provided `tag`.
+
+  ## Param Options
+
+    * `limit` - Limit the number of items returned in the response.
+
+    * `after` - Return only items that occur after this marker.
+
+    * `before` - Return only items that occur before this marker.
+
+  ## Examples
+
+      iex> ExClash.Clan.members("#G0RY89LU", limit: 3)
+      {
+        [
+          %ExClash.Clan.Player{...},
+          %ExClash.Clan.Player{...},
+          %ExClash.Clan.Player{...}
+        ],
+        %ExClash.Paging{after: "eyJwb3MiOjN9", before: nil}
+      }
+  """
+  @spec members(tag :: String.t(), params :: Keyword.t())
+      :: {list(ExClash.Clan.Player.t()), ExClash.Paging.t()}
+  def members(tag, params \\ []) do
+    %{"items" => members, "paging" => paging} = ExClash.get("/clans/#{tag}/members", params)
+
+    {Enum.map(members, &ExClash.Clan.Player.format/1), ExClash.Paging.format(paging)}
   end
 
   # TODO: Both WAR_LOG and CURRENT_WAR; if the clan's warlog is not public,
@@ -216,7 +240,7 @@ defmodule ExClash.Clan do
   """
   @spec war_log(tag :: String.t(), params :: Keyword.t()) :: ExClash.War.war_log()
   def war_log(tag, params \\ []) do
-    %{"items" => wars, "paging" => paging} = ExClash.get!("/clans/#{tag}/warlog", params)
+    %{"items" => wars, "paging" => paging} = ExClash.get("/clans/#{tag}/warlog", params)
 
     {Enum.map(wars, &ExClash.War.format/1), ExClash.Paging.format(paging)}
   end
@@ -233,12 +257,11 @@ defmodule ExClash.Clan do
   @spec current_war(tag :: String.t()) :: ExClash.War.t()
   def current_war(tag) do
     "/clans/#{tag}/currentwar"
-    |> ExClash.get!()
+    |> ExClash.get()
     |> ExClash.War.format()
   end
 
   defp format(api_clan) do
-
     {badges, api_clan} = Map.pop(api_clan, "badgeUrls")
     {capital, api_clan} = Map.pop(api_clan, "clanCapital")
     {capital_league, api_clan} = Map.pop(api_clan, "capitalLeague")

@@ -46,12 +46,12 @@ defmodule ExClash do
   @doc """
   """
   # TODO: This function will need to be severly updated to handle other responses.
-  @spec get!(path :: String.t(), query_params :: Keyword.t()) :: map()
-  def get!(path, query_params \\ []) do
+  @spec get(path :: String.t(), query_params :: Keyword.t()) :: map()
+  def get(path, query_params \\ []) do
     Req.new(auth: auth!(), url: url(path), params: query_params)
-    |> Req.get!()
+    |> Req.get()
     |> case do
-      %Req.Response{status: 200, body: body} -> body
+      {:ok, %Req.Response{status: 200, body: body}} -> body
       _ -> {:error, :server_error}
     end
   end

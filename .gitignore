@@ -27,3 +27,6 @@ ex_clash-*.tar
 
 # Files containing secrets
 **/*.secret.exs
+
+# Random data based files
+/data/
