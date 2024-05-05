@@ -66,7 +66,6 @@ defmodule ExClash.Clan do
 
     * `clan_capital` - The details of the clan's capital. Please refer to the
     `ExClash.Clan.Capital` module for more information.
-
   """
 
   @search_filters %{
@@ -149,6 +148,17 @@ defmodule ExClash.Clan do
     :required_townhall_level,
     :clan_capital,
   ]
+
+  @doc """
+  Retrieve information about clan's current clan war league group.
+  """
+  @spec cwl_group(tag :: String.t()) :: any()
+  def cwl_group(tag) do
+    case ExClash.get("/clans/#{tag}/currentwar/leaguegroup") do
+      {:ok, body} -> body
+      error -> error
+    end
+  end
 
   @doc """
   Search for clans using the various `filters`. The `page` options can go right
