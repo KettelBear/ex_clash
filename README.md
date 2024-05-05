@@ -8,7 +8,7 @@ ExClash is an Elixir library for working with Supercell's Clash of Clans API.
 
 This material is unofficial and is not endorsed by Supercell. For more
 information see
-[Supercell's Fan Content Policy](www.supercell.com/fan-content-policy)
+[Supercell's Fan Content Policy](https://www.supercell.com/fan-content-policy)
 
 ## Installation
 
@@ -47,46 +47,46 @@ Endpoints with ✅ have been implemented.
 
 ### Clan specific information
 
-* ✅ /clans/{clanTag}/currentwar/leaguegroup
-* /clanwarleagues/wars/{warTag}
-* ✅ /clans/{clanTag}/warlog
-* ✅ /clans
-* ✅ /clans/{clanTag}/currentwar
-* ✅ /clans/{clanTag}
-* ✅ /clans/{clanTag}/members
-* ✅ /clans/{clanTag}/capitalraidseasons
+* ✅ `/clans/{clanTag}/currentwar/leaguegroup`
+* `/clanwarleagues/wars/{warTag}`
+* ✅ `/clans/{clanTag}/warlog`
+* ✅ `/clans`
+* ✅ `/clans/{clanTag}/currentwar`
+* ✅ `/clans/{clanTag}`
+* ✅ `/clans/{clanTag}/members`
+* ✅ `/clans/{clanTag}/capitalraidseasons`
 
 ### Player specific information
 
-* /players/{playerTag}
-* /players/{playerTag}/verifytoken
+* `/players/{playerTag}`
+* `/players/{playerTag}/verifytoken`
 
 ### League information
 
-* /capitalleagues
-* /leagues
-* /leagues/{leagueId}/seasons/{seasonId}
-* /capitalleagues/{leagueId}
-* /builderbaseleagues/{leagueId}
-* /builderbaseleagues
-* /leagues/{leagueId}
-* /leagues/{leagueId}/seasons
-* /warleagues/{leagueId}
-* /warleagues
+* `/capitalleagues`
+* `/leagues`
+* `/leagues/{leagueId}/seasons/{seasonId}`
+* `/capitalleagues/{leagueId}`
+* `/builderbaseleagues/{leagueId}`
+* `/builderbaseleagues`
+* `/leagues/{leagueId}`
+* `/leagues/{leagueId}/seasons`
+* `/warleagues/{leagueId}`
+* `/warleagues`
 
 ### Rankings
 
-* /locations/{locationId}/rankings/clans
-* /locations/{locationId}/rankings/players
-* /locations/{locationId}/rankings/players-builder-base
-* /locations/{locationId}/rankings/clans-builder-base
-* /locations
-* /locations/{locationId}/rankings/capitals
-* /locations/{locationId}
+* `/locations/{locationId}/rankings/clans`
+* `/locations/{locationId}/rankings/players`
+* `/locations/{locationId}/rankings/players-builder-base`
+* `/locations/{locationId}/rankings/clans-builder-base`
+* `/locations`
+* `/locations/{locationId}/rankings/capitals`
+* `/locations/{locationId}`
 
 ### Gold Pass
 
-* /goldpass/seasons/current
+* `/goldpass/seasons/current`
 
 ### Esports related APIs
 
@@ -95,5 +95,5 @@ I'm including this category here because they have the category in their
 developer portal.
 
 ### Labels
-* /labels/players
-* /labels/clans
+* `/labels/players`
+* `/labels/clans`
