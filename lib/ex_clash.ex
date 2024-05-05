@@ -1,7 +1,22 @@
 defmodule ExClash do
   @moduledoc false
 
+  require Logger
+
   @base_url "https://api.clashofclans.com/v1"
+
+  @typedoc """
+  The response that comes back from `ExClash.get/2`. The map will have string
+  keys and be camel case, having gone through Jason.decode/2 after getting the
+  response from the HTTP request to Supercell.
+
+  ## Examples
+
+      {:ok, %{"items" => [%{"value" => 1}, %{"value" => 4}]}}
+
+      {:error, :not_found}
+  """
+  @type response() :: {:ok, map()} | {:error, atom()}
 
   @doc """
   Will return the base url for requests.
@@ -10,12 +25,11 @@ defmodule ExClash do
   def base_url, do: @base_url
 
   @doc """
-  Will append the path to the end of the base URL, then encode any necessary
-  characters. The octothorp is not encoded by default in URI.encode/2, so there
-  is a specific call to handle it.
+  Will append the path to the end of the base URL. The octothorp is not encoded
+  by default in URI.encode/2, so there is a specific call to handle it.
   """
   @spec url(path :: String.t()) :: String.t()
-  def url(path), do: "#{base_url()}#{path}" |> URI.encode() |> encode_octo()
+  def url(path), do: "#{base_url()}#{path}" |> encode_octo()
 
   @doc """
   Fetches the token from the environment. Will raise if the environment value
@@ -43,16 +57,17 @@ defmodule ExClash do
   @spec camel_to_atom(camel :: String.t()) :: atom()
   def camel_to_atom(camel), do: camel |> Macro.underscore() |> String.to_atom()
 
+  # TODO: Write doc block for ExClash.get/2
   @doc """
+  
   """
-  # TODO: This function will need to be severly updated to handle other responses.
-  @spec get(path :: String.t(), query_params :: Keyword.t()) :: map()
+  @spec get(path :: String.t(), query_params :: Keyword.t()) :: response()
   def get(path, query_params \\ []) do
     Req.new(auth: auth!(), url: url(path), params: query_params)
     |> Req.get()
     |> case do
-      {:ok, %Req.Response{status: 200, body: body}} -> body
-      _ -> {:error, :server_error}
+      {:ok, %Req.Response{} = response} -> parse_response(response)
+      error -> log_error(path, query_params, error)
     end
   end
 
@@ -89,4 +104,22 @@ defmodule ExClash do
   end
 
   defp encode_octo(unencoded), do: String.replace(unencoded, "#", "%23")
+
+  defp parse_response(%{status: 200, body: body}), do: {:ok, body}
+  defp parse_response(%{status: 400}), do: {:error, :bad_request}
+  defp parse_response(%{status: 403}), do: {:error, :access_denied}
+  defp parse_response(%{status: 404}), do: {:error, :not_found}
+  defp parse_response(%{status: 429}), do: {:error, :throttled}
+  defp parse_response(%{status: 500}), do: {:error, :internal}
+  defp parse_response(%{status: 503}), do: {:error, :unavailable}
+
+  defp log_error(path, params, error) do
+    Logger.warning("""
+    Response that may not have been accounted for:
+    \tPath: #{path}
+    \tQuery Params: #{inspect(params)}
+    \tResponse:\n#{inspect(error)}\n
+    """)
+    {:error, :server_error}
+  end
 end

@@ -11,8 +11,9 @@ defmodule ExClash.Clan.Capital do
 
   defstruct [:capital_hall_level, :districts]
 
+  def format(nil), do: nil
   def format(api_capital) do
-    districts = Map.get(api_capital, "districts")
+    districts = Map.get(api_capital, "districts", [])
 
     %__MODULE__{
       capital_hall_level: Map.get(api_capital, "capitalHallLevel"),

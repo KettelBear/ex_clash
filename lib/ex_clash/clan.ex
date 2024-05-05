@@ -1,6 +1,72 @@
 defmodule ExClash.Clan do
-  # TODO: Fill out the `moduledoc` for this module.
   @moduledoc """
+  The Clan struct.
+
+  Attributes:
+
+    * `tag` - The clan tag.
+
+    * `name` - The name of the clan.
+
+    * `type` - If the clan is open or closed, refer to the type `clan_type`.
+
+    * `description` - The clan's self-set description.
+
+    * `location` - The `ExClash.Location` of the clan. Refer to that module for
+    more details.
+
+    * `is_family_friendly` - A boolean.
+
+    * `badge_urls` - The urls for the different sized badges for the clan. Refer
+    to `ExClash.Badges` for more details.
+
+    * `chat_language` - The clan-set language, in `ExClash.ChatLanguage`.
+
+    * `clan_level` - The level of the clan.
+
+    * `clan_points` - How many points the clan has.
+
+    * `clan_builder_base_points` - How many builder base points the clan has.
+
+    * `clan_capital_points` - How many clan capital points the clan has.
+
+    * `capital_league` - The capital league the clan is in. Refer to
+    `ExClash.League` for more information.
+
+    * `required_trophies` - The minimum required trophies to join the clan.
+
+    * `war_frequency` - How often the clan particiaptes in clan wars. Please
+    refer to the type `war_frequency`.
+
+    * `war_win_streak` - The number of war wins in a row.
+
+    * `war_wins` - The total number of war wins for the clan.
+
+    * `war_ties` - The total number of war ties for the clan.
+
+    * `war_losses` - The total number of war losses for the clan.
+
+    * `is_war_log_public` - A boolean, whether the war log is public or not.
+
+    * `war_league` - The war league the clan is in. Refer to `ExClash.League`
+    for more information.
+
+    * `members` - Total number of members in the clan. This is just a count.
+
+    * `member_list` - The details of the members in the clan. They are
+    represented by the `ExClash.Clan.Player` struct.
+
+    * `labels` - Which labels the clan currently has set. There will be a
+    maximum of 3. Please refer to `ExClash.Label` for more information.
+
+    * `required_builder_base_trophies` - The minimum required builder trophies
+    to join the clan.
+
+    * `required_townhall_level` - The minimum required town hall to join the clan.
+
+    * `clan_capital` - The details of the clan's capital. Please refer to the
+    `ExClash.Clan.Capital` module for more information.
+
   """
 
   @search_filters %{
@@ -93,17 +159,14 @@ defmodule ExClash.Clan do
     ### Filter Options
 
     * `name` - Search clans by name. If name is used as part of search query, it
-               needs to be at least three characters long. Name search parameter
-               is interpreted as wild card search, so it may appear anywhere in
-               the clan name.
+    needs to be at least three characters long. Name search parameter
+    is interpreted as wild card search, so it may appear anywhere in
+    the clan name.
 
-    TODO: Find the values for War Frequency, as I'm pretty sure they're part of an Enum.
-          Add those values to the documentation.
     * `war_frequency` - Filter by clan war frequency.
 
-    TODO: Check if I have the right documentation for the get locations.
     * `location_id` - Filter by clan location identifier. For list of available
-                      locations, refer to `ExClash.Locations.get/0` operation.
+    locations, refer to `ExClash.Locations.get/0` operation.
 
     * `min_memebers` - Filter by minimum number of clan members.
 
@@ -113,7 +176,6 @@ defmodule ExClash.Clan do
 
     * `min_clan_level` - Filter by minimum clan level.
 
-    TODO: Verify the label IDs, if they need any verification, or anything.
     * `label_ids` - List of label IDs to use for filtering results.
 
     ### Paging Options
@@ -138,11 +200,16 @@ defmodule ExClash.Clan do
         %ExClash.Paging{after: "eyJwb3MiOjV9", before: nil}
       }
   """
-  @spec search() :: {list(__MODULE__.t()), ExClash.Paging.t()}
+  @spec search(filters :: Keyword.t())
+      :: {list(__MODULE__.t()), ExClash.Paging.t()} | {:error, atom()}
   def search(filters \\ []) do
-    %{"items" => clans, "paging" => paging} = ExClash.get("/clans", Enum.map(filters, &convert_filters/1))
+    case ExClash.get("/clans", Enum.map(filters, &convert_filters/1)) do
+      {:ok, %{"items" => clans, "paging" => paging}} ->
+        {Enum.map(clans, &format/1), ExClash.Paging.format(paging)}
 
-    {Enum.map(clans, &format/1), ExClash.Paging.format(paging)}
+      error ->
+        error
+    end
   end
 
   @doc """
@@ -180,8 +247,13 @@ defmodule ExClash.Clan do
         clan_capital: nil
       }
   """
-  @spec details(tag :: String.t()) :: __MODULE__.t()
-  def details(tag), do: ExClash.get("/clans/#{tag}") |> format()
+  @spec details(tag :: String.t()) :: __MODULE__.t() | {:error, atom()}
+  def details(tag) do
+    case ExClash.get("/clans/#{tag}") do
+      {:ok, clan} -> format(clan)
+      error -> error
+    end
+  end
 
   @doc """
   Get the list of members for the provided `tag`.
@@ -207,16 +279,17 @@ defmodule ExClash.Clan do
       }
   """
   @spec members(tag :: String.t(), params :: Keyword.t())
-      :: {list(ExClash.Clan.Player.t()), ExClash.Paging.t()}
+      :: {list(ExClash.Clan.Player.t()), ExClash.Paging.t()} | {:error, atom()}
   def members(tag, params \\ []) do
-    %{"items" => members, "paging" => paging} = ExClash.get("/clans/#{tag}/members", params)
+    case ExClash.get("/clans/#{tag}/members", params) do
+      {:ok, %{"items" => members, "paging" => paging}} ->
+        {Enum.map(members, &ExClash.Clan.Player.format/1), ExClash.Paging.format(paging)}
 
-    {Enum.map(members, &ExClash.Clan.Player.format/1), ExClash.Paging.format(paging)}
+      error ->
+        error
+    end
   end
 
-  # TODO: Both WAR_LOG and CURRENT_WAR; if the clan's warlog is not public,
-  # then a 403 will be returned. I definitely need to handle that far more
-  # gracefully than error over the fact that Map cannot pop a tuple.
   @doc """
   Return the war log for the provided clan tag. Will fetch the most recent war
   going back in time, unless the after tag is provided. If `after` is provided
@@ -238,11 +311,16 @@ defmodule ExClash.Clan do
     iex> ExClash.Clan.war_log("#ABCDEFGH", limit: 2)
     {[%ExClash.Clan.War{...}, %ExClash.Clan.War{...}], %ExClash.Paging{...}}
   """
-  @spec war_log(tag :: String.t(), params :: Keyword.t()) :: ExClash.War.war_log()
+  @spec war_log(tag :: String.t(), params :: Keyword.t())
+      :: ExClash.War.war_log() | {:error, atom()}
   def war_log(tag, params \\ []) do
-    %{"items" => wars, "paging" => paging} = ExClash.get("/clans/#{tag}/warlog", params)
+    case ExClash.get("/clans/#{tag}/warlog", params) do
+      {:ok, %{"items" => wars, "paging" => paging}} ->
+        {Enum.map(wars, &ExClash.War.format/1), ExClash.Paging.format(paging)}
 
-    {Enum.map(wars, &ExClash.War.format/1), ExClash.Paging.format(paging)}
+      error ->
+        error
+    end
   end
 
   @doc """
@@ -254,11 +332,12 @@ defmodule ExClash.Clan do
       iex> ExClash.Clan.current_war("#ABCDEFGH")
       %ExClash.Clan.War{...}
   """
-  @spec current_war(tag :: String.t()) :: ExClash.War.t()
+  @spec current_war(tag :: String.t()) :: ExClash.War.t() | {:error, atom()}
   def current_war(tag) do
-    "/clans/#{tag}/currentwar"
-    |> ExClash.get()
-    |> ExClash.War.format()
+    case ExClash.get("/clans/#{tag}/currentwar") do
+      {:ok, war} -> ExClash.War.format(war)
+      error -> error
+    end
   end
 
   defp format(api_clan) do
@@ -281,7 +360,7 @@ defmodule ExClash.Clan do
       clan_capital: ExClash.Clan.Capital.format(capital),
       labels: Enum.map(labels, &ExClash.Label.format/1),
       location: ExClash.resp_to_struct(location, ExClash.Location),
-      member_list: Enum.map(member_list, &ExClash.Clan.Player.format/1),
+      member_list: format_member_list(member_list),
       type: format_type(type),
       war_frequency: format_frequency(war_freq),
       war_league: ExClash.League.format(war_league)
@@ -290,6 +369,9 @@ defmodule ExClash.Clan do
 
   defp format_chat_lang(nil), do: nil
   defp format_chat_lang(lang), do: ExClash.resp_to_struct(lang, ExClash.ChatLanguage)
+
+  defp format_member_list(nil), do: nil
+  defp format_member_list(members), do: Enum.map(members, &ExClash.Clan.Player.format/1)
 
   defp format_type(nil), do: nil
   defp format_type(type), do: ExClash.camel_to_atom(type)
