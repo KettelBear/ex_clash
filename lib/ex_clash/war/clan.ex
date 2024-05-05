@@ -1,5 +1,6 @@
 defmodule ExClash.War.Clan do
-  @moduledoc false
+  @moduledoc """
+  """
 
   @type t() :: %__MODULE__{
     attacks: integer(),

@@ -1,5 +1,6 @@
 defmodule ExClash.IconUrls do
-  @moduledoc false
+  @moduledoc """
+  """
 
   @type t() :: %__MODULE__{
     tiny: String.t(),

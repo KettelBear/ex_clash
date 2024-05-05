@@ -1,5 +1,6 @@
 defmodule ExClash.Clan.Capital.District do
-  @moduledoc false
+  @moduledoc """
+  """
 
   @type t() :: %__MODULE__{
     id: integer(),

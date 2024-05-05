@@ -3,7 +3,8 @@ defmodule ExClash.War.Attack do
   A player's attack in war.
   """
 
-  @typedoc false
+  @typedoc """
+  """
   @type t() :: %__MODULE__{
     attacker_tag: String.t(),
     defender_tag: String.t(),

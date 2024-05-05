@@ -5,6 +5,8 @@ defmodule ExClash.War.Player do
 
   alias ExClash.War.Attack
 
+  @typedoc """
+  """
   @type t() :: %__MODULE__{
     tag: String.t(),
     name: String.t(),

@@ -1,3 +1,4 @@
 defmodule ExClash.GoldPass do
-  @moduledoc false
+  @moduledoc """
+  """
 end

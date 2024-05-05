@@ -1,3 +1,4 @@
 defmodule ExClash.Player do
-  @moduledoc false
+  @moduledoc """
+  """
 end

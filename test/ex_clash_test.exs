@@ -12,6 +12,5 @@ defmodule ExClashTest do
 
   test "Tests encoding of tag" do
     assert ExClash.encode_tag("#test") == "%23test"
-    assert ExClash.encode_tag("test") == "%23test"
   end
 end

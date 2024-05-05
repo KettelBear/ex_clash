@@ -1,5 +1,6 @@
 defmodule ExClash.Badges do
-  @moduledoc false
+  @moduledoc """
+  """
 
   @type t() :: %__MODULE__{
     small: String.t(),

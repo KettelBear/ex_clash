@@ -1,5 +1,6 @@
 defmodule ExClash.War do
-  @moduledoc false
+  @moduledoc """
+  """
 
   alias ExClash.War.Clan, as: WarClan
 
@@ -30,7 +31,8 @@ defmodule ExClash.War do
     | :in_war
     | :war_ended
 
-  @typedoc false
+  @typedoc """
+  """
   @type war_log() :: {list(__MODULE__.t()), ExClash.Paging.t()}
 
   defstruct [

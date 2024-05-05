@@ -48,7 +48,7 @@ defmodule ExClash.WarLeague do
     }
   end
 
-  defp format_rounds([]), do: []
-  defp format_rounds([%{"warTags" => war_tags} | rest]) do
+  defp format_rounds(rounds) do
+    rounds
   end
 end

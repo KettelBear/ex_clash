@@ -1,5 +1,6 @@
 defmodule ExClash.Label do
-  @moduledoc false
+  @moduledoc """
+  """
 
   @type t() :: %__MODULE__{
     id: integer(),

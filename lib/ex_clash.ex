@@ -1,5 +1,6 @@
 defmodule ExClash do
-  @moduledoc false
+  @moduledoc """
+  """
 
   require Logger
 

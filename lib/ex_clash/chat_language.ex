@@ -1,5 +1,6 @@
 defmodule ExClash.ChatLanguage do
-  @moduledoc false
+  @moduledoc """
+  """
 
   @type t() :: %__MODULE__{
     id: integer(),

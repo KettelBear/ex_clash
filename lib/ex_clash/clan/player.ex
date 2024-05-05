@@ -1,5 +1,6 @@
 defmodule ExClash.Clan.Player do
-  @moduledoc false
+  @moduledoc """
+  """
 
   alias ExClash.Clan.Capital.PlayerHouse
 

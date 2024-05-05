@@ -1,5 +1,6 @@
 defmodule ExClash.Clan.Capital.PlayerHouse do
-  @moduledoc false
+  @moduledoc """
+  """
 
   @type t() :: %__MODULE__{
     ground: integer(),
