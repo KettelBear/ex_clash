@@ -22,6 +22,6 @@ defmodule ExClash.League do
 
   defp format_icon_urls(nil), do: nil
   defp format_icon_urls(icon_urls) do
-    ExClash.resp_to_struct(icon_urls, ExClash.IconUrls)
+    ExClash.HTTP.resp_to_struct(icon_urls, ExClash.IconUrls)
   end
 end

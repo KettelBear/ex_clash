@@ -47,7 +47,7 @@ defmodule ExClash.Clan.Player do
     {role, clan_player} = Map.pop(clan_player, "role")
 
     %__MODULE__{
-      ExClash.resp_to_struct(clan_player, __MODULE__) |
+      ExClash.HTTP.resp_to_struct(clan_player, __MODULE__) |
       builder_base_league: ExClash.League.format(builder_league),
       league: ExClash.League.format(league),
       player_house: PlayerHouse.format(house),

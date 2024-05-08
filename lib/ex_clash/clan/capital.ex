@@ -17,7 +17,7 @@ defmodule ExClash.Clan.Capital do
 
     %__MODULE__{
       capital_hall_level: Map.get(api_capital, "capitalHallLevel"),
-      districts: Enum.map(districts, &ExClash.resp_to_struct(&1, District))
+      districts: Enum.map(districts, &ExClash.HTTP.resp_to_struct(&1, District))
     }
   end
 end

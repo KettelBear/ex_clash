@@ -43,7 +43,8 @@ TODO: Provide copious examples of usage of this library.
 
 ## Supercell's Clash of Clans API
 
-Endpoints with ✅ have been implemented.
+Endpoints with ✅ have been implemented. All requests are GET requests except
+for the one that is labelled "POST."
 
 ### Clan specific information
 
@@ -59,7 +60,7 @@ Endpoints with ✅ have been implemented.
 ### Player specific information
 
 * `/players/{playerTag}`
-* `/players/{playerTag}/verifytoken`
+* `/players/{playerTag}/verifytoken` (POST)
 
 ### League information
 

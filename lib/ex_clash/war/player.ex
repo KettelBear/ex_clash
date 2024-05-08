@@ -34,15 +34,19 @@ defmodule ExClash.War.Player do
     {best_opp_attack, api_player} = Map.pop(api_player, "bestOpponentAttack")
 
      %__MODULE__{
-      ExClash.resp_to_struct(api_player, __MODULE__) |
+      ExClash.HTTP.resp_to_struct(api_player, __MODULE__) |
       attacks: format_attacks(attacks),
       best_opponent_attack: format_opp_attack(best_opp_attack),
      }
   end
 
   defp format_attacks(nil), do: nil
-  defp format_attacks(attacks), do: Enum.map(attacks, &ExClash.resp_to_struct(&1, Attack))
+  defp format_attacks(attacks) do
+    Enum.map(attacks, &ExClash.HTTP.resp_to_struct(&1, Attack))
+  end
 
   defp format_opp_attack(nil), do: nil
-  defp format_opp_attack(opp_attack), do: ExClash.resp_to_struct(opp_attack, Attack)
+  defp format_opp_attack(opp_attack) do
+    ExClash.HTTP.resp_to_struct(opp_attack, Attack)
+  end
 end

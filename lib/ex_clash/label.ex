@@ -16,7 +16,7 @@ defmodule ExClash.Label do
     %__MODULE__{
       id: Map.get(api_label, "id"),
       name: Map.get(api_label, "name"),
-      icon_urls: ExClash.resp_to_struct(icons, ExClash.IconUrls)
+      icon_urls: ExClash.HTTP.resp_to_struct(icons, ExClash.IconUrls)
     }
   end
 end

@@ -55,7 +55,7 @@ defmodule ExClash.War do
     {state, api_war} = Map.pop(api_war, "state")
 
     %__MODULE__{
-      ExClash.resp_to_struct(api_war, __MODULE__) |
+      ExClash.HTTP.resp_to_struct(api_war, __MODULE__) |
       clan: WarClan.format(api_clan),
       opponent: WarClan.format(api_opponent),
       state: convert_state(state)

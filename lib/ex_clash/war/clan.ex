@@ -31,8 +31,8 @@ defmodule ExClash.War.Clan do
     {badges, api_clan} = Map.pop(api_clan, "badgeUrls")
 
     %ExClash.War.Clan{
-      ExClash.resp_to_struct(api_clan, __MODULE__) |
-      badge_urls: ExClash.resp_to_struct(badges, ExClash.Badges),
+      ExClash.HTTP.resp_to_struct(api_clan, __MODULE__) |
+      badge_urls: ExClash.HTTP.resp_to_struct(badges, ExClash.Badges),
       members: format_players(api_players),
     }
   end

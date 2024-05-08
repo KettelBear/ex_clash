@@ -154,7 +154,7 @@ defmodule ExClash.Clan do
   """
   @spec cwl_group(tag :: String.t()) :: any()
   def cwl_group(tag) do
-    case ExClash.get("/clans/#{tag}/currentwar/leaguegroup") do
+    case ExClash.HTTP.get("/clans/#{tag}/currentwar/leaguegroup") do
       {:ok, body} -> body
       error -> error
     end
@@ -213,7 +213,7 @@ defmodule ExClash.Clan do
   @spec search(filters :: Keyword.t())
       :: {list(__MODULE__.t()), ExClash.Paging.t()} | {:error, atom()}
   def search(filters \\ []) do
-    case ExClash.get("/clans", Enum.map(filters, &convert_filters/1)) do
+    case ExClash.HTTP.get("/clans", Enum.map(filters, &convert_filters/1)) do
       {:ok, %{"items" => clans, "paging" => paging}} ->
         {Enum.map(clans, &format/1), ExClash.Paging.format(paging)}
 
@@ -259,7 +259,7 @@ defmodule ExClash.Clan do
   """
   @spec details(tag :: String.t()) :: __MODULE__.t() | {:error, atom()}
   def details(tag) do
-    case ExClash.get("/clans/#{tag}") do
+    case ExClash.HTTP.get("/clans/#{tag}") do
       {:ok, clan} -> format(clan)
       error -> error
     end
@@ -291,7 +291,7 @@ defmodule ExClash.Clan do
   @spec members(tag :: String.t(), params :: Keyword.t())
       :: {list(ExClash.Clan.Player.t()), ExClash.Paging.t()} | {:error, atom()}
   def members(tag, params \\ []) do
-    case ExClash.get("/clans/#{tag}/members", params) do
+    case ExClash.HTTP.get("/clans/#{tag}/members", params) do
       {:ok, %{"items" => members, "paging" => paging}} ->
         {Enum.map(members, &ExClash.Clan.Player.format/1), ExClash.Paging.format(paging)}
 
@@ -324,7 +324,7 @@ defmodule ExClash.Clan do
   @spec war_log(tag :: String.t(), params :: Keyword.t())
       :: ExClash.War.war_log() | {:error, atom()}
   def war_log(tag, params \\ []) do
-    case ExClash.get("/clans/#{tag}/warlog", params) do
+    case ExClash.HTTP.get("/clans/#{tag}/warlog", params) do
       {:ok, %{"items" => wars, "paging" => paging}} ->
         {Enum.map(wars, &ExClash.War.format/1), ExClash.Paging.format(paging)}
 
@@ -344,7 +344,7 @@ defmodule ExClash.Clan do
   """
   @spec current_war(tag :: String.t()) :: ExClash.War.t() | {:error, atom()}
   def current_war(tag) do
-    case ExClash.get("/clans/#{tag}/currentwar") do
+    case ExClash.HTTP.get("/clans/#{tag}/currentwar") do
       {:ok, war} -> ExClash.War.format(war)
       error -> error
     end
@@ -363,13 +363,13 @@ defmodule ExClash.Clan do
     {war_league, api_clan} = Map.pop(api_clan, "warLeague")
 
     %__MODULE__{
-      ExClash.resp_to_struct(api_clan, __MODULE__) |
-      badge_urls: ExClash.resp_to_struct(badges, ExClash.Badges),
+      ExClash.HTTP.resp_to_struct(api_clan, __MODULE__) |
+      badge_urls: ExClash.HTTP.resp_to_struct(badges, ExClash.Badges),
       capital_league: ExClash.League.format(capital_league),
       chat_language: format_chat_lang(chat_language),
       clan_capital: ExClash.Clan.Capital.format(capital),
       labels: Enum.map(labels, &ExClash.Label.format/1),
-      location: ExClash.resp_to_struct(location, ExClash.Location),
+      location: ExClash.HTTP.resp_to_struct(location, ExClash.Location),
       member_list: format_member_list(member_list),
       type: format_type(type),
       war_frequency: format_frequency(war_freq),
@@ -378,7 +378,9 @@ defmodule ExClash.Clan do
   end
 
   defp format_chat_lang(nil), do: nil
-  defp format_chat_lang(lang), do: ExClash.resp_to_struct(lang, ExClash.ChatLanguage)
+  defp format_chat_lang(lang) do
+    ExClash.HTTP.resp_to_struct(lang, ExClash.ChatLanguage)
+  end
 
   defp format_member_list(nil), do: nil
   defp format_member_list(members), do: Enum.map(members, &ExClash.Clan.Player.format/1)
