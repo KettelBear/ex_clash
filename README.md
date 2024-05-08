@@ -7,8 +7,8 @@ ExClash is an Elixir library for working with Supercell's Clash of Clans API.
 ## Disclaimer
 
 This material is unofficial and is not endorsed by Supercell. For more
-information see
-[Supercell's Fan Content Policy](https://www.supercell.com/fan-content-policy)
+information see Supercell's Fan Content
+[Policy](https://www.supercell.com/fan-content-policy).
 
 ## Installation
 
@@ -27,15 +27,16 @@ end
 
 * HTTP requests are made using [Req](https://hexdocs.pm/req/readme.html).
 * Due to the aforementioned dependency, this library requires the use of at
-  least Elixir `v1.12` or newer.
+  least Elixir `v1.12` or newer. At time of building, Elixir `v1.16` was used.
 
 ## Features
 
-* Simply include your developer token and start using this library.
+* Add your token to any `[ENV].secret.exs` and start using this library.
 * Get well-defined structs back from responses instead of parsing maps with
   string keys.
-* Top level functions available to make your own API requests. Just use
-  `ExClash.get/2` which will handle auth, the url, and query params for you.
+* HTTP functions are available to make your own API requests. Just use
+  `ExClash.HTTP.get/2` which will handle auth, the url, and query params for
+  you.
 
 ## Usage
 

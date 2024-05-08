@@ -7,6 +7,20 @@ defmodule ExClash do
   and so on and so on.
   """
 
+  @typedoc """
+  A string that starts with `#`.
+
+  These tags are used in Supercell's system for identifying players, clans,
+  and wars.
+
+  ## Examples
+
+      #1234ABDCD
+
+      #RUJSDL432
+  """
+  @type tag() :: String.t()
+
   @doc """
   Translates the camelCase from an API JSON response body into an atom that is
   snake case to follow Elixir convention. Generally, these occur for the keys

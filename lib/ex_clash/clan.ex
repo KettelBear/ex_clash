@@ -151,11 +151,21 @@ defmodule ExClash.Clan do
 
   @doc """
   Retrieve information about clan's current clan war league group.
+
+  ## Examples
+
+      iex> ExClash.Clan.cwl_group("#JU2QJCLG")
+      %ExClash.WarLeague{
+        state: :in_war,
+        season: "2024-05",
+        clans: [%ExClash.WarLeague.Clan{...}],
+        rounds: %ExClash.WarLeague.Rounds{}
+      }
   """
-  @spec cwl_group(tag :: String.t()) :: any()
+  @spec cwl_group(tag :: String.t()) :: ExClash.WarLeague.t() | {:error, atom()}
   def cwl_group(tag) do
     case ExClash.HTTP.get("/clans/#{tag}/currentwar/leaguegroup") do
-      {:ok, body} -> body
+      {:ok, body} -> ExClash.WarLeague.format(body)
       error -> error
     end
   end
@@ -315,11 +325,11 @@ defmodule ExClash.Clan do
 
   ## Examples
 
-    iex> ExClash.Clan.war_log("#ABCDEFGH")
-    {[%ExClash.Clan.War{...}, ...], %ExClash.Paging{...}}
+      iex> ExClash.Clan.war_log("#ABCDEFGH")
+      {[%ExClash.Clan.War{...}, ...], %ExClash.Paging{...}}
 
-    iex> ExClash.Clan.war_log("#ABCDEFGH", limit: 2)
-    {[%ExClash.Clan.War{...}, %ExClash.Clan.War{...}], %ExClash.Paging{...}}
+      iex> ExClash.Clan.war_log("#ABCDEFGH", limit: 2)
+      {[%ExClash.Clan.War{...}, %ExClash.Clan.War{...}], %ExClash.Paging{...}}
   """
   @spec war_log(tag :: String.t(), params :: Keyword.t())
       :: ExClash.War.war_log() | {:error, atom()}

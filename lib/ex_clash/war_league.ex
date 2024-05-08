@@ -15,6 +15,11 @@ defmodule ExClash.WarLeague do
     The War League Round struct.
     """
 
+    @typedoc """
+    A list of War Tags.
+    """
+    @type round() :: list(ExClash.tag())
+
     @type t() :: %{
       one: list(String.t()),
       two: list(String.t()),
@@ -29,7 +34,7 @@ defmodule ExClash.WarLeague do
   end
 
   @type t() :: %__MODULE__{
-    clans: ExClash.War.Clan.t(),
+    clans: list(ExClash.WarLeague.Clan.t()),
     rounds: Rounds.t(),
     season: String.t(),
     state: war_state()
@@ -37,18 +42,30 @@ defmodule ExClash.WarLeague do
 
   defstruct [:clans, :rounds, :season, :state]
 
+  @doc """
+  Format the war league from the API response to the struct.
+  """
+  @spec format(war_league :: map()) :: __MODULE__.t()
   def format(war_league) do
-    clans = Map.get(war_league, "clans")
-
     %__MODULE__{
-      clans: Enum.map(clans, &ExClash.War.Clan.format/1),
+      clans: Map.get(war_league, "clans") |> format_clans(),
       rounds: Map.get(war_league, "rounds") |> format_rounds(),
       season: Map.get(war_league, "season"),
       state: Map.get(war_league, "state") |> ExClash.camel_to_atom()
     }
   end
 
+  defp format_clans(clans) do
+    Enum.map(clans, &ExClash.WarLeague.Clan.format/1)
+  end
+
   defp format_rounds(rounds) do
-    rounds
+    format_rounds(%{}, rounds, [:one, :two, :three, :four, :five, :six, :seven])
+  end
+  defp format_rounds(map, [], []), do: struct(Rounds, map)
+  defp format_rounds(map, [%{"warTags" => tags} | rounds], [rnd_num | nums]) do
+    map
+    |> Map.put(rnd_num, tags)
+    |> format_rounds(rounds, nums)
   end
 end
