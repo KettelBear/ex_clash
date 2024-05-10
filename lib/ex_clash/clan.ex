@@ -171,40 +171,41 @@ defmodule ExClash.Clan do
   end
 
   @doc """
-  Search for clans using the various `filters`. The `page` options can go right
-  into the `filters` list.
+  Search for clans using the various `filters`.
+
+  The `page` options can go right into the `filters` list.
 
   ## Param Options
 
-    ### Filter Options
+    * Filter Options
 
-    * `name` - Search clans by name. If name is used as part of search query, it
-    needs to be at least three characters long. Name search parameter
-    is interpreted as wild card search, so it may appear anywhere in
-    the clan name.
+      * `name` - Search clans by name. If name is used as part of search query, it
+      needs to be at least three characters long. Name search parameter
+      is interpreted as wild card search, so it may appear anywhere in
+      the clan name.
 
-    * `war_frequency` - Filter by clan war frequency.
+      * `war_frequency` - Filter by clan war frequency.
 
-    * `location_id` - Filter by clan location identifier. For list of available
-    locations, refer to `ExClash.Locations.get/0` operation.
+      * `location_id` - Filter by clan location identifier. For list of available
+      locations, refer to `ExClash.Locations.get/0` operation.
 
-    * `min_memebers` - Filter by minimum number of clan members.
+      * `min_memebers` - Filter by minimum number of clan members.
 
-    * `max_members` - Filter by maximum number of clan members.
+      * `max_members` - Filter by maximum number of clan members.
 
-    * `min_clan_points` - Filter by minimum amount of clan points.
+      * `min_clan_points` - Filter by minimum amount of clan points.
 
-    * `min_clan_level` - Filter by minimum clan level.
+      * `min_clan_level` - Filter by minimum clan level.
 
-    * `label_ids` - List of label IDs to use for filtering results.
+      * `label_ids` - List of label IDs to use for filtering results.
 
-    ### Paging Options
+    * Paging Options
 
-    * `limit` - Limit the number of items returned in the response.
+      * `limit` - Limit the number of items returned in the response.
 
-    * `after` - Return only items that occur after this marker.
+      * `after` - Return only items that occur after this marker.
 
-    * `before` - Return only items that occur before this marker.
+      * `before` - Return only items that occur before this marker.
 
   ## Examples
 
@@ -233,7 +234,7 @@ defmodule ExClash.Clan do
   end
 
   @doc """
-  Retrieve the details for the provided `tag`.
+  Retrieve the clan details for the provided clan `tag`.
 
   ## Examples
 
@@ -276,7 +277,7 @@ defmodule ExClash.Clan do
   end
 
   @doc """
-  Get the list of members for the provided `tag`.
+  Get the list of members for the provided clan `tag`.
 
   ## Param Options
 
@@ -311,9 +312,11 @@ defmodule ExClash.Clan do
   end
 
   @doc """
-  Return the war log for the provided clan tag. Will fetch the most recent war
-  going back in time, unless the after tag is provided. If `after` is provided
-  it will exclude all recent wars up to and including that marker.
+  Return the war log for the provided clan `tag`.
+
+  Will fetch the most recent war going back in time, unless the after tag is
+  provided. If `after` is provided it will exclude all recent wars up to and
+  including that marker.
 
   ## Param Options
 
@@ -344,8 +347,7 @@ defmodule ExClash.Clan do
   end
 
   @doc """
-  Return the current war that the clan is in, or the most recent war that ended
-  for the clan.
+  Return the current/most recent war for the clan `tag`.
 
   ## Examples
 

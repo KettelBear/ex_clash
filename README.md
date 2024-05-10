@@ -50,7 +50,7 @@ for the one that is labelled "POST."
 ### Clan specific information
 
 * ✅ `/clans/{clanTag}/currentwar/leaguegroup`
-* `/clanwarleagues/wars/{warTag}`
+* ✅ `/clanwarleagues/wars/{warTag}`
 * ✅ `/clans/{clanTag}/warlog`
 * ✅ `/clans`
 * ✅ `/clans/{clanTag}/currentwar`

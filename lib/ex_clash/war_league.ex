@@ -21,13 +21,13 @@ defmodule ExClash.WarLeague do
     @type round() :: list(ExClash.tag())
 
     @type t() :: %{
-      one: list(String.t()),
-      two: list(String.t()),
-      three: list(String.t()),
-      four: list(String.t()),
-      five: list(String.t()),
-      six: list(String.t()),
-      seven: list(String.t()),
+      one: list(ExClash.tag()),
+      two: list(ExClash.tag()),
+      three: list(ExClash.tag()),
+      four: list(ExClash.tag()),
+      five: list(ExClash.tag()),
+      six: list(ExClash.tag()),
+      seven: list(ExClash.tag())
     }
 
     defstruct [:one, :two, :three, :four, :five, :six, :seven]
@@ -41,6 +41,20 @@ defmodule ExClash.WarLeague do
   }
 
   defstruct [:clans, :rounds, :season, :state]
+
+  @spec war(war_tag :: ExClash.tag()) :: ExClash.Clan.War.t() | {:error, atom()}
+  def war(war_tag) do
+    case ExClash.HTTP.get("/clanwarleagues/wars/#{war_tag}") do
+      {:ok, war} ->
+        war
+        # This is a duplicate value.
+        |> Map.delete("warStartTime")
+        |> ExClash.War.format()
+
+      err ->
+        err
+    end
+  end
 
   @doc """
   Format the war league from the API response to the struct.
