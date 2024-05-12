@@ -48,7 +48,7 @@ defmodule ExClash.War do
   ]
 
   @doc false
-  @spec format(api_war :: map()) :: __MODULE__.t()
+  @spec format(api_war :: ExClash.cell_map()) :: __MODULE__.t()
   def format(api_war) do
     {api_clan, api_war} = Map.pop(api_war, "clan")
     {api_opponent, api_war} = Map.pop(api_war, "opponent")

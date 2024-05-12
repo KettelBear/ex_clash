@@ -28,7 +28,7 @@ defmodule ExClash.War.Player do
   ]
 
   @doc false
-  @spec format(api_player :: map()) :: __MODULE__.t()
+  @spec format(api_player :: ExClash.cell_map()) :: __MODULE__.t()
   def format(api_player) do
     {attacks, api_player} = Map.pop(api_player, "attacks")
     {best_opp_attack, api_player} = Map.pop(api_player, "bestOpponentAttack")

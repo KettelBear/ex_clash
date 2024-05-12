@@ -25,7 +25,7 @@ defmodule ExClash.War.Clan do
   ]
 
   @doc false
-  @spec format(api_clan :: map()) :: __MODULE__.t()
+  @spec format(api_clan :: ExClash.cell_map()) :: __MODULE__.t()
   def format(api_clan) do
     {api_players, api_clan} = Map.pop(api_clan, "members")
     {badges, api_clan} = Map.pop(api_clan, "badgeUrls")

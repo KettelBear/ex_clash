@@ -11,7 +11,7 @@ defmodule ExClash.Clan.Capital.PlayerHouse do
 
   defstruct [:ground, :walls, :roof, :decoration]
 
-  @spec format(api_house :: map()) :: __MODULE__.t()
+  @spec format(api_house :: ExClash.cell_map()) :: __MODULE__.t()
   def format(%{"elements" => elements}) do
     elements
     |> Enum.reduce(%{}, fn %{"id" => id, "type" => type}, acc ->

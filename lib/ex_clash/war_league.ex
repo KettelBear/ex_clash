@@ -59,7 +59,7 @@ defmodule ExClash.WarLeague do
   @doc """
   Format the war league from the API response to the struct.
   """
-  @spec format(war_league :: map()) :: __MODULE__.t()
+  @spec format(war_league :: ExClash.cell_map()) :: __MODULE__.t()
   def format(war_league) do
     %__MODULE__{
       clans: Map.get(war_league, "clans") |> format_clans(),
