@@ -97,8 +97,12 @@ defmodule ExClash.HTTP do
   """
   @spec resp_to_struct(api_response :: map(), clash_struct :: atom()) :: struct()
   def resp_to_struct(api_response, clash_struct) do
-    Map.new(api_response, fn {key, value} ->
-      {ExClash.camel_to_atom(key), maybe_datetime(value)}
+    Map.new(api_response, fn
+      {"village", "home"} -> {:village, :home}
+      {"village", _} -> {:village, :builder}
+      {"role", "admin"} -> {:role, :elder}
+      {"role", role} -> {:role, ExClash.camel_to_atom(role)}
+      {key, value} -> {ExClash.camel_to_atom(key), maybe_datetime(value)}
     end)
     |> then(&struct(clash_struct, &1))
   end

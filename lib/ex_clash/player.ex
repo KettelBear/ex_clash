@@ -83,7 +83,7 @@ defmodule ExClash.Player do
     builder_hall_level: integer(),
     builder_base_trophies: integer(),
     best_builder_base_trophies: integer(),
-    role: ExClash.Clan.Player.clan_role(),
+    role: ExClash.Clan.member_role(),
     war_preference: boolean(),
     donations: integer(),
     donations_received: integer(),
@@ -97,12 +97,10 @@ defmodule ExClash.Player do
     legend_statistics: ExClash.Player.LegendStats.t(),
     achievements: list(ExClash.Achievements.t()),
     labels: list(ExClash.Label.t()),
-    troops: list(ExClash.Troop.t())
-
-    # TODO:
-    # heroes: ,
-    # hero_equipment: ,
-    # spells: 
+    troops: list(ExClash.Troop.t()),
+    heroes: list(ExClash.Hero.t()),
+    hero_equipment: list(ExClash.Equipment.t()),
+    spells: list(ExClash.Spell.t())
   }
 
   defstruct [
@@ -144,6 +142,37 @@ defmodule ExClash.Player do
     :spells
   ]
 
+  @doc """
+  Retrieve the player details for the provided clan `tag`.
+
+  ## Examples
+
+      iex> ExClash.Player.details("#QVRVCY28")
+      %ExClash.Player{
+        tag: "#QVRVCY28",
+        name: "Sean",
+        town_hall_level: 16,
+        town_hall_weapon_level: 1,
+        exp_level: 241,
+        trophies: 6120,
+        best_trophies: 6330,
+        war_stars: 1706,
+        attack_wins: 143,
+        defense_wins: 0,
+        builder_hall_level: 10,
+        builder_base_trophies: 3875,
+        best_builder_base_trophies: 5709,
+        role: :elder,
+        war_preference: "in",
+        donations: 501,
+        donations_received: 348,
+        clan_capital_contributions: 2405921,
+        # ...
+      }
+
+      iex> ExClash.Player.details("#000000")
+      {:error, :not_found}
+  """
   @spec details(tag :: ExClash.tag()) :: __MODULE__.t() | {:error, atom()}
   def details(tag) do
     case ExClash.HTTP.get("/players/#{tag}") do
@@ -153,8 +182,6 @@ defmodule ExClash.Player do
   end
 
   defp format(api_player) do
-    # TODO: If it isn't obvious by the warnings, this is where I need to pick back up.
-
     {clan, api_player} = Map.pop(api_player, "clan")
     {league, api_player} = Map.pop(api_player, "league")
     {bb_league, api_player} = Map.pop(api_player, "builderBaseLeague")
@@ -163,8 +190,7 @@ defmodule ExClash.Player do
     {achievements, api_player} = Map.pop(api_player, "achievements")
     {labels, api_player} = Map.pop(api_player, "labels")
     {troops, api_player} = Map.pop(api_player, "troops")
-
-    # {heroes, api_player} = Map.pop(api_player, "heroes")
+    {heroes, api_player} = Map.pop(api_player, "heroes")
     {hero_equipment, api_player} = Map.pop(api_player, "heroEquipment")
     {spells, api_player} = Map.pop(api_player, "spells")
 
@@ -179,7 +205,10 @@ defmodule ExClash.Player do
       legend_statistics: ExClash.Player.LegendStats.format(legend_statistics),
       achievements: Enum.map(achievements, &ExClash.Achievements.format/1),
       labels: Enum.map(labels, &ExClash.Label.format/1),
-      troops: Enum.map(troops, &ExClash.Troop.format/1)
+      troops: Enum.map(troops, &ExClash.HTTP.resp_to_struct(&1, ExClash.Troop)),
+      heroes: Enum.map(heroes, &ExClash.Hero.format/1),
+      hero_equipment: Enum.map(hero_equipment, &ExClash.HTTP.resp_to_struct(&1, ExClash.Equipment)),
+      spells: Enum.map(spells, &ExClash.HTTP.resp_to_struct(&1, ExClash.Spell))
     }
   end
 

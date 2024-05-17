@@ -4,8 +4,6 @@ defmodule ExClash.Clan.Player do
 
   alias ExClash.Clan.Capital.PlayerHouse
 
-  @type clan_role() :: :member | :elder | :co_leader | :leader
-
   @type t() :: %__MODULE__{
     builder_base_league: ExClash.League.t(),
     builder_base_trophies: integer(),
@@ -17,7 +15,7 @@ defmodule ExClash.Clan.Player do
     name: String.t(),
     player_house: PlayerHouse.t(),
     previous_clan_rank: integer(),
-    role: clan_role(),
+    role: ExClash.Clan.member_role(),
     tag: String.t(),
     town_hall_level: integer(),
     trophies: integer()
@@ -44,17 +42,12 @@ defmodule ExClash.Clan.Player do
     {builder_league, clan_player} = Map.pop(clan_player, "builderBaseLeague")
     {league, clan_player} = Map.pop(clan_player, "league")
     {house, clan_player} = Map.pop(clan_player, "playerHouse")
-    {role, clan_player} = Map.pop(clan_player, "role")
 
     %__MODULE__{
       ExClash.HTTP.resp_to_struct(clan_player, __MODULE__) |
       builder_base_league: ExClash.League.format(builder_league),
       league: ExClash.League.format(league),
-      player_house: PlayerHouse.format(house),
-      role: format_role(role)
+      player_house: PlayerHouse.format(house)
     }
   end
-
-  defp format_role("admin"), do: :elder
-  defp format_role(role), do: ExClash.camel_to_atom(role)
 end

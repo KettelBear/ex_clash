@@ -60,7 +60,7 @@ for the one that is labelled "POST."
 
 ### Player specific information
 
-* `/players/{playerTag}`
+* ✅ `/players/{playerTag}`
 * `/players/{playerTag}/verifytoken` (POST)
 
 ### League information

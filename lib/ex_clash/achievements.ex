@@ -33,15 +33,6 @@ defmodule ExClash.Achievements do
     achievements
     |> Map.delete("completionInfo")
     |> ExClash.HTTP.resp_to_struct(__MODULE__)
-    |> fix_village()
-  end
-
-  defp fix_village(%{village: village} = achievements) do
-    if village == "home" do
-      %__MODULE__{achievements | village: :home}
-    else
-      %__MODULE__{achievements | village: :builder}
-    end
   end
 end
 

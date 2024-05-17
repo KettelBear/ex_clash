@@ -78,8 +78,25 @@ defmodule ExClash.Clan do
     label_ids: "labelIds"
   }
 
+  @typedoc """
+  This type refers to how open to clan is. Whether they are free to join,
+  join by invite only, or not open to be joined.
+  """
   @type clan_type() :: :open | :invite_only | :closed
 
+  @typedoc """
+  The available memeber roles.
+  """
+  @type member_role() :: :member | :elder | :co_leader | :leader
+
+  @typedoc """
+  Represents the setting the clan has set for themselves representing how often
+  they sign up for clan wars.
+
+  Note: This is a setting that is set by the leader or co-leaders of the clan
+  and clan wars may be declared more often, or less often, than the currently
+  selected `war_frequency`.
+  """
   @type war_frequency() ::
     :unknown
     | :always
