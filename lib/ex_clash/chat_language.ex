@@ -8,7 +8,7 @@ defmodule ExClash.ChatLanguage do
 
     * `name` - The name of the language.
 
-    * `language_code` - The 2-letter code..
+    * `language_code` - The 2-letter code.
   """
 
   @type t() :: %__MODULE__{
