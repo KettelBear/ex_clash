@@ -136,7 +136,7 @@ defmodule ExClash.HTTP do
     Response that may not have been accounted for:
     \tPath: #{path}
     \tQuery Params: #{inspect(params)}
-    \tResponse:\n#{inspect(error)}\n
+    \tResponse:\n\t#{inspect(error)}\n
     """)
     {:error, :server_error}
   end

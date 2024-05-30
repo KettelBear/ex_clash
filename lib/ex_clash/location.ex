@@ -1,5 +1,16 @@
 defmodule ExClash.Location do
   @moduledoc """
+  The Location struct.
+
+  Attributes:
+
+    * `id` - The location identification number.
+
+    * `name` - The name of the location.
+
+    * `is_country` - Boolean stating if the location is a country.
+
+    * `country_code` - The country code.
   """
 
   @type t() :: %__MODULE__{

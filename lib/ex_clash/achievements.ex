@@ -28,7 +28,11 @@ defmodule ExClash.Achievements do
 
   defstruct [:info, :name, :stars, :target, :value, :village]
 
-  @spec format(ExClash.cell_map()) :: __MODULE__.t()
+  @doc """
+  Players earn achievements, and this will take the JSON response from
+  Supercell and convert it into the `ExClash.Achievements` struct.
+  """
+  @spec format(achievements :: ExClash.cell_map()) :: __MODULE__.t()
   def format(achievements) do
     achievements
     |> Map.delete("completionInfo")

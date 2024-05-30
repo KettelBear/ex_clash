@@ -1,5 +1,27 @@
 defmodule ExClash.War do
   @moduledoc """
+  The War struct.
+
+  Attributes:
+
+    * `clan` - This is the name of the clan that was searched for.
+
+    * `opponent` - The is the searched clan's opponent.
+
+    * `result` - The result of the war, if there is one.
+
+    * `team_size` - How many clan members participated in the war.
+
+    * `attacks_per_member` - How many attacks for each member.
+
+    * `state` - The current state of the war.
+
+    * `preparation_start_time` - The date time that the war preparation
+    started.
+
+    * `start_time` - The date time that the war started.
+
+    * `end_time` - The dat time that the war ended.
   """
 
   alias ExClash.War.Clan, as: WarClan
@@ -32,6 +54,8 @@ defmodule ExClash.War do
     | :war_ended
 
   @typedoc """
+  Represents the response data that comes back from Supercell for a clan's war
+  log.
   """
   @type war_log() :: {list(__MODULE__.t()), ExClash.Paging.t()}
 
@@ -47,7 +71,10 @@ defmodule ExClash.War do
     :end_time,
   ]
 
-  @doc false
+  @doc """
+  Will convert the JSON objects returned from Supercell into nice tidy structs
+  with atom keys.
+  """
   @spec format(api_war :: ExClash.cell_map()) :: __MODULE__.t()
   def format(api_war) do
     {api_clan, api_war} = Map.pop(api_war, "clan")

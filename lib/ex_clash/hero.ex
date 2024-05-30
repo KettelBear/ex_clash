@@ -1,36 +1,19 @@
 defmodule ExClash.Hero do
   @moduledoc """
   The Hero struct.
-    %{
-      "equipment" => [
-        %{
-          "level" => 18,
-          "maxLevel" => 18,
-          "name" => "Haste Vial",
-          "village" => "home"
-        },
-        %{
-          "level" => 18,
-          "maxLevel" => 18,
-          "name" => "Royal Gem",
-          "village" => "home"
-        }
-      ],
-      "level" => 45,
-      "maxLevel" => 45,
-      "name" => "Royal Champion",
-      "village" => "home"
-    },
-    %{
-      "level" => 35,
-      "maxLevel" => 35,
-      "name" => "Battle Copter",
-      "village" => "builderBase"
-    }
-  ],
-  """
 
-  # TODO: Create the type for the struct. And to continue from there, I'll need to create the equipment struct.
+  Attributes:
+
+    * `name` - The hero name.
+
+    * `level` - The hero's current level.
+
+    * `max_level` - The hero's max level possible for the town hall level.
+
+    * `village` - The village that the hero belongs to.
+
+    * `equipment` - See `ExClash.Equipment` for more details.
+  """
 
   @type t() :: %__MODULE__{
     name: String.t(),
@@ -42,6 +25,11 @@ defmodule ExClash.Hero do
 
   defstruct [:name, :level, :max_level, :village, :equipment]
 
+  @doc """
+  When player details are fetched, this will handle the embedded JSON object
+  that are the heroes that the player has.
+  """
+  @spec format(api_hero :: ExClash.cell_map()) :: __MODULE__.t()
   def format(api_hero) do
     {equipment, api_hero} = Map.pop(api_hero, "equipment")
 

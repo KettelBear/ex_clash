@@ -1,5 +1,14 @@
 defmodule ExClash.Label do
   @moduledoc """
+  The Label struct.
+
+  Attributes:
+
+    * `id` - The identifier of the Label.
+
+    * `name` - The name of the Label.
+
+    * `icon_urls` - See `ExClash.IconUrls` for details.
   """
 
   @type t() :: %__MODULE__{

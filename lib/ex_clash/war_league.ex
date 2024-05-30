@@ -1,6 +1,16 @@
 defmodule ExClash.WarLeague do
   @moduledoc """
   The Clan War League struct.
+
+  Attributes:
+
+    * `clans` - The clans that are part of the war league group.
+
+    * `rounds` - See `ExClash.WarLeague.Rounds` for more details.
+
+    * `season` - The MMMM-DD identified season.
+
+    * `state` - The `war_state` of the Clan War League.
   """
 
   @type war_state() ::
@@ -13,6 +23,22 @@ defmodule ExClash.WarLeague do
   defmodule Rounds do
     @moduledoc """
     The War League Round struct.
+
+    Attributes:
+
+      * `one` - The list of war tags for the first day.
+
+      * `two` - The list of war tags for the second day.
+
+      * `three` - The list of war tags for the third day.
+
+      * `four` - The list of war tags for the fourth day.
+
+      * `five` - The list of war tags for the fifth day.
+
+      * `six` - The list of war tags for the sixth day.
+
+      * `seven` - The list of war tags for the seventh day.
     """
 
     @typedoc """
@@ -42,7 +68,7 @@ defmodule ExClash.WarLeague do
 
   defstruct [:clans, :rounds, :season, :state]
 
-  @spec war(war_tag :: ExClash.tag()) :: ExClash.Clan.War.t() | {:error, atom()}
+  @spec war(war_tag :: ExClash.tag()) :: ExClash.War.t() | {:error, atom()}
   def war(war_tag) do
     case ExClash.HTTP.get("/clanwarleagues/wars/#{war_tag}") do
       {:ok, war} ->
