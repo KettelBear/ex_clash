@@ -35,7 +35,7 @@ defmodule ExClash.HTTP do
   Will return the base url for requests.
   """
   @spec base_url() :: String.t()
-  def base_url, do: @base_url
+  def base_url(), do: @base_url
 
   @doc """
   Will append the path to the end of the base URL. The octothorp is not encoded
@@ -49,7 +49,7 @@ defmodule ExClash.HTTP do
   is not set.
   """
   @spec token!() :: String.t()
-  def token!, do: Application.fetch_env!(:ex_clash, :token)
+  def token!(), do: Application.fetch_env!(:ex_clash, :token)
 
   @doc """
   Returns the authorization tuple that `Req` uses for the auth header.
