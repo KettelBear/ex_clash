@@ -1,6 +1,8 @@
 defmodule ExClash.HTTP do
   @moduledoc """
-  The HTTP module. Takes care of sending the request via HTTP and will parse the
+  The HTTP module.
+
+  Takes care of sending the request via HTTP and will parse the
   response, placing the keys of the JSON decoded response into the struct
   provided. While this module is available, it is not recommended for use.
   Instead, the calls to the API have been defined in the modules that contain
@@ -19,9 +21,10 @@ defmodule ExClash.HTTP do
   @type body() :: binary() | term()
 
   @typedoc """
-  The response that comes back from `ExClash.HTTP.get/2`. The map will have
-  string keys and be camel case, having gone through Jason.decode/2 after
-  getting the response from the HTTP request to Supercell.
+  The response that comes back from `ExClash.HTTP.get/2`.
+
+  The map will have string keys and be camel case, having gone through
+  Jason.decode/2 after getting the response from the HTTP request to Supercell.
 
   ## Examples
 
@@ -38,15 +41,18 @@ defmodule ExClash.HTTP do
   def base_url(), do: @base_url
 
   @doc """
-  Will append the path to the end of the base URL. The octothorp is not encoded
-  by default in URI.encode/2, so there is a specific call to handle it.
+  Append the `path` to the end of the base URL.
+
+  The octothorp is not encoded by default in URI.encode/2, so there is a
+  specific call to handle it because Supercell expects it to be encoded.
   """
   @spec url(path :: String.t()) :: String.t()
   def url(path), do: "#{base_url()}#{path}" |> encode_octo()
 
   @doc """
-  Fetches the token from the environment. Will raise if the environment value
-  is not set.
+  Fetches the token from the environment.
+
+  Will raise if the environment value is not set.
   """
   @spec token!() :: String.t()
   def token!(), do: Application.fetch_env!(:ex_clash, :token)
@@ -58,10 +64,14 @@ defmodule ExClash.HTTP do
   def auth!(), do: {:bearer, token!()}
 
   @doc """
-  The meat and potatoes. Will send a request to the `base_url` with the `path`
-  appended. It will handle the authorization, ensure the octothorpes have been
-  encoded, and add any query_params that were passed in. Any query params that
-  do not apply will be ignored by Supercell.
+  Sends the get request to Supercell's API with proper auth and query params.
+
+  Will send a request to the `base_url` with the `path` appended. It will
+  handle the authorization, ensure the octothorpes have been encoded, and add
+  any query_params that were passed in. Any query params that do not apply will
+  be ignored by Supercell.
+
+  This really is the meat and potatoes of this whole operation.
 
   ## Examples
 
@@ -86,6 +96,8 @@ defmodule ExClash.HTTP do
   end
 
   @doc """
+  Covert `ExClash.cell_map()` to the `clash_struct`.
+
   The response body from the HTTP request is JSON. This will handle converting
   the keys into snake case atoms, then put them in the `clash_struct`. Since
   the struct needs to be passed in, it is not recursive.

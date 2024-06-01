@@ -1,5 +1,14 @@
 defmodule ExClash.Clan.Capital.District do
   @moduledoc """
+  The Clan Capital District struct.
+
+  Attributes:
+
+    * `id` - The integer ID of the district.
+
+    * `name` - The name of the district.
+
+    * `district_hall_level` - The level of the district.
   """
 
   @type t() :: %__MODULE__{

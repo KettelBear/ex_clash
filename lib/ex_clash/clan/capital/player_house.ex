@@ -1,5 +1,16 @@
 defmodule ExClash.Clan.Capital.PlayerHouse do
   @moduledoc """
+  The Clan Capital Player House struct.
+
+  Attributes:
+
+    * `ground` - The ID of the ground choice.
+
+    * `walls` - The ID of the walls choice.
+
+    * `roof` - The ID of the roof choice.
+
+    * `decoration` - The ID of the decoration choice.
   """
 
   @type t() :: %__MODULE__{

@@ -1,10 +1,11 @@
 defmodule ExClash do
   @moduledoc """
-  Although the top level module, this doesn't do a lot of work. The idea is to
-  capture the behaviours and data in the structs associated with the different
-  aspects of the game. Look to `ExClash.Clan` for clan based calls to get back
-  the clan struct, and to `ExClash.Player` for player calls and information,
-  and so on.
+  Although the top level module, this doesn't do a lot of work.
+
+  The idea is to capture the behaviours and data in the structs associated with
+  the different aspects of the game. Look to `ExClash.Clan` for clan based calls
+  to get back the clan struct, and to `ExClash.Player` for player calls and
+  information, and so on.
   """
 
   @typedoc """
