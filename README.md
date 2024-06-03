@@ -65,7 +65,7 @@ for the one that is labelled "POST."
 
 ### League information
 
-* `/capitalleagues`
+* ✅ `/capitalleagues`
 * `/leagues`
 * `/leagues/{leagueId}/seasons/{seasonId}`
 * `/capitalleagues/{leagueId}`
