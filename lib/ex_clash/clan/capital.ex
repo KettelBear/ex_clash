@@ -27,7 +27,16 @@ defmodule ExClash.Clan.Capital do
     * `before` - Return only items that occur before this marker.
 
   ## Examples
-      TODO - HERE
+
+      iex> ExClash.Clan.Capital.leagues(limit: 3, after: "eyJwb3MiOjN9")
+      {
+        [
+          %ExClash.League{id: 85000003, name: "Bronze League I", icon_urls: nil},
+          %ExClash.League{id: 85000004, name: "Silver League III", icon_urls: nil},
+          %ExClash.League{id: 85000005, name: "Silver League II", icon_urls: nil}
+        ],
+        %ExClash.Paging{after: "eyJwb3MiOjZ9", before: "eyJwb3MiOjN9"}
+      }
   """
   @spec leagues(params :: Keyword.t()) :: {list(League.t()), Paging.t()}
   def leagues(params \\ []) do

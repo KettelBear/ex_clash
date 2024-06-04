@@ -54,14 +54,8 @@ defmodule ExClash.HTTP do
 
   Will raise if the environment value is not set.
   """
-  @spec token!() :: String.t()
-  def token!(), do: Application.fetch_env!(:ex_clash, :token)
-
-  @doc """
-  Returns the authorization tuple that `Req` uses for the auth header.
-  """
-  @spec auth!() :: {:bearer, String.t()}
-  def auth!(), do: {:bearer, token!()}
+  @spec token() :: String.t()
+  def token(), do: Application.get_env(:ex_clash, :token, "MISSING TOKEN")
 
   @doc """
   Sends the get request to Supercell's API with proper auth and query params.
@@ -86,13 +80,14 @@ defmodule ExClash.HTTP do
       {:error, :not_authorized}
   """
   @spec get(path :: String.t(), query_params :: Keyword.t()) :: response()
-  def get(path, query_params \\ []) do
-    Req.new(auth: auth!(), url: url(path), params: query_params)
-    |> Req.get()
-    |> case do
-      {:ok, %Req.Response{} = response} -> parse_response(response)
-      error -> log_error(path, query_params, error)
-    end
+  def get(path, query_params \\ [])
+
+  def get(path, [{:plug, plug} | query_params]) do
+    Req.new(url: url(path), params: query_params, plug: plug) |> send()
+  end
+
+  def get(path, query_params) do
+    Req.new(url: url(path), params: query_params) |> send()
   end
 
   @doc """
@@ -134,6 +129,13 @@ defmodule ExClash.HTTP do
   end
 
   defp encode_octo(unencoded), do: String.replace(unencoded, "#", "%23")
+
+  defp send(%Req.Request{} = req) do
+    case Req.get(req, auth: {:bearer, token()}) do
+      {:ok, %Req.Response{} = response} -> parse_response(response)
+      error -> log_error(req.url, req.options, error)
+    end
+  end
 
   defp parse_response(%{status: 200, body: body}), do: {:ok, body}
   defp parse_response(%{status: 400}), do: {:error, :bad_request}
