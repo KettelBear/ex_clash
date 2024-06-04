@@ -18,7 +18,13 @@ defmodule ExClash.Clan.Capital do
   @doc """
   Get the names and IDs of the capital leagues.
 
+  If an ID is provided then it will fetch the details of that league which
+  will be ID itself and the name of the league.
+
   ## Param Options
+
+    * `id` - The integer ID of the league. If provided, it will attempt to hit
+      the endpoint for that specific Capital League.
 
     * `limit` - Limit the number of items returned in the response.
 
@@ -28,18 +34,31 @@ defmodule ExClash.Clan.Capital do
 
   ## Examples
 
+      iex> ExClash.Clan.Capital.leagues(id: 85000021)
+      %ExClash.League{id: 85000021, name: "Titan League I", icon_urls: nil}
+
       iex> ExClash.Clan.Capital.leagues(limit: 3, after: "eyJwb3MiOjN9")
       {
         [
-          %ExClash.League{id: 85000003, name: "Bronze League I", icon_urls: nil},
-          %ExClash.League{id: 85000004, name: "Silver League III", icon_urls: nil},
-          %ExClash.League{id: 85000005, name: "Silver League II", icon_urls: nil}
+          %ExClash.League{id: 85000003, name: "Bronze League I"},
+          %ExClash.League{id: 85000004, name: "Silver League III"},
+          %ExClash.League{id: 85000005, name: "Silver League II"}
         ],
         %ExClash.Paging{after: "eyJwb3MiOjZ9", before: "eyJwb3MiOjN9"}
       }
   """
-  @spec leagues(params :: Keyword.t()) :: {list(League.t()), Paging.t()}
-  def leagues(params \\ []) do
+  @spec leagues(params :: Keyword.t())
+      :: League.t() | {list(League.t()), Paging.t()} | {:error, atom()}
+  def leagues(params \\ [])
+
+  def leagues([{:id, id} | params]) do
+    case ExClash.HTTP.get("/capitalleagues/#{id}", params) do
+      {:ok, league} -> League.format(league)
+      err -> err
+    end
+  end
+
+  def leagues(params) do
     case ExClash.HTTP.get("/capitalleagues", params) do
       {:ok, %{"items" => items, "paging" => paging}} ->
         {Enum.map(items, &League.format/1), Paging.format(paging)}

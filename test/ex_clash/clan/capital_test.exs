@@ -2,6 +2,19 @@ defmodule ExClash.Clan.CapitalTest do
   use ExUnit.Case
 
   alias ExClash.Clan.Capital
+  alias ExClash.League
+  alias ExClash.Paging
+
+  test "Gets the specific league when provided an ID" do
+    id = :rand.uniform(99999999)
+    name = Faker.Person.name()
+
+    plug = &Req.Test.json(&1, %{"id" => id, "name" => name})
+
+    actual = Capital.leagues(id: id, plug: plug)
+
+    assert %League{id: id, name: name, icon_urls: nil} == actual
+  end
 
   test "Makes a request to get the capital leagues" do
     id = :rand.uniform(99999999)
@@ -14,8 +27,8 @@ defmodule ExClash.Clan.CapitalTest do
 
     {items, paging} = Capital.leagues(plug: &Req.Test.json(&1, response))
 
-    assert %ExClash.Paging{after: nil, before: nil} == paging
+    assert %Paging{after: nil, before: nil} == paging
 
-    assert [%ExClash.League{id: id, name: name, icon_urls: nil}] == items
+    assert [%League{id: id, name: name, icon_urls: nil}] == items
   end
 end

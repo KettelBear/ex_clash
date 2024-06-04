@@ -28,10 +28,16 @@ end
 * HTTP requests are made using [Req](https://hexdocs.pm/req/readme.html).
 * Due to the aforementioned dependency, this library requires the use of at
   least Elixir `v1.12` or newer. At time of building, Elixir `v1.16` was used.
+* A developer account at https://developer.clashofclans.com/ is required so you
+  can acquire An [API Token](https://developer.clashofclans.com/#/new-key) for
+  authorized use of Supercell's API.
 
 ## Features
 
 * Add your token to any `[ENV].secret.exs` and start using this library.
+    ```elixir
+    config :ex_clash, token: "YOUR SUPER SECRET TOKEN"
+    ```
 * Get well-defined structs back from responses instead of parsing maps with
   string keys.
 * HTTP functions are available to make your own API requests. Just use
@@ -66,15 +72,15 @@ for the one that is labelled "POST."
 ### League information
 
 * ✅ `/capitalleagues`
+* ✅ `/capitalleagues/{leagueId}`
 * `/leagues`
-* `/leagues/{leagueId}/seasons/{seasonId}`
-* `/capitalleagues/{leagueId}`
-* `/builderbaseleagues/{leagueId}`
-* `/builderbaseleagues`
 * `/leagues/{leagueId}`
 * `/leagues/{leagueId}/seasons`
-* `/warleagues/{leagueId}`
+* `/leagues/{leagueId}/seasons/{seasonId}`
+* `/builderbaseleagues`
+* `/builderbaseleagues/{leagueId}`
 * `/warleagues`
+* `/warleagues/{leagueId}`
 
 ### Rankings
 
