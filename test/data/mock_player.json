@@ -1,0 +1,51 @@
+{
+  "achievements": [],
+  "attackWins": 1,
+  "bestBuilderBaseTrophies": 1,
+  "bestTrophies": 1,
+  "builderBaseLeague": {
+    "id": 44000029,
+    "name": "Titanium League III"
+  },
+  "builderBaseTrophies": 1,
+  "builderHallLevel": 1,
+  "clan": {
+    "badgeUrls": {
+      "large": "https://api-assets.clashofclans.com/badges/512/rU6hTdvHxw44-_uMVX0pKCd3xYTFdXsXSdx5MbgR4FU.png",
+      "medium": "https://api-assets.clashofclans.com/badges/200/rU6hTdvHxw44-_uMVX0pKCd3xYTFdXsXSdx5MbgR4FU.png",
+      "small": "https://api-assets.clashofclans.com/badges/70/rU6hTdvHxw44-_uMVX0pKCd3xYTFdXsXSdx5MbgR4FU.png"
+    },
+    "clanLevel": 9001,
+    "name": "Swifty Shifters",
+    "tag": "#OTHERTAG"
+  },
+  "clanCapitalContributions": 1,
+  "defenseWins": 1,
+  "donations": 1,
+  "donationsReceived": 1,
+  "expLevel": 1,
+  "heroEquipment": [],
+  "heroes": [],
+  "labels": [],
+  "league": {
+    "iconUrls": {
+      "medium": "https://api-assets.clashofclans.com/leagues/288/R2zmhyqQ0_lKcDR5EyghXCxgyC9mm_mVMIjAbmGoZtw.png",
+      "small": "https://api-assets.clashofclans.com/leagues/72/R2zmhyqQ0_lKcDR5EyghXCxgyC9mm_mVMIjAbmGoZtw.png",
+      "tiny": "https://api-assets.clashofclans.com/leagues/36/R2zmhyqQ0_lKcDR5EyghXCxgyC9mm_mVMIjAbmGoZtw.png"
+    },
+    "id": 29000022,
+    "name": "Legend League"
+  },
+  "legendStatistics": {},
+  "name": "Roger",
+  "playerHouse": {"elements": []},
+  "role": "member",
+  "spells": [],
+  "tag": "#SOMETAG",
+  "townHallLevel": 1,
+  "townHallWeaponLevel": 1,
+  "troops": [],
+  "trophies": 1,
+  "warPreference": "in",
+  "warStars": 1
+}

@@ -5,67 +5,37 @@ defmodule ExClash.Player do
   Attributes:
 
     * `tag` - The `ExClash.tag()` for the player.
-
     * `name` - The of the player.
-
     * `town_hall_level` - The town hall level the player is currently at.
-
     * `town_hall_weapon_level` - The weapon level of the town hall.
-
     * `exp_level` - The current level the player has earned with experience.
-
     * `trophies` - The current number of trophies the player has.
-
     * `best_trophies` - The highest trophies the player has reached.
-
     * `war_stars` - The total war stars earned by the player.
-
     * `attack_wins` - The total number of multiplayer wins when attacking.
-
     * `defense_wins` - The total number of multiplayer wins when defending.
-
     * `builder_hall_level` - The current builder hall level.
-
     * `builder_base_trophies` - The current number of trophies in builder base.
-
     * `best_builder_base_trophies` - The highest trophies the player has earned
     in the builder base.
-
     * `role` - The current role the clan.
-
     * `war_preference` - `true` if the player opted into war, `false` otherwise.
-
     * `donations` - The current number of donations for the season.
-
     * `donations_received` - The current number of donations received for the
     season.
-
     * `clan_capital_contributions` - Lifetime Clan Capital Gold contribution.
-
     * `clan_name` - The name of the player's current clan.
-
     * `clan_tag` - The tag of the clan.
-
     * `clan_badges` - The badges of the clan.
-
     * `league` - The league that the player is currently in.
-
     * `builder_base_league` - The current Builder Base League.
-
     * `player_house` - The identifiers for the 4 pieces of the player house.
-
     * `legend_statistics` - The players lifetime legend stats.
-
     * `achievements` - A list of achievements earned by the player.
-
     * `labels` - The 1 to 3 labels the player can select for their profile.
-
     * `troops` - The list of troops and their levels.
-
     * `heroes` - The list of heroes and their levels.
-
     * `hero_equipment` - The list of hero equipment and their levels.
-
     * `spells` - The list of spells and their levels.
   """
 
@@ -145,6 +115,11 @@ defmodule ExClash.Player do
   @doc """
   Retrieve the player details for the provided clan `tag`.
 
+  ## Parameters
+
+    * `tag` - The player tag to look up.
+    * `opts` - Additional `Req` options.
+
   ## Examples
 
       iex> ExClash.Player.details("#QVRVCY28")
@@ -173,9 +148,9 @@ defmodule ExClash.Player do
       iex> ExClash.Player.details("#000000")
       {:error, :not_found}
   """
-  @spec details(tag :: ExClash.tag()) :: __MODULE__.t() | {:error, atom()}
-  def details(tag) do
-    case ExClash.HTTP.get("/players/#{tag}") do
+  @spec details(tag :: ExClash.tag(), opts :: Keyword.t()) :: __MODULE__.t() | {:error, atom()}
+  def details(tag, opts \\ []) do
+    case ExClash.HTTP.get("/players/#{tag}", opts) do
       {:ok, player} -> format(player)
       err -> err
     end
