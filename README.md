@@ -43,6 +43,10 @@ end
 * HTTP functions are available to make your own API requests. Just use
   `ExClash.HTTP.get/2` which will handle auth, the url, and query params for
   you.
+* Not sure if feature; this library is not going to tell you if you got a
+  parameter wrong in your `Keyword` list. It'll just forward it along to `Req`
+  to consume, who will just attach it as a query param and Supercell's API
+  will ignore it. 🤷
 
 ## Usage
 
@@ -55,14 +59,14 @@ for the one that is labelled "POST."
 
 ### Clan specific information
 
+* ✅ `/clans`
+* ✅ `/clans/{clanTag}`
+* `/clans/{clanTag}/capitalraidseasons`
+* ✅ `/clans/{clanTag}/members`
+* ✅ `/clans/{clanTag}/warlog`
+* ✅ `/clans/{clanTag}/currentwar`
 * ✅ `/clans/{clanTag}/currentwar/leaguegroup`
 * ✅ `/clanwarleagues/wars/{warTag}`
-* ✅ `/clans/{clanTag}/warlog`
-* ✅ `/clans`
-* ✅ `/clans/{clanTag}/currentwar`
-* ✅ `/clans/{clanTag}`
-* ✅ `/clans/{clanTag}/members`
-* ✅ `/clans/{clanTag}/capitalraidseasons`
 
 ### Player specific information
 
@@ -84,13 +88,13 @@ for the one that is labelled "POST."
 
 ### Rankings
 
+* `/locations`
+* `/locations/{locationId}`
 * `/locations/{locationId}/rankings/clans`
 * `/locations/{locationId}/rankings/players`
 * `/locations/{locationId}/rankings/players-builder-base`
 * `/locations/{locationId}/rankings/clans-builder-base`
-* `/locations`
 * `/locations/{locationId}/rankings/capitals`
-* `/locations/{locationId}`
 
 ### Gold Pass
 

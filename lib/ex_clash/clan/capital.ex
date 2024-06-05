@@ -1,12 +1,19 @@
 defmodule ExClash.Clan.Capital do
   @moduledoc """
-  /capitalleagues
-  /capitalleagues/{leagueId}
-  /clans/{clanTag}/capitalraidseasons
+  The Clan Capital struct.
+
+  ## Attributes
+
+    * `capital_hall_level` - The integer level of the capital hall for the clan.
+    * `districts` - See `ExClash.Clan.Capital.District` for more information.
   """
-  alias ExClash.Paging
-  alias ExClash.League
+
+  # TODO: /clans/{clanTag}/capitalraidseasons
+
   alias ExClash.Clan.Capital.District
+  alias ExClash.HTTP
+  alias ExClash.League
+  alias ExClash.Paging
 
   @type t() :: %__MODULE__{
     capital_hall_level: integer(),
@@ -25,12 +32,10 @@ defmodule ExClash.Clan.Capital do
 
     * `id` - The integer ID of the league. If provided, it will attempt to hit
       the endpoint for that specific Capital League.
-
-    * `limit` - Limit the number of items returned in the response.
-
-    * `after` - Return only items that occur after this marker.
-
-    * `before` - Return only items that occur before this marker.
+    * `opts` - Paging and additional `Req` options.
+      * `limit` - Limit the number of items returned in the response.
+      * `after` - Return only items that occur after this marker.
+      * `before` - Return only items that occur before this marker.
 
   ## Examples
 
@@ -47,19 +52,18 @@ defmodule ExClash.Clan.Capital do
         %ExClash.Paging{after: "eyJwb3MiOjZ9", before: "eyJwb3MiOjN9"}
       }
   """
-  @spec leagues(params :: Keyword.t())
-      :: League.t() | {list(League.t()), Paging.t()} | {:error, atom()}
-  def leagues(params \\ [])
+  @spec leagues(opts :: Keyword.t()) :: League.t() | {list(League.t()), Paging.t()} | {:error, atom()}
+  def leagues(opts \\ [])
 
-  def leagues([{:id, id} | params]) do
-    case ExClash.HTTP.get("/capitalleagues/#{id}", params) do
+  def leagues([{:id, id} | opts]) do
+    case HTTP.get("/capitalleagues/#{id}", opts) do
       {:ok, league} -> League.format(league)
       err -> err
     end
   end
 
-  def leagues(params) do
-    case ExClash.HTTP.get("/capitalleagues", params) do
+  def leagues(opts) do
+    case HTTP.get("/capitalleagues", opts) do
       {:ok, %{"items" => items, "paging" => paging}} ->
         {Enum.map(items, &League.format/1), Paging.format(paging)}
 
@@ -69,7 +73,7 @@ defmodule ExClash.Clan.Capital do
   end
 
   @doc """
-  Format Supercell's for the Clan Capital.
+  Format Supercell's response for the Clan Capital.
   """
   @spec format(api_capital :: ExClash.cell_map()) :: __MODULE__.t()
   def format(nil), do: nil
@@ -78,7 +82,7 @@ defmodule ExClash.Clan.Capital do
 
     %__MODULE__{
       capital_hall_level: Map.get(api_capital, "capitalHallLevel"),
-      districts: Enum.map(districts, &ExClash.HTTP.resp_to_struct(&1, District))
+      districts: Enum.map(districts, &HTTP.resp_to_struct(&1, District))
     }
   end
 end
