@@ -69,25 +69,22 @@ defmodule ExClash.HTTP do
 
   ## Examples
 
-      iex> ExClash.get("/clans")
+      iex> ExClash.HTTP.get("/clans")
       {:ok, %{"items" => [%{...}, %{...}], "paging" => %{...}}}
 
-      iex> ExClash.get("/locations", limit: 1)
+      iex> ExClash.HTTP.get("/locations", limit: 1)
       {:ok, %{"items" => [%{...}], "paging" => %{...}}}
 
       # Assuming the following clan does not have a public war log
-      iex> ExClash.get("/clans/#ABCD1234/warlog", limit: 2, after: "eJwysdSDF")
+      iex> ExClash.HTTP.get("/clans/#ABCD1234/warlog", limit: 2, after: "eJwysdSDF")
       {:error, :not_authorized}
   """
   @spec get(path :: String.t(), query_params :: Keyword.t()) :: response()
-  def get(path, query_params \\ [])
-
-  def get(path, [{:plug, plug} | query_params]) do
-    Req.new(url: url(path), params: query_params, plug: plug) |> send()
-  end
-
-  def get(path, query_params) do
-    Req.new(url: url(path), params: query_params) |> send()
+  def get(path, query_params \\ []) do
+    case Keyword.pop(query_params, :plug) do
+      {nil, params} -> send(url: url(path), params: params)
+      {plug, params} -> send(url: url(path), params: params, plug: plug)
+    end
   end
 
   @doc """
@@ -130,10 +127,13 @@ defmodule ExClash.HTTP do
 
   defp encode_octo(unencoded), do: String.replace(unencoded, "#", "%23")
 
-  defp send(%Req.Request{} = req) do
-    case Req.get(req, auth: {:bearer, token()}) do
+  defp send(options) do
+    [{:auth, {:bearer, token()}} | options]
+    |> Req.new()
+    |> Req.get()
+    |> case do
       {:ok, %Req.Response{} = response} -> parse_response(response)
-      error -> log_error(req.url, req.options, error)
+      error -> log_error(options, error)
     end
   end
 
@@ -145,13 +145,13 @@ defmodule ExClash.HTTP do
   defp parse_response(%{status: 500}), do: {:error, :internal}
   defp parse_response(%{status: 503}), do: {:error, :unavailable}
 
-  defp log_error(path, params, error) do
+  defp log_error(options, error) do
     Logger.warning("""
-    Response that may not have been accounted for:
-    \tPath: #{path}
-    \tQuery Params: #{inspect(params)}
-    \tResponse:\n\t#{inspect(error)}\n
+      Response that may not have been accounted for:
+      \tPath: #{inspect(options)}
+      \tResponse:\n\t#{inspect(error)}\n
     """)
+
     {:error, :server_error}
   end
 end
