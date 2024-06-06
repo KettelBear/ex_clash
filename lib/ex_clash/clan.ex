@@ -372,30 +372,16 @@ defmodule ExClash.Clan do
       ExClash.HTTP.resp_to_struct(api_clan, __MODULE__) |
       badge_urls: ExClash.HTTP.resp_to_struct(badges, ExClash.Badges),
       capital_league: ExClash.League.format(capital_league),
-      chat_language: format_chat_lang(chat_language),
+      chat_language: ExClash.HTTP.resp_to_struct(chat_language, ExClash.ChatLanguage),
       clan_capital: ExClash.Clan.Capital.format(capital),
-      labels: Enum.map(labels, &ExClash.Label.format/1),
+      labels: ExClash.Label.format(labels),
       location: ExClash.HTTP.resp_to_struct(location, ExClash.Location),
-      member_list: format_member_list(member_list),
-      type: format_type(type),
-      war_frequency: format_frequency(war_freq),
+      member_list: ExClash.Clan.Player.format(member_list),
+      type: ExClash.camel_to_atom(type),
+      war_frequency: ExClash.camel_to_atom(war_freq),
       war_league: ExClash.League.format(war_league)
     }
   end
-
-  defp format_chat_lang(nil), do: nil
-  defp format_chat_lang(lang) do
-    ExClash.HTTP.resp_to_struct(lang, ExClash.ChatLanguage)
-  end
-
-  defp format_member_list(nil), do: nil
-  defp format_member_list(members), do: Enum.map(members, &ClanPlayer.format/1)
-
-  defp format_type(nil), do: nil
-  defp format_type(type), do: ExClash.camel_to_atom(type)
-
-  defp format_frequency(nil), do: nil
-  defp format_frequency(freq), do: ExClash.camel_to_atom(freq)
 
   defp convert_filters({key, value}), do: {Map.get(@search_filters, key, key), value}
 end

@@ -1,6 +1,9 @@
 defmodule ExClash.Clan.Player do
+  # TODO: This module-doc
   @moduledoc """
   """
+
+  @type member_data :: ExClash.cell_map() | list(ExClash.cell_map()) | nil
 
   alias ExClash.Clan.Capital.PlayerHouse
 
@@ -38,6 +41,12 @@ defmodule ExClash.Clan.Player do
     :trophies
   ]
 
+  # TODO: This doc-block
+  @doc """
+  """
+  @spec format(data :: member_data()) :: __MODULE__.t() | list(__MODULE__.t()) | nil
+  def format(nil), do: nil
+  def format(data) when is_list(data), do: Enum.map(data, &format/1)
   def format(clan_player) do
     {builder_league, clan_player} = Map.pop(clan_player, "builderBaseLeague")
     {league, clan_player} = Map.pop(clan_player, "league")

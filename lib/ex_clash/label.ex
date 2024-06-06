@@ -2,12 +2,10 @@ defmodule ExClash.Label do
   @moduledoc """
   The Label struct.
 
-  Attributes:
+  ## Attributes
 
     * `id` - The identifier of the Label.
-
     * `name` - The name of the Label.
-
     * `icon_urls` - See `ExClash.IconUrls` for details.
   """
 
@@ -19,13 +17,13 @@ defmodule ExClash.Label do
 
   defstruct [:id, :name, :icon_urls]
 
-  def format(api_label) do
-    icons = Map.get(api_label, "iconUrls")
-
+  @spec format(data :: ExClash.cell_map() | list(ExClash.cell_map())) :: __MODULE__.t() | list(__MODULE__.t())
+  def format(data) when is_list(data), do: Enum.map(data, &format/1)
+  def format(data) do
     %__MODULE__{
-      id: Map.get(api_label, "id"),
-      name: Map.get(api_label, "name"),
-      icon_urls: ExClash.HTTP.resp_to_struct(icons, ExClash.IconUrls)
+      id: Map.get(data, "id"),
+      name: Map.get(data, "name"),
+      icon_urls: ExClash.HTTP.resp_to_struct(Map.get(data, "iconUrls"), ExClash.IconUrls)
     }
   end
 end

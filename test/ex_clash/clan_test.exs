@@ -2,6 +2,7 @@ defmodule ExClash.ClanTest do
   use ExUnit.Case, async: true
 
   alias ExClash.Clan
+  alias ExClash.Paging
   alias ExClash.WarLeague
   alias ExClash.WarLeague.Clan, as: WarClan
   alias ExClash.WarLeague.Rounds
@@ -10,7 +11,20 @@ defmodule ExClash.ClanTest do
     %WarLeague{
       clans: [%WarClan{} | _],
       rounds: %Rounds{}
-    } = Clan.cwl_group("Should be a clan tag", plug: &Req.Test.json(&1, mock("mock_cwl_group.json")))
+    } = Clan.cwl_group("Should be a clan tag", plug: plug("mock_cwl_group.json"))
+  end
+
+  test "Search returns a list of possible clans" do
+    {
+      [%Clan{}, %Clan{}, %Clan{}, %Clan{}, %Clan{}],
+      %Paging{}
+    } = Clan.search(
+      name: "My Clan",
+      min_clan_level: 10,
+      min_members: 25,
+      limit: 5,
+      plug: plug("mock_search_results.json")
+    )
   end
 
   test "Get the clan details from the API" do
@@ -25,4 +39,6 @@ defmodule ExClash.ClanTest do
     |> File.read!()
     |> Jason.decode!()
   end
+
+  defp plug(file), do: &Req.Test.json(&1, mock(file))
 end

@@ -46,6 +46,7 @@ defmodule ExClash do
       iex> ExClash.camel_to_atom("camelCase")
       :camel_case
   """
-  @spec camel_to_atom(camel :: String.t()) :: atom()
+  @spec camel_to_atom(camel :: String.t() | nil) :: atom() | nil
+  def camel_to_atom(nil), do: nil
   def camel_to_atom(camel), do: camel |> Macro.underscore() |> String.to_atom()
 end

@@ -99,7 +99,9 @@ defmodule ExClash.HTTP do
       iex> ExClash.HTTP.resp_to_struct(%{"myHTTPKey" => "Some value"}, ExampleStruct)
       %ExampleStruct{my_api_key: "Some value"}
   """
-  @spec resp_to_struct(api_response :: map(), clash_struct :: atom()) :: struct()
+  @spec resp_to_struct(api_response :: map() | nil, clash_struct :: atom()) :: struct() | nil
+  def resp_to_struct(nil, _clash_struct), do: nil
+
   def resp_to_struct(api_response, clash_struct) do
     Map.new(api_response, fn
       {"village", "home"} -> {:village, :home}
