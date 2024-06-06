@@ -1,0 +1,46 @@
+{
+  "badgeUrls": {
+    "large": "",
+    "medium": "",
+    "small": ""
+  },
+  "capitalLeague": {
+    "id": 1,
+    "name": "Champion League III"
+  },
+  "clanBuilderBasePoints": 1,
+  "clanCapital": {
+    "capitalHallLevel": 1,
+    "districts": []
+  },
+  "clanCapitalPoints": 1,
+  "clanLevel": 1,
+  "clanPoints": 1,
+  "description": "",
+  "isFamilyFriendly": false,
+  "isWarLogPublic": true,
+  "labels": [],
+  "location": {
+    "countryCode": "NU",
+    "id": 1,
+    "isCountry": true,
+    "name": "Niue"
+  },
+  "memberList": [],
+  "members": 1,
+  "name": "Super Clan",
+  "requiredBuilderBaseTrophies": 1,
+  "requiredTownhallLevel": 1,
+  "requiredTrophies": 1,
+  "tag": "#ABCD1234",
+  "type": "inviteOnly",
+  "warFrequency": "oncePerWeek",
+  "warLeague": {
+    "id": 1,
+    "name": "Crystal League I"
+  },
+  "warLosses": 1,
+  "warTies": 1,
+  "warWinStreak": 1,
+  "warWins": 1
+}

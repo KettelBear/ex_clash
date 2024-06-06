@@ -1,0 +1,152 @@
+{
+  "clans": [
+    {
+      "badgeUrls": {
+        "large": "",
+        "medium": "",
+        "small": ""
+      },
+      "clanLevel": 1,
+      "members": [],
+      "name": "Clan One",
+      "tag": "#ABCDABCD1"
+    },
+    {
+      "badgeUrls": {
+        "large": "",
+        "medium": "",
+        "small": ""
+      },
+      "clanLevel": 1,
+      "members": [],
+      "name": "Clan Two",
+      "tag": "#ABCDABCD2"
+    },
+    {
+      "badgeUrls": {
+        "large": "",
+        "medium": "",
+        "small": ""
+      },
+      "clanLevel": 1,
+      "members": [],
+      "name": "Clan Three",
+      "tag": "#ABCDABCD3"
+    },
+    {
+      "badgeUrls": {
+        "large": "",
+        "medium": "",
+        "small": ""
+      },
+      "clanLevel": 1,
+      "members": [],
+      "name": "Clan Four",
+      "tag": "#ABCDABCD4"
+    },
+    {
+      "badgeUrls": {
+        "large": "",
+        "medium": "",
+        "small": ""
+      },
+      "clanLevel": 1,
+      "members": [],
+      "name": "Clan Five",
+      "tag": "#ABCDABCD5"
+    },
+    {
+      "badgeUrls": {
+        "large": "",
+        "medium": "",
+        "small": ""
+      },
+      "clanLevel": 1,
+      "members": [],
+      "name": "Clan Six",
+      "tag": "#ABCDABCD6"
+    },
+    {
+      "badgeUrls": {
+        "large": "",
+        "medium": "",
+        "small": ""
+      },
+      "clanLevel": 1,
+      "members": [],
+      "name": "Clan Seven",
+      "tag": "#ABCDABCD7"
+    },
+    {
+      "badgeUrls": {
+        "large": "",
+        "medium": "",
+        "small": ""
+      },
+      "clanLevel": 1,
+      "members": [],
+      "name": "Clan Eight",
+      "tag": "#ABCDABCD7"
+    }
+  ],
+  "rounds": [
+    {
+      "warTags": [
+        "#WARTAG1",
+        "#WARTAG2",
+        "#WARTAG3",
+        "#WARTAG4"
+      ]
+    },
+    {
+      "warTags": [
+        "#WARTAG1",
+        "#WARTAG2",
+        "#WARTAG3",
+        "#WARTAG4"
+      ]
+    },
+    {
+      "warTags": [
+        "#WARTAG1",
+        "#WARTAG2",
+        "#WARTAG3",
+        "#WARTAG4"
+      ]
+    },
+    {
+      "warTags": [
+        "#WARTAG1",
+        "#WARTAG2",
+        "#WARTAG3",
+        "#WARTAG4"
+      ]
+    },
+    {
+      "warTags": [
+        "#WARTAG1",
+        "#WARTAG2",
+        "#WARTAG3",
+        "#WARTAG3"
+      ]
+    },
+    {
+      "warTags": [
+        "#WARTAG1",
+        "#WARTAG2",
+        "#WARTAG3",
+        "#WARTAG3"
+      ]
+    },
+    {
+      "warTags": [
+        "#WARTAG1",
+        "#WARTAG2",
+        "#WARTAG3",
+        "#WARTAG3"
+      ]
+    }
+  ],
+  "season": "2024-06",
+  "state": "inWar"
+}
