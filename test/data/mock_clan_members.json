@@ -1,0 +1,197 @@
+{
+  "items": [
+    {
+      "builderBaseLeague": {
+        "id": 44000026,
+        "name": "Steel League III"
+      },
+      "builderBaseTrophies": 3299,
+      "clanRank": 1,
+      "donations": 1206,
+      "donationsReceived": 743,
+      "expLevel": 158,
+      "league": {
+        "iconUrls": {
+          "medium": "",
+          "small": "",
+          "tiny": ""
+        },
+        "id": 29000019,
+        "name": "Titan League III"
+      },
+      "name": "Member 1",
+      "playerHouse": {
+        "elements": [
+          {
+            "id": 82000000,
+            "type": "ground"
+          },
+          {
+            "id": 82000048,
+            "type": "walls"
+          },
+          {
+            "id": 82000011,
+            "type": "roof"
+          },
+          {
+            "id": 82000062,
+            "type": "decoration"
+          }
+        ]
+      },
+      "previousClanRank": 1,
+      "role": "leader",
+      "tag": "#ABCD1234",
+      "townHallLevel": 1,
+      "trophies": 1
+    },
+    {
+      "builderBaseLeague": {
+        "id": 44000022,
+        "name": "Brass League I"
+      },
+      "builderBaseTrophies": 2452,
+      "clanRank": 2,
+      "donations": 1044,
+      "donationsReceived": 595,
+      "expLevel": 121,
+      "league": {
+        "iconUrls": {
+          "medium": "",
+          "small": "",
+          "tiny": ""
+        },
+        "id": 29000017,
+        "name": "Champion League II"
+      },
+      "name": "Member 2",
+      "playerHouse": {
+        "elements": [
+          {
+            "id": 82000000,
+            "type": "ground"
+          },
+          {
+            "id": 82000048,
+            "type": "walls"
+          },
+          {
+            "id": 82000009,
+            "type": "roof"
+          },
+          {
+            "id": 82000058,
+            "type": "decoration"
+          }
+        ]
+      },
+      "previousClanRank": 1,
+      "role": "coLeader",
+      "tag": "#ABCD1235",
+      "townHallLevel": 1,
+      "trophies": 1
+    },
+    {
+      "builderBaseLeague": {
+        "id": 44000023,
+        "name": "Iron League III"
+      },
+      "builderBaseTrophies": 2647,
+      "clanRank": 3,
+      "donations": 34,
+      "donationsReceived": 647,
+      "expLevel": 128,
+      "league": {
+        "iconUrls": {
+          "medium": "",
+          "small": "",
+          "tiny": ""
+        },
+        "id": 29000015,
+        "name": "Master League I"
+      },
+      "name": "Member 3",
+      "playerHouse": {
+        "elements": [
+          {
+            "id": 82000000,
+            "type": "ground"
+          },
+          {
+            "id": 82000048,
+            "type": "walls"
+          },
+          {
+            "id": 82000032,
+            "type": "roof"
+          },
+          {
+            "id": 82000058,
+            "type": "decoration"
+          }
+        ]
+      },
+      "previousClanRank": 3,
+      "role": "admin",
+      "tag": "#ABCD1236",
+      "townHallLevel": 12,
+      "trophies": 3082
+    },
+    {
+      "builderBaseLeague": {
+        "id": 44000020,
+        "name": "Brass League III"
+      },
+      "builderBaseTrophies": 2053,
+      "clanRank": 4,
+      "donations": 155,
+      "donationsReceived": 145,
+      "expLevel": 108,
+      "league": {
+        "iconUrls": {
+          "medium": "",
+          "small": "",
+          "tiny": ""
+        },
+        "id": 29000013,
+        "name": "Master League III"
+      },
+      "name": "Member 4",
+      "previousClanRank": 4,
+      "role": "member",
+      "tag": "#ABCD1237",
+      "townHallLevel": 12,
+      "trophies": 2708
+    },
+    {
+      "builderBaseLeague": {
+        "id": 44000015,
+        "name": "Copper League V"
+      },
+      "builderBaseTrophies": 1554,
+      "clanRank": 5,
+      "donations": 0,
+      "donationsReceived": 309,
+      "expLevel": 54,
+      "league": {
+        "iconUrls": {
+          "medium": "",
+          "small": "",
+          "tiny": ""
+        },
+        "id": 29000007,
+        "name": "Gold League III"
+      },
+      "name": "Member 5",
+      "previousClanRank": 5,
+      "role": "member",
+      "tag": "#ABCD1238",
+      "townHallLevel": 9,
+      "trophies": 1450
+    }
+  ],
+  "paging": {
+    "cursors": {}
+  }
+}

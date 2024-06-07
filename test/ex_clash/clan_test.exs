@@ -1,7 +1,23 @@
 defmodule ExClash.ClanTest do
+  @moduledoc """
+  Testing Clan Formatting (read details).
+
+  I'm going to note the intent of this test file, since it is failing to
+  validate a lot of specific information when performing the test of the
+  function.
+
+  The intent of these tests is to ensure that formatting does not break
+  when receiving a map that was created from `Jason.decode/1`. The actual
+  request is mocked, and the data comes from `test/data/` so there can be
+  no data validation. I would merely be validating the data I told it to
+  return. However, what is important, is that formatting does not break,
+  and that the appropriate structs are returned.
+  """
+
   use ExUnit.Case, async: true
 
   alias ExClash.Clan
+  alias ExClash.Clan.Player
   alias ExClash.Paging
   alias ExClash.WarLeague
   alias ExClash.WarLeague.Clan, as: WarClan
@@ -25,6 +41,13 @@ defmodule ExClash.ClanTest do
       limit: 5,
       plug: plug("mock_search_results.json")
     )
+  end
+
+  test "Get the clan members provided a clan tag" do
+    {
+      [%Player{}, %Player{}, %Player{}, %Player{}, %Player{}],
+      %Paging{}
+    } = Clan.members("Should be a clan tag", plug: plug("mock_clan_members.json"))
   end
 
   test "Get the clan details from the API" do
