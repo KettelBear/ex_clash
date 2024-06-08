@@ -73,6 +73,24 @@ defmodule ExClash.Clan.Capital do
   end
 
   @doc """
+  
+  ## Param Options
+
+    * `clan_tag` - Tag for the clan to get past raid seasons.
+    * `opts` - Paging and additional `Req` options.
+      * `limit` - Limit the number of items returned in the response.
+      * `after` - Return only items that occur after this marker.
+      * `before` - Return only items that occur before this marker.
+  """
+  @spec raid_seasons(clan_tag :: String.t(), opts :: Keyword.t()) :: any()
+  def raid_seasons(clan_tag, opts \\ []) do
+    case ExClash.HTTP.get("/clans/#{clan_tag}/capitalraidseasons", opts) do
+      {:ok, seasons} -> seasons
+      err -> err
+    end
+  end
+
+  @doc """
   Format Supercell's response for the Clan Capital.
   """
   @spec format(api_capital :: ExClash.cell_map()) :: __MODULE__.t()
