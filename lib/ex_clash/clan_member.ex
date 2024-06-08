@@ -5,7 +5,7 @@ defmodule ExClash.ClanMember do
 
   @type member_data :: ExClash.cell_map() | list(ExClash.cell_map()) | nil
 
-  alias ExClash.Clan.Capital.PlayerHouse
+  alias ExClash.PlayerHouse
 
   @type t() :: %__MODULE__{
     builder_base_league: ExClash.League.t(),

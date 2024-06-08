@@ -1,4 +1,4 @@
-defmodule ExClash.WarLeague.Player do
+defmodule ExClash.WarLeaguePlayer do
   @moduledoc """
   The War League Player struct.
 

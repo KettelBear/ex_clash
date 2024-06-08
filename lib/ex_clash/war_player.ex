@@ -1,9 +1,9 @@
-defmodule ExClash.War.Player do
+defmodule ExClash.WarPlayer do
   @moduledoc """
   A player that participated in a war.
   """
 
-  alias ExClash.War.Attack
+  alias ExClash.WarAttack
 
   @typedoc """
   """
@@ -12,8 +12,8 @@ defmodule ExClash.War.Player do
     name: String.t(),
     map_position: integer(),
     townhall_level: integer(),
-    attacks: [Attack.t()],
-    best_opponent_attack: Attack.t(),
+    attacks: [WarAttack.t()],
+    best_opponent_attack: WarAttack.t(),
     opponent_attacks: integer()
   }
 
@@ -42,11 +42,11 @@ defmodule ExClash.War.Player do
 
   defp format_attacks(nil), do: nil
   defp format_attacks(attacks) do
-    Enum.map(attacks, &ExClash.HTTP.resp_to_struct(&1, Attack))
+    Enum.map(attacks, &ExClash.HTTP.resp_to_struct(&1, WarAttack))
   end
 
   defp format_opp_attack(nil), do: nil
   defp format_opp_attack(opp_attack) do
-    ExClash.HTTP.resp_to_struct(opp_attack, Attack)
+    ExClash.HTTP.resp_to_struct(opp_attack, WarAttack)
   end
 end

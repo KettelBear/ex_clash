@@ -1,4 +1,4 @@
-defmodule ExClash.Player.LegendStats do
+defmodule ExClash.LegendStats do
   @moduledoc """
   The Legend Statistics struct.
   """

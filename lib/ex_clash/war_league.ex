@@ -60,7 +60,7 @@ defmodule ExClash.WarLeague do
   end
 
   @type t() :: %__MODULE__{
-    clans: list(ExClash.WarLeague.Clan.t()),
+    clans: list(ExClash.WarLeagueClan.t()),
     rounds: Rounds.t(),
     season: String.t(),
     state: war_state()
@@ -96,7 +96,7 @@ defmodule ExClash.WarLeague do
   end
 
   defp format_clans(clans) do
-    Enum.map(clans, &ExClash.WarLeague.Clan.format/1)
+    Enum.map(clans, &ExClash.WarLeagueClan.format/1)
   end
 
   defp format_rounds(rounds) do

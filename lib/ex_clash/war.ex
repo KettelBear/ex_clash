@@ -24,7 +24,7 @@ defmodule ExClash.War do
     * `end_time` - The dat time that the war ended.
   """
 
-  alias ExClash.War.Clan, as: WarClan
+  alias ExClash.WarClan
 
   @type t() :: %__MODULE__{
     clan: WarClan.t(),

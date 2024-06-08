@@ -1,4 +1,4 @@
-defmodule ExClash.Clan.Capital.RaidSeason do
+defmodule ExClash.RaidSeason do
   
     # {
     #   "capitalTotalLoot": 178644,

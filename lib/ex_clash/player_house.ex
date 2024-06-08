@@ -1,4 +1,4 @@
-defmodule ExClash.Clan.Capital.PlayerHouse do
+defmodule ExClash.PlayerHouse do
   @moduledoc """
   The Clan Capital Player House struct.
 

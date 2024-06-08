@@ -1,4 +1,4 @@
-defmodule ExClash.War.Clan do
+defmodule ExClash.WarClan do
   @moduledoc """
   """
 
@@ -7,7 +7,7 @@ defmodule ExClash.War.Clan do
     badge_urls: map(),
     clan_level: integer(),
     destruction_percentage: float(),
-    members: [ExClash.War.Player.t()],
+    members: [ExClash.WarPlayer.t()],
     name: String.t(),
     stars: integer(),
     tag: String.t()
@@ -30,7 +30,7 @@ defmodule ExClash.War.Clan do
     {api_players, api_clan} = Map.pop(api_clan, "members")
     {badges, api_clan} = Map.pop(api_clan, "badgeUrls")
 
-    %ExClash.War.Clan{
+    %__MODULE__{
       ExClash.HTTP.resp_to_struct(api_clan, __MODULE__) |
       badge_urls: ExClash.HTTP.resp_to_struct(badges, ExClash.Badges),
       members: format_players(api_players),
@@ -38,5 +38,5 @@ defmodule ExClash.War.Clan do
   end
 
   defp format_players(nil), do: nil
-  defp format_players(players), do: Enum.map(players, &ExClash.War.Player.format/1)
+  defp format_players(players), do: Enum.map(players, &ExClash.WarPlayer.format/1)
 end

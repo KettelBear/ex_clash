@@ -1,4 +1,4 @@
-defmodule ExClash.WarLeague.Clan do
+defmodule ExClash.WarLeagueClan do
   @moduledoc """
   The Clan struct specific to Clan War Leagues.
   """
@@ -6,7 +6,7 @@ defmodule ExClash.WarLeague.Clan do
   @type t() :: %__MODULE__{
     badge_urls: ExClash.Badges.t(),
     clan_level: integer(),
-    members: list(ExClash.WarLeague.Player.t()),
+    members: list(ExClash.WarLeaguePlayer.t()),
     name: String.t(),
     tag: String.t()
   }
@@ -20,7 +20,7 @@ defmodule ExClash.WarLeague.Clan do
     %__MODULE__{
       ExClash.HTTP.resp_to_struct(clan, __MODULE__) |
       badge_urls: ExClash.HTTP.resp_to_struct(badges, ExClash.Badges),
-      members: Enum.map(members, &ExClash.HTTP.resp_to_struct(&1, ExClash.WarLeague.Player))
+      members: Enum.map(members, &ExClash.HTTP.resp_to_struct(&1, ExClash.WarLeaguePlayer))
     }
   end
 end

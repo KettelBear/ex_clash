@@ -1,4 +1,4 @@
-defmodule ExClash.War.Attack do
+defmodule ExClash.WarAttack do
   @moduledoc """
   A player's attack in war.
   """

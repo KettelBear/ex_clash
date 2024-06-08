@@ -21,12 +21,12 @@ defmodule ExClash.ClanTest do
   alias ExClash.Paging
   alias ExClash.War
   alias ExClash.WarLeague
-  alias ExClash.WarLeague.Clan, as: WarClan
+  alias ExClash.WarLeagueClan
   alias ExClash.WarLeague.Rounds
 
   test "Get the CWL Group" do
     %WarLeague{
-      clans: [%WarClan{} | _],
+      clans: [%WarLeagueClan{} | _],
       rounds: %Rounds{}
     } = Clan.cwl_group("Should be a clan tag", plug: plug("mock_cwl_group.json"))
   end

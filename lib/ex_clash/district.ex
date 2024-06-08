@@ -1,4 +1,4 @@
-defmodule ExClash.Clan.Capital.District do
+defmodule ExClash.District do
   @moduledoc """
   The Clan Capital District struct.
 

@@ -39,7 +39,7 @@ defmodule ExClash.Clan do
     to join the clan.
     * `required_townhall_level` - The minimum required town hall to join the clan.
     * `clan_capital` - The details of the clan's capital. Please refer to the
-    `ExClash.Clan.Capital` module for more information.
+    `ExClash.Capital` module for more information.
   """
 
   alias ExClash.ClanMember
@@ -88,7 +88,7 @@ defmodule ExClash.Clan do
     capital_league: ExClash.League.t(),
     chat_language: ExClash.ChatLanguage.t(),
     clan_builder_base_points: integer(),
-    clan_capital: ExClash.Clan.Capital.t(),
+    clan_capital: ExClash.Capital.t(),
     clan_capital_points: integer(),
     clan_level: integer(),
     clan_points: integer(),
@@ -157,7 +157,7 @@ defmodule ExClash.Clan do
       %ExClash.WarLeague{
         state: :in_war,
         season: "2024-05",
-        clans: [%ExClash.WarLeague.Clan{...}],
+        clans: [%ExClash.WarLeagueClan{...}],
         rounds: %ExClash.WarLeague.Rounds{}
       }
   """
@@ -373,7 +373,7 @@ defmodule ExClash.Clan do
       badge_urls: ExClash.HTTP.resp_to_struct(badges, ExClash.Badges),
       capital_league: ExClash.League.format(capital_league),
       chat_language: ExClash.HTTP.resp_to_struct(chat_language, ExClash.ChatLanguage),
-      clan_capital: ExClash.Clan.Capital.format(capital),
+      clan_capital: ExClash.Capital.format(capital),
       labels: ExClash.Label.format(labels),
       location: ExClash.HTTP.resp_to_struct(location, ExClash.Location),
       member_list: ExClash.ClanMember.format(member_list),

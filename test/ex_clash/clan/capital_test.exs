@@ -1,7 +1,7 @@
-defmodule ExClash.Clan.CapitalTest do
+defmodule ExClash.CapitalTest do
   use ExUnit.Case, async: true
 
-  alias ExClash.Clan.Capital
+  alias ExClash.Capital
   alias ExClash.League
   alias ExClash.Paging
 

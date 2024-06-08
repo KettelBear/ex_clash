@@ -1,16 +1,14 @@
-defmodule ExClash.Clan.Capital do
+defmodule ExClash.Capital do
   @moduledoc """
-  The Clan Capital struct.
+  The Capital struct.
 
   ## Attributes
 
     * `capital_hall_level` - The integer level of the capital hall for the clan.
-    * `districts` - See `ExClash.Clan.Capital.District` for more information.
+    * `districts` - See `ExClash.District` for more information.
   """
 
-  # TODO: /clans/{clanTag}/capitalraidseasons
-
-  alias ExClash.Clan.Capital.District
+  alias ExClash.District
   alias ExClash.HTTP
   alias ExClash.League
   alias ExClash.Paging
@@ -39,10 +37,10 @@ defmodule ExClash.Clan.Capital do
 
   ## Examples
 
-      iex> ExClash.Clan.Capital.leagues(id: 85000021)
+      iex> ExClash.Capital.leagues(id: 85000021)
       %ExClash.League{id: 85000021, name: "Titan League I", icon_urls: nil}
 
-      iex> ExClash.Clan.Capital.leagues(limit: 3, after: "eyJwb3MiOjN9")
+      iex> ExClash.Capital.leagues(limit: 3, after: "eyJwb3MiOjN9")
       {
         [
           %ExClash.League{id: 85000003, name: "Bronze League I"},
@@ -71,6 +69,8 @@ defmodule ExClash.Clan.Capital do
         err
     end
   end
+
+  # TODO: /clans/{clanTag}/capitalraidseasons
 
   @doc """
   
