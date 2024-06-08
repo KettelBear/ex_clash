@@ -1,0 +1,167 @@
+{
+  "items": [
+    {
+      "attacksPerMember": 2,
+      "clan": {
+        "attacks": 35,
+        "badgeUrls": {
+          "large": "https://api-assets.clashofclans.com/badges/512/gJoboXW6seHlcO2FMKrz4ySoJzUoiDDAYOuUycp369w.png",
+          "medium": "https://api-assets.clashofclans.com/badges/200/gJoboXW6seHlcO2FMKrz4ySoJzUoiDDAYOuUycp369w.png",
+          "small": "https://api-assets.clashofclans.com/badges/70/gJoboXW6seHlcO2FMKrz4ySoJzUoiDDAYOuUycp369w.png"
+        },
+        "clanLevel": 25,
+        "destructionPercentage": 98.8,
+        "expEarned": 309,
+        "name": "Reddit Frost",
+        "stars": 58,
+        "tag": "#9RPU22RU"
+      },
+      "endTime": "20240531T022543.000Z",
+      "opponent": {
+        "badgeUrls": {
+          "large": "https://api-assets.clashofclans.com/badges/512/Fmy7_Af5M5HwEIXvhb8lVzxvmOzoOcxj1X2LLLipoKI.png",
+          "medium": "https://api-assets.clashofclans.com/badges/200/Fmy7_Af5M5HwEIXvhb8lVzxvmOzoOcxj1X2LLLipoKI.png",
+          "small": "https://api-assets.clashofclans.com/badges/70/Fmy7_Af5M5HwEIXvhb8lVzxvmOzoOcxj1X2LLLipoKI.png"
+        },
+        "clanLevel": 28,
+        "destructionPercentage": 94.55,
+        "name": "#theden",
+        "stars": 54,
+        "tag": "#9JVRU2VQ"
+      },
+      "result": "win",
+      "teamSize": 20
+    },
+    {
+      "attacksPerMember": 2,
+      "clan": {
+        "attacks": 41,
+        "badgeUrls": {
+          "large": "https://api-assets.clashofclans.com/badges/512/gJoboXW6seHlcO2FMKrz4ySoJzUoiDDAYOuUycp369w.png",
+          "medium": "https://api-assets.clashofclans.com/badges/200/gJoboXW6seHlcO2FMKrz4ySoJzUoiDDAYOuUycp369w.png",
+          "small": "https://api-assets.clashofclans.com/badges/70/gJoboXW6seHlcO2FMKrz4ySoJzUoiDDAYOuUycp369w.png"
+        },
+        "clanLevel": 25,
+        "destructionPercentage": 97.96,
+        "expEarned": 361,
+        "name": "Reddit Frost",
+        "stars": 72,
+        "tag": "#9RPU22RU"
+      },
+      "endTime": "20240524T024832.000Z",
+      "opponent": {
+        "badgeUrls": {
+          "large": "https://api-assets.clashofclans.com/badges/512/sbTivFMf0k9BAUOH7MFdGrkFQ0xRrejGPOhb6idfJHA.png",
+          "medium": "https://api-assets.clashofclans.com/badges/200/sbTivFMf0k9BAUOH7MFdGrkFQ0xRrejGPOhb6idfJHA.png",
+          "small": "https://api-assets.clashofclans.com/badges/70/sbTivFMf0k9BAUOH7MFdGrkFQ0xRrejGPOhb6idfJHA.png"
+        },
+        "clanLevel": 24,
+        "destructionPercentage": 97.2,
+        "name": "Salteño Pue",
+        "stars": 71,
+        "tag": "#CL0URR29"
+      },
+      "result": "win",
+      "teamSize": 25
+    },
+    {
+      "attacksPerMember": 2,
+      "clan": {
+        "attacks": 37,
+        "badgeUrls": {
+          "large": "https://api-assets.clashofclans.com/badges/512/gJoboXW6seHlcO2FMKrz4ySoJzUoiDDAYOuUycp369w.png",
+          "medium": "https://api-assets.clashofclans.com/badges/200/gJoboXW6seHlcO2FMKrz4ySoJzUoiDDAYOuUycp369w.png",
+          "small": "https://api-assets.clashofclans.com/badges/70/gJoboXW6seHlcO2FMKrz4ySoJzUoiDDAYOuUycp369w.png"
+        },
+        "clanLevel": 25,
+        "destructionPercentage": 100.0,
+        "expEarned": 319,
+        "name": "Reddit Frost",
+        "stars": 60,
+        "tag": "#9RPU22RU"
+      },
+      "endTime": "20240517T020046.000Z",
+      "opponent": {
+        "badgeUrls": {
+          "large": "https://api-assets.clashofclans.com/badges/512/KV5fGnIIxmU2OIx6RDfSlLOXT9VyCAx5ATKUsl1O_lo.png",
+          "medium": "https://api-assets.clashofclans.com/badges/200/KV5fGnIIxmU2OIx6RDfSlLOXT9VyCAx5ATKUsl1O_lo.png",
+          "small": "https://api-assets.clashofclans.com/badges/70/KV5fGnIIxmU2OIx6RDfSlLOXT9VyCAx5ATKUsl1O_lo.png"
+        },
+        "clanLevel": 22,
+        "destructionPercentage": 87.7,
+        "name": "WAR Warriors",
+        "stars": 49,
+        "tag": "#PJ09P2UJ"
+      },
+      "result": "win",
+      "teamSize": 20
+    },
+    {
+      "attacksPerMember": 1,
+      "clan": {
+        "attacks": 167,
+        "badgeUrls": {
+          "large": "https://api-assets.clashofclans.com/badges/512/KBtwIToS85C-c3ROYqXdkB7DkmMY4zUP3BjJ8IDK1Qw.png",
+          "medium": "https://api-assets.clashofclans.com/badges/200/KBtwIToS85C-c3ROYqXdkB7DkmMY4zUP3BjJ8IDK1Qw.png",
+          "small": "https://api-assets.clashofclans.com/badges/70/KBtwIToS85C-c3ROYqXdkB7DkmMY4zUP3BjJ8IDK1Qw.png"
+        },
+        "clanLevel": 24,
+        "destructionPercentage": 511.1,
+        "expEarned": 0,
+        "name": "Reddit Frost",
+        "stars": 477,
+        "tag": "#9RPU22RU"
+      },
+      "endTime": "20240511T040231.000Z",
+      "opponent": {
+        "badgeUrls": {
+          "large": "https://api-assets.clashofclans.com/badges/512/H39b_-WLZGtZVWQ0hqTkE-Tn2AaQnQWy_Iz4yBlvL0M.png",
+          "medium": "https://api-assets.clashofclans.com/badges/200/H39b_-WLZGtZVWQ0hqTkE-Tn2AaQnQWy_Iz4yBlvL0M.png",
+          "small": "https://api-assets.clashofclans.com/badges/70/H39b_-WLZGtZVWQ0hqTkE-Tn2AaQnQWy_Iz4yBlvL0M.png"
+        },
+        "clanLevel": 0,
+        "destructionPercentage": 0.0,
+        "stars": 380
+      },
+      "result": null,
+      "teamSize": 30
+    },
+    {
+      "attacksPerMember": 2,
+      "clan": {
+        "attacks": 33,
+        "badgeUrls": {
+          "large": "https://api-assets.clashofclans.com/badges/512/KBtwIToS85C-c3ROYqXdkB7DkmMY4zUP3BjJ8IDK1Qw.png",
+          "medium": "https://api-assets.clashofclans.com/badges/200/KBtwIToS85C-c3ROYqXdkB7DkmMY4zUP3BjJ8IDK1Qw.png",
+          "small": "https://api-assets.clashofclans.com/badges/70/KBtwIToS85C-c3ROYqXdkB7DkmMY4zUP3BjJ8IDK1Qw.png"
+        },
+        "clanLevel": 24,
+        "destructionPercentage": 98.0,
+        "expEarned": 298,
+        "name": "Reddit Frost",
+        "stars": 56,
+        "tag": "#9RPU22RU"
+      },
+      "endTime": "20240503T021124.000Z",
+      "opponent": {
+        "badgeUrls": {
+          "large": "https://api-assets.clashofclans.com/badges/512/qEHz8vvC_3VH7GKjv1_akzb7NdhcU99WSLdnfQUXdII.png",
+          "medium": "https://api-assets.clashofclans.com/badges/200/qEHz8vvC_3VH7GKjv1_akzb7NdhcU99WSLdnfQUXdII.png",
+          "small": "https://api-assets.clashofclans.com/badges/70/qEHz8vvC_3VH7GKjv1_akzb7NdhcU99WSLdnfQUXdII.png"
+        },
+        "clanLevel": 20,
+        "destructionPercentage": 93.7,
+        "name": "Bad Rabbits PI",
+        "stars": 55,
+        "tag": "#RVCVUPP"
+      },
+      "result": "win",
+      "teamSize": 20
+    }
+  ],
+  "paging": {
+    "cursors": {
+      "after": "eyJwb3MiOjV9"
+    }
+  }
+}

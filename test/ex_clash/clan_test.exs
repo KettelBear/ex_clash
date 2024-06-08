@@ -19,6 +19,7 @@ defmodule ExClash.ClanTest do
   alias ExClash.Clan
   alias ExClash.Clan.Player
   alias ExClash.Paging
+  alias ExClash.War
   alias ExClash.WarLeague
   alias ExClash.WarLeague.Clan, as: WarClan
   alias ExClash.WarLeague.Rounds
@@ -55,6 +56,20 @@ defmodule ExClash.ClanTest do
 
     # There is a lot of information that could be validated here, A LOT.
     %Clan{tag: ^tag} = Clan.details(tag, plug: &Req.Test.json(&1, mock))
+  end
+
+  describe "The clan has a public war log" do
+    test "Get the war log for the provided clan tag" do
+      {
+        [%War{}, %War{}, %War{}, %War{}, %War{}],
+        %Paging{}
+      } = Clan.war_log("Should be a clan tag", plug: plug("mock_war_log.json"))
+    end
+
+    test "Get the current (or most recent) war for the clan tag" do
+      # TODO: Do this when it is not CWL
+      assert true
+    end
   end
 
   defp mock(file) do
