@@ -32,7 +32,7 @@ defmodule ExClash.Clan do
     for more information.
     * `members` - Total number of members in the clan. This is just a count.
     * `member_list` - The details of the members in the clan. They are
-    represented by the `ExClash.Clan.Player` struct.
+    represented by the `ExClash.ClanMember` struct.
     * `labels` - Which labels the clan currently has set. There will be a
     maximum of 3. Please refer to `ExClash.Label` for more information.
     * `required_builder_base_trophies` - The minimum required builder trophies
@@ -42,7 +42,7 @@ defmodule ExClash.Clan do
     `ExClash.Clan.Capital` module for more information.
   """
 
-  alias ExClash.Clan.Player, as: ClanPlayer
+  alias ExClash.ClanMember
   alias ExClash.Paging
 
   @search_filters %{
@@ -98,7 +98,7 @@ defmodule ExClash.Clan do
     labels: [ExClash.Label.t()],
     location: ExClash.Location.t(),
     members: integer(),
-    member_list: [ClanPlayer.t()],
+    member_list: [ClanMember.t()],
     name: String.t(),
     required_builder_base_trophies: integer(),
     required_townhall_level: integer(),
@@ -283,18 +283,18 @@ defmodule ExClash.Clan do
       iex> ExClash.Clan.members("#G0RY89LU", limit: 3)
       {
         [
-          %ExClash.Clan.Player{...},
-          %ExClash.Clan.Player{...},
-          %ExClash.Clan.Player{...}
+          %ExClash.ClanMember{...},
+          %ExClash.ClanMember{...},
+          %ExClash.ClanMember{...}
         ],
         %ExClash.Paging{after: "eyJwb3MiOjN9", before: nil}
       }
   """
-  @spec members(tag :: String.t(), opts :: Keyword.t()) :: {list(ClanPlayer.t()), Paging.t()} | {:error, atom()}
+  @spec members(tag :: String.t(), opts :: Keyword.t()) :: {list(ClanMember.t()), Paging.t()} | {:error, atom()}
   def members(tag, opts \\ []) do
     case ExClash.HTTP.get("/clans/#{tag}/members", opts) do
       {:ok, %{"items" => members, "paging" => paging}} ->
-        {Enum.map(members, &ClanPlayer.format/1), Paging.format(paging)}
+        {Enum.map(members, &ClanMember.format/1), Paging.format(paging)}
 
       error ->
         error
@@ -376,7 +376,7 @@ defmodule ExClash.Clan do
       clan_capital: ExClash.Clan.Capital.format(capital),
       labels: ExClash.Label.format(labels),
       location: ExClash.HTTP.resp_to_struct(location, ExClash.Location),
-      member_list: ExClash.Clan.Player.format(member_list),
+      member_list: ExClash.ClanMember.format(member_list),
       type: ExClash.camel_to_atom(type),
       war_frequency: ExClash.camel_to_atom(war_freq),
       war_league: ExClash.League.format(war_league)

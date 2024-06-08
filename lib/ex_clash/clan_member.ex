@@ -1,4 +1,4 @@
-defmodule ExClash.Clan.Player do
+defmodule ExClash.ClanMember do
   # TODO: This module-doc
   @moduledoc """
   """

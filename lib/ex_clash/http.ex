@@ -35,29 +35,6 @@ defmodule ExClash.HTTP do
   @type response() :: {:ok, body()} | {:error, atom()}
 
   @doc """
-  Will return the base url for requests.
-  """
-  @spec base_url() :: String.t()
-  def base_url(), do: @base_url
-
-  @doc """
-  Append the `path` to the end of the base URL.
-
-  The octothorp is not encoded by default in URI.encode/2, so there is a
-  specific call to handle it because Supercell expects it to be encoded.
-  """
-  @spec url(path :: String.t()) :: String.t()
-  def url(path), do: "#{base_url()}#{path}" |> encode_octo()
-
-  @doc """
-  Fetches the token from the environment.
-
-  Will raise if the environment value is not set.
-  """
-  @spec token() :: String.t()
-  def token(), do: Application.get_env(:ex_clash, :token, "MISSING TOKEN")
-
-  @doc """
   Sends the get request to Supercell's API with proper auth and query params.
 
   Will send a request to the `base_url` with the `path` appended. It will
@@ -139,13 +116,13 @@ defmodule ExClash.HTTP do
     end
   end
 
-  defp parse_response(%{status: 200, body: body}), do: {:ok, body}
-  defp parse_response(%{status: 400}), do: {:error, :bad_request}
-  defp parse_response(%{status: 403}), do: {:error, :access_denied}
-  defp parse_response(%{status: 404}), do: {:error, :not_found}
-  defp parse_response(%{status: 429}), do: {:error, :throttled}
-  defp parse_response(%{status: 500}), do: {:error, :internal}
-  defp parse_response(%{status: 503}), do: {:error, :unavailable}
+  defp parse_response(%Req.Response{status: 200, body: body}), do: {:ok, body}
+  defp parse_response(%Req.Response{status: 400}), do: {:error, :bad_request}
+  defp parse_response(%Req.Response{status: 403}), do: {:error, :access_denied}
+  defp parse_response(%Req.Response{status: 404}), do: {:error, :not_found}
+  defp parse_response(%Req.Response{status: 429}), do: {:error, :throttled}
+  defp parse_response(%Req.Response{status: 500}), do: {:error, :internal}
+  defp parse_response(%Req.Response{status: 503}), do: {:error, :unavailable}
 
   defp log_error(options, error) do
     Logger.warning("""
@@ -156,4 +133,8 @@ defmodule ExClash.HTTP do
 
     {:error, :server_error}
   end
+
+  defp token(), do: Application.get_env(:ex_clash, :token, "MISSING TOKEN")
+
+  defp url(path), do: "#{@base_url}#{path}" |> encode_octo()
 end

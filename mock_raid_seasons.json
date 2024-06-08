@@ -1,0 +1,23 @@
+{
+  "items": [
+    {
+      "capitalTotalLoot": 178644,
+      "defensiveReward": 0,
+      "startTime": "20240607T070000.000Z",
+      "endTime": "20240610T070000.000Z",
+      "enemyDistrictsDestroyed": 17,
+      "offensiveReward": 0,
+      "raidsCompleted": 2,
+      "state": "ongoing",
+      "totalAttacks": 42,
+      "attackLog": [ ],
+      "defenseLog": [ ],
+      "members": [ ]
+    }
+  ],
+  "paging": {
+    "cursors": {
+      "after": "eyJwb3MiOjF9"
+    }
+  }
+}

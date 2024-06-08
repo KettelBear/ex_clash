@@ -17,7 +17,7 @@ defmodule ExClash.ClanTest do
   use ExUnit.Case, async: true
 
   alias ExClash.Clan
-  alias ExClash.Clan.Player
+  alias ExClash.ClanMember
   alias ExClash.Paging
   alias ExClash.War
   alias ExClash.WarLeague
@@ -46,7 +46,7 @@ defmodule ExClash.ClanTest do
 
   test "Get the clan members provided a clan tag" do
     {
-      [%Player{}, %Player{}, %Player{}, %Player{}, %Player{}],
+      [%ClanMember{}, %ClanMember{}, %ClanMember{}, %ClanMember{}, %ClanMember{}],
       %Paging{}
     } = Clan.members("Should be a clan tag", plug: plug("mock_clan_members.json"))
   end
