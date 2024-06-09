@@ -12,6 +12,7 @@ defmodule ExClash.Capital do
   alias ExClash.HTTP
   alias ExClash.League
   alias ExClash.Paging
+  alias ExClash.RaidSeason
 
   @type t() :: %__MODULE__{
     capital_hall_level: integer(),
@@ -70,8 +71,7 @@ defmodule ExClash.Capital do
     end
   end
 
-  # TODO: /clans/{clanTag}/capitalraidseasons
-
+  # TODO: Finish doc-block
   @doc """
   
   ## Param Options
@@ -85,8 +85,11 @@ defmodule ExClash.Capital do
   @spec raid_seasons(clan_tag :: String.t(), opts :: Keyword.t()) :: any()
   def raid_seasons(clan_tag, opts \\ []) do
     case ExClash.HTTP.get("/clans/#{clan_tag}/capitalraidseasons", opts) do
-      {:ok, seasons} -> seasons
-      err -> err
+      {:ok, %{"items" => seasons, "paging" => paging}} ->
+        {RaidSeason.format(seasons), Paging.format(paging)}
+
+      err ->
+        err
     end
   end
 

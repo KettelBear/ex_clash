@@ -61,7 +61,7 @@ for the one that is labelled "POST."
 
 * ✅ `/clans`
 * ✅ `/clans/{clanTag}`
-* `/clans/{clanTag}/capitalraidseasons`
+* ✅ `/clans/{clanTag}/capitalraidseasons`
 * ✅ `/clans/{clanTag}/members`
 * ✅ `/clans/{clanTag}/warlog`
 * ✅ `/clans/{clanTag}/currentwar`
