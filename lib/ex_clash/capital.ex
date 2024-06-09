@@ -22,24 +22,37 @@ defmodule ExClash.Capital do
   defstruct [:capital_hall_level, :districts]
 
   @doc """
-  Get the names and IDs of the capital leagues.
-
-  If an ID is provided then it will fetch the details of that league which
-  will be ID itself and the name of the league.
+  Get specific details for the league by ID.
 
   ## Param Options
 
     * `id` - The integer ID of the league. If provided, it will attempt to hit
       the endpoint for that specific Capital League.
+
+  ## Examples
+
+      iex> ExClash.Capital.leagues(id: 85000021)
+      %ExClash.League{id: 85000021, name: "Titan League I", icon_urls: nil}
+  """
+  @spec league(id :: integer(), opts :: Keyword.t()) :: League.t() | {:error, atom()}
+  def league(id, opts \\ []) do
+    case HTTP.get("/capitalleagues/#{id}", opts) do
+      {:ok, league} -> League.format(league)
+      err -> err
+    end
+  end
+
+  @doc """
+  Get the names and IDs of the capital leagues.
+
+  ## Param Options
+
     * `opts` - Paging and additional `Req` options.
       * `limit` - Limit the number of items returned in the response.
       * `after` - Return only items that occur after this marker.
       * `before` - Return only items that occur before this marker.
 
   ## Examples
-
-      iex> ExClash.Capital.leagues(id: 85000021)
-      %ExClash.League{id: 85000021, name: "Titan League I", icon_urls: nil}
 
       iex> ExClash.Capital.leagues(limit: 3, after: "eyJwb3MiOjN9")
       {
@@ -52,15 +65,6 @@ defmodule ExClash.Capital do
       }
   """
   @spec leagues(opts :: Keyword.t()) :: League.t() | {list(League.t()), Paging.t()} | {:error, atom()}
-  def leagues(opts \\ [])
-
-  def leagues([{:id, id} | opts]) do
-    case HTTP.get("/capitalleagues/#{id}", opts) do
-      {:ok, league} -> League.format(league)
-      err -> err
-    end
-  end
-
   def leagues(opts) do
     case HTTP.get("/capitalleagues", opts) do
       {:ok, %{"items" => items, "paging" => paging}} ->
@@ -71,7 +75,6 @@ defmodule ExClash.Capital do
     end
   end
 
-  # TODO: Finish doc-block
   @doc """
   Get the capital raid history for the `clan_tag`.
 

@@ -11,7 +11,7 @@ defmodule ExClash.CapitalTest do
 
     plug = &Req.Test.json(&1, %{"id" => id, "name" => name})
 
-    actual = Capital.leagues(id: id, plug: plug)
+    actual = Capital.league(id, plug: plug)
 
     assert %League{id: id, name: name, icon_urls: nil} == actual
   end
