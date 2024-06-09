@@ -75,9 +75,18 @@ defmodule ExClash.HTTP do
 
       iex> ExClash.HTTP.resp_to_struct(%{"myHTTPKey" => "Some value"}, ExampleStruct)
       %ExampleStruct{my_api_key: "Some value"}
+
+      iex> my_list = [%{"myApiKey" => "Some value"}, %{"myApiKey" => "Other value"}]
+      iex> ExClash.HTTP.resp_to_struct(my_list, ExampleStruct)
+      [%ExampleStruct{my_api_key: "Some value"}, %ExampleStruct{my_api_key: "Other value"}]
   """
-  @spec resp_to_struct(api_response :: map() | nil, clash_struct :: atom()) :: struct() | nil
+  @spec resp_to_struct(api_response :: map() | list(map()) | nil, clash_struct :: atom())
+      :: struct() | list(struct()) | nil
   def resp_to_struct(nil, _clash_struct), do: nil
+
+  def resp_to_struct(api_response, clash_struct) when is_list(api_response) do
+    Enum.map(api_response, &resp_to_struct(&1, clash_struct))
+  end
 
   def resp_to_struct(api_response, clash_struct) do
     Map.new(api_response, fn

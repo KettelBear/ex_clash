@@ -1,4 +1,15 @@
 defmodule ExClash.RaidSeason do
+  # TODO:
+  @moduledoc """
+  
+  """
+
+  # TODO:
+  @typedoc """
+  
+  """
+  @type response :: {list(__MODULE__.t()), ExClash.Paging.t()}
+
   @type t :: %__MODULE__{
     capital_total_loot: integer(),
     defensive_reward: integer(),
@@ -27,6 +38,10 @@ defmodule ExClash.RaidSeason do
     :members,
   ]
 
+  # TODO:
+  @doc """
+  
+  """
   @spec format(api_season :: ExClash.cell_map()) :: __MODULE__.t()
   def format(seasons) when is_list(seasons), do: Enum.map(seasons, &format/1)
 

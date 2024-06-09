@@ -73,7 +73,15 @@ defmodule ExClash.Capital do
 
   # TODO: Finish doc-block
   @doc """
-  
+  Get the capital raid history for the `clan_tag`.
+
+  The available options are pagination options. A lot of detail comes back from
+  this call. For each raid season; the list capitals raided which includes each
+  district raided and the list of attacks on each district, the list of defenses
+  from each clan that attacked their clan capital including the districts and
+  lists of attacks against them, and the list of clan members that participated
+  in the raid.
+
   ## Param Options
 
     * `clan_tag` - Tag for the clan to get past raid seasons.
@@ -82,7 +90,7 @@ defmodule ExClash.Capital do
       * `after` - Return only items that occur after this marker.
       * `before` - Return only items that occur before this marker.
   """
-  @spec raid_seasons(clan_tag :: String.t(), opts :: Keyword.t()) :: any()
+  @spec raid_seasons(clan_tag :: String.t(), opts :: Keyword.t()) :: RaidSeason.response() | {:error, atom()}
   def raid_seasons(clan_tag, opts \\ []) do
     case ExClash.HTTP.get("/clans/#{clan_tag}/capitalraidseasons", opts) do
       {:ok, %{"items" => seasons, "paging" => paging}} ->
@@ -103,7 +111,7 @@ defmodule ExClash.Capital do
 
     %__MODULE__{
       capital_hall_level: Map.get(api_capital, "capitalHallLevel"),
-      districts: Enum.map(districts, &HTTP.resp_to_struct(&1, District))
+      districts: HTTP.resp_to_struct(districts, District)
     }
   end
 end
