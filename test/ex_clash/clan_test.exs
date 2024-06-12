@@ -14,7 +14,7 @@ defmodule ExClash.ClanTest do
   and that the appropriate structs are returned.
   """
 
-  use ExUnit.Case, async: true
+  use ExClash.Case, async: true
 
   alias ExClash.Clan
   alias ExClash.ClanMember
@@ -71,12 +71,4 @@ defmodule ExClash.ClanTest do
       assert true
     end
   end
-
-  defp mock(file) do
-    Path.join(["test", "data", file])
-    |> File.read!()
-    |> Jason.decode!()
-  end
-
-  defp plug(file), do: &Req.Test.json(&1, mock(file))
 end

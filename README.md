@@ -77,7 +77,7 @@ for the one that is labelled "POST."
 
 * ✅ `/capitalleagues`
 * ✅ `/capitalleagues/{leagueId}`
-* `/leagues`
+* ✅ `/leagues`
 * `/leagues/{leagueId}`
 * `/leagues/{leagueId}/seasons`
 * `/leagues/{leagueId}/seasons/{seasonId}`

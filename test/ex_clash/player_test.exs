@@ -1,18 +1,12 @@
 defmodule ExClash.PlayerTest do
-  use ExUnit.Case, async: true
+  use ExClash.Case, async: true
 
   alias ExClash.Player
 
   test "Get the player details from the API" do
-    %{"tag" => tag} = mock = mock_player()
+    %{"tag" => tag} = mock = mock("mock_player.json")
 
     # There is a lot of information that could be validated here, A LOT.
     %Player{tag: ^tag} = Player.details(tag, plug: &Req.Test.json(&1, mock))
-  end
-
-  defp mock_player() do
-    Path.join(["test", "data", "mock_player.json"])
-    |> File.read!()
-    |> Jason.decode!()
   end
 end

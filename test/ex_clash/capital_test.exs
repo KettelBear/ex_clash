@@ -1,5 +1,5 @@
 defmodule ExClash.CapitalTest do
-  use ExUnit.Case, async: true
+  use ExClash.Case, async: true
 
   alias ExClash.Capital
   alias ExClash.League
