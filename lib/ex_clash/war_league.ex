@@ -68,6 +68,10 @@ defmodule ExClash.WarLeague do
 
   defstruct [:clans, :rounds, :season, :state]
 
+  # TODO:
+  @doc """
+  
+  """
   @spec war(war_tag :: ExClash.tag()) :: ExClash.War.t() | {:error, atom()}
   def war(war_tag) do
     case ExClash.HTTP.get("/clanwarleagues/wars/#{war_tag}") do
@@ -76,6 +80,20 @@ defmodule ExClash.WarLeague do
         # This is a duplicate value.
         |> Map.delete("warStartTime")
         |> ExClash.War.format()
+
+      err ->
+        err
+    end
+  end
+
+  # TODO:
+  # * `/warleagues/{leagueId}`
+
+  @spec leagues(opts :: Keyword.t()) :: list(ExClash.League.t()) | {:error, atom()}
+  def leagues(opts \\ []) do
+    case ExClash.HTTP.get("/warleagues", opts) do
+      {:ok, %{"items" => leagues, "paging" => paging}} ->
+        {format(leagues), ExClash.Paging.format(paging)}
 
       err ->
         err

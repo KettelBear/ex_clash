@@ -34,6 +34,69 @@ defmodule ExClash.League do
   defstruct [:id, :name, :icon_urls]
 
   @doc """
+  Get the list of Builder Base Leagues.
+
+  While this does return this struct, Supercell currently does not return the
+  icon URLs in this response like it works in the `/leagues` endpoint. So all
+  `:icon_urls` will be `nil` for these leagues.
+
+  ## Parameters
+
+    * `opts` - Paging and additonal `Req` options.
+      * `limit` - Limit the number of items returned in the response.
+      * `after` - Return only items that occur after this marker.
+      * `before` - Return only items that occur before this marker.
+
+  ## Examples
+
+      iex(25)> ExClash.League.builder_list(limit: 6, after: "eyJwb3MiOjMzfQ")
+      {
+        [
+          %ExClash.League{id: 44000033, name: "Platinum League II", icon_urls: nil},
+          %ExClash.League{id: 44000034, name: "Platinum League I", icon_urls: nil},
+          %ExClash.League{id: 44000035, name: "Emerald League III", icon_urls: nil},
+          %ExClash.League{id: 44000036, name: "Emerald League II", icon_urls: nil},
+          %ExClash.League{id: 44000037, name: "Emerald League I", icon_urls: nil},
+          %ExClash.League{id: 44000038, name: "Ruby League III", icon_urls: nil}
+        ],
+        %ExClash.Paging{after: "eyJwb3MiOjM5fQ", before: "eyJwb3MiOjMzfQ"}
+      }
+  """
+  @spec builder_list(opts :: Keyword.t()) :: list(__MODULE__.t()) | {:error, atom()}
+  def builder_list(opts \\ []) do
+    case ExClash.HTTP.get("/builderbaseleagues", opts) do
+      {:ok, %{"items" => leagues, "paging" => paging}} ->
+        {format(leagues), ExClash.Paging.format(paging)}
+
+      err ->
+        err
+    end
+  end
+
+  @doc """
+  Get the details of the builder base league.
+
+  Note this does not get `:icon_urls`, as Supercell does not provide those
+  in the response to this call.
+
+  ## Parameters
+
+    * `id` - The integer ID of the Builder Base League.
+
+  ## Examples
+
+      iex(27)> ExClash.League.builder_one(44000038)
+      %ExClash.League{id: 44000038, name: "Ruby League III", icon_urls: nil}
+  """
+  @spec builder_one(id :: integer(), opts :: Keyword.t()) :: __MODULE__.t() | {:error, atom()}
+  def builder_one(id, opts \\ []) do
+    case ExClash.HTTP.get("/builderbaseleagues/#{id}", opts) do
+      {:ok, league} -> format(league)
+      err -> err
+    end
+  end
+
+  @doc """
   Get the league information from Supercell.
 
   Note: This does not include Capital Leagues or Builder Base Leagues. Those
@@ -177,12 +240,7 @@ defmodule ExClash.League do
     %__MODULE__{
       id: Map.get(api_league, "id"),
       name: Map.get(api_league, "name"),
-      icon_urls: format_icon_urls(icons)
+      icon_urls: ExClash.HTTP.resp_to_struct(icons, ExClash.IconUrls)
     }
-  end
-
-  defp format_icon_urls(nil), do: nil
-  defp format_icon_urls(icon_urls) do
-    ExClash.HTTP.resp_to_struct(icon_urls, ExClash.IconUrls)
   end
 end

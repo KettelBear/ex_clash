@@ -10,4 +10,11 @@ defmodule ExClash.LeagueTest do
       %Paging{}
     } = League.list(plug: plug("mock_league_list.json"))
   end
+
+  # TODO: These tests
+  # builder_list
+  # builder_one
+  # one
+  # seasons
+  # top_players
 end
