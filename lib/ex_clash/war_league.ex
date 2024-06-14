@@ -87,13 +87,26 @@ defmodule ExClash.WarLeague do
   end
 
   # TODO:
-  # * `/warleagues/{leagueId}`
+  @doc """
 
-  @spec leagues(opts :: Keyword.t()) :: list(ExClash.League.t()) | {:error, atom()}
-  def leagues(opts \\ []) do
+  """
+  @spec one(id :: integer(), opts :: Keyword.t()) :: ExClash.League.t() | {:error, atom()}
+  def one(id, opts \\ []) do
+    case ExClash.HTTP.get("/warleagues/#{id}", opts) do
+      {:ok, league} -> ExClash.League.format(league)
+      err -> err
+    end
+  end
+
+  # TODO:
+  @doc """
+
+  """
+  @spec list(opts :: Keyword.t()) :: list(ExClash.League.t()) | {:error, atom()}
+  def list(opts \\ []) do
     case ExClash.HTTP.get("/warleagues", opts) do
       {:ok, %{"items" => leagues, "paging" => paging}} ->
-        {format(leagues), ExClash.Paging.format(paging)}
+        {ExClash.League.format(leagues), ExClash.Paging.format(paging)}
 
       err ->
         err

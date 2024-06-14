@@ -83,8 +83,8 @@ for the one that is labelled "POST."
 * ✅ `/leagues/{leagueId}/seasons/{seasonId}`
 * ✅ `/builderbaseleagues`
 * ✅ `/builderbaseleagues/{leagueId}`
-* `/warleagues`
-* `/warleagues/{leagueId}`
+* ✅ `/warleagues`
+* ✅ `/warleagues/{leagueId}`
 
 ### Rankings
 
