@@ -46,7 +46,7 @@ defmodule ExClash.WarLeague do
     """
     @type round() :: list(ExClash.tag())
 
-    @type t() :: %{
+    @type t() :: %__MODULE__{
       one: list(ExClash.tag()),
       two: list(ExClash.tag()),
       three: list(ExClash.tag()),
@@ -86,9 +86,17 @@ defmodule ExClash.WarLeague do
     end
   end
 
-  # TODO:
   @doc """
+  Get the details of the war league for the provided `id`.
 
+  ## Parameters
+
+    * `id` - The integer ID of the war league.
+
+  ## Examples
+
+      iex(34)> ExClash.WarLeague.one(48000018)
+      %ExClash.League{id: 48000018, name: "Champion League I", icon_urls: nil}
   """
   @spec one(id :: integer(), opts :: Keyword.t()) :: ExClash.League.t() | {:error, atom()}
   def one(id, opts \\ []) do
@@ -98,9 +106,20 @@ defmodule ExClash.WarLeague do
     end
   end
 
-  # TODO:
   @doc """
+  Get the details of the war leagues.
 
+  ## Parameters
+
+    * `opts` - The available pagination options.
+      * `limit` - Limit the number of items returned in the response.
+      * `after` - Return only items that occur after this marker.
+      * `before` - Return only items that occur before this marker.
+
+  ## Examples
+
+      iex(34)> ExClash.WarLeague.one(48000018)
+      %ExClash.League{id: 48000018, name: "Champion League I", icon_urls: nil}
   """
   @spec list(opts :: Keyword.t()) :: list(ExClash.League.t()) | {:error, atom()}
   def list(opts \\ []) do
@@ -119,15 +138,11 @@ defmodule ExClash.WarLeague do
   @spec format(war_league :: ExClash.cell_map()) :: __MODULE__.t()
   def format(war_league) do
     %__MODULE__{
-      clans: Map.get(war_league, "clans") |> format_clans(),
+      clans: Map.get(war_league, "clans") |> ExClash.WarLeagueClan.format(),
       rounds: Map.get(war_league, "rounds") |> format_rounds(),
       season: Map.get(war_league, "season"),
       state: Map.get(war_league, "state") |> ExClash.camel_to_atom()
     }
-  end
-
-  defp format_clans(clans) do
-    Enum.map(clans, &ExClash.WarLeagueClan.format/1)
   end
 
   defp format_rounds(rounds) do
