@@ -5,9 +5,7 @@ defmodule ExClash.ChatLanguage do
   Attributes:
 
     * `id` - The integer identifier of the chat langauge.
-
     * `name` - The name of the language.
-
     * `language_code` - The 2-letter code.
   """
 

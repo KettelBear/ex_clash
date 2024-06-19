@@ -7,9 +7,7 @@ defmodule ExClash.Badges do
   Attrbiutes:
 
     * `small` - The smallest size in terms of pixels.
-
     * `medium` - The medium size.
-
     * `large` - The largest size.
   """
 

@@ -2,7 +2,7 @@ defmodule ExClash.Capital do
   @moduledoc """
   The Capital struct.
 
-  ## Attributes
+  Attributes:
 
     * `capital_hall_level` - The integer level of the capital hall for the clan.
     * `districts` - See `ExClash.District` for more information.

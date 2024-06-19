@@ -5,9 +5,7 @@ defmodule ExClash.District do
   Attributes:
 
     * `id` - The integer ID of the district.
-
     * `name` - The name of the district.
-
     * `district_hall_level` - The level of the district.
   """
 

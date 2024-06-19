@@ -2,7 +2,7 @@ defmodule ExClash.Clan do
   @moduledoc """
   The Clan struct.
 
-  ## Attributes
+  Attributes:
 
     * `tag` - The clan tag.
     * `name` - The name of the clan.
