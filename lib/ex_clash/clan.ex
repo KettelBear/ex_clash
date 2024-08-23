@@ -1,47 +1,4 @@
 defmodule ExClash.Clan do
-  @moduledoc """
-  The Clan struct.
-
-  Attributes:
-
-    * `tag` - The clan tag.
-    * `name` - The name of the clan.
-    * `type` - If the clan is open or closed, refer to the type `clan_type`.
-    * `description` - The clan's self-set description.
-    * `location` - The `ExClash.Location` of the clan. Refer to that module for
-    more details.
-    * `is_family_friendly` - A boolean.
-    * `badge_urls` - The urls for the different sized badges for the clan. Refer
-    to `ExClash.Badges` for more details.
-    * `chat_language` - The clan-set language, in `ExClash.ChatLanguage`.
-    * `clan_level` - The level of the clan.
-    * `clan_points` - How many points the clan has.
-    * `clan_builder_base_points` - How many builder base points the clan has.
-    * `clan_capital_points` - How many clan capital points the clan has.
-    * `capital_league` - The capital league the clan is in. Refer to
-    `ExClash.League` for more information.
-    * `required_trophies` - The minimum required trophies to join the clan.
-    * `war_frequency` - How often the clan particiaptes in clan wars. Please
-    refer to the type `war_frequency`.
-    * `war_win_streak` - The number of war wins in a row.
-    * `war_wins` - The total number of war wins for the clan.
-    * `war_ties` - The total number of war ties for the clan.
-    * `war_losses` - The total number of war losses for the clan.
-    * `is_war_log_public` - A boolean, whether the war log is public or not.
-    * `war_league` - The war league the clan is in. Refer to `ExClash.League`
-    for more information.
-    * `members` - Total number of members in the clan. This is just a count.
-    * `member_list` - The details of the members in the clan. They are
-    represented by the `ExClash.ClanMember` struct.
-    * `labels` - Which labels the clan currently has set. There will be a
-    maximum of 3. Please refer to `ExClash.Label` for more information.
-    * `required_builder_base_trophies` - The minimum required builder trophies
-    to join the clan.
-    * `required_townhall_level` - The minimum required town hall to join the clan.
-    * `clan_capital` - The details of the clan's capital. Please refer to the
-    `ExClash.Capital` module for more information.
-  """
-
   alias ExClash.ClanMember
   alias ExClash.Paging
 
@@ -54,120 +11,6 @@ defmodule ExClash.Clan do
     min_clan_level: "minClanLevel",
     label_ids: "labelIds"
   }
-
-  @typedoc """
-  This type refers to how open to clan is. Whether they are free to join,
-  join by invite only, or not open to be joined.
-  """
-  @type clan_type() :: :open | :invite_only | :closed
-
-  @typedoc """
-  The available memeber roles.
-  """
-  @type member_role() :: :member | :elder | :co_leader | :leader
-
-  @typedoc """
-  Represents the setting the clan has set for themselves representing how often
-  they sign up for clan wars.
-
-  Note: This is a setting that is set by the leader or co-leaders of the clan
-  and clan wars may be declared more often, or less often, than the currently
-  selected `war_frequency`.
-  """
-  @type war_frequency() ::
-    :unknown
-    | :always
-    | :more_than_once_per_week
-    | :once_per_week
-    | :less_than_once_per_week
-    | :never
-    | :any
-
-  @type t() :: %__MODULE__{
-    badge_urls: ExClash.Badges.t(),
-    capital_league: ExClash.League.t(),
-    chat_language: ExClash.ChatLanguage.t(),
-    clan_builder_base_points: integer(),
-    clan_capital: ExClash.Capital.t(),
-    clan_capital_points: integer(),
-    clan_level: integer(),
-    clan_points: integer(),
-    description: String.t(),
-    is_family_friendly: boolean(),
-    is_war_log_public: boolean(),
-    labels: [ExClash.Label.t()],
-    location: ExClash.Location.t(),
-    members: integer(),
-    member_list: [ClanMember.t()],
-    name: String.t(),
-    required_builder_base_trophies: integer(),
-    required_townhall_level: integer(),
-    required_trophies: integer(),
-    tag: String.t(),
-    type: clan_type(),
-    war_frequency: war_frequency(),
-    war_league: ExClash.League.t(),
-    war_losses: integer(),
-    war_ties: integer(),
-    war_win_streak: integer(),
-    war_wins: integer()
-  }
-
-  defstruct [
-    :tag,
-    :name,
-    :type,
-    :description,
-    :location,
-    :is_family_friendly,
-    :badge_urls,
-    :chat_language,
-    :clan_level,
-    :clan_points,
-    :clan_builder_base_points,
-    :clan_capital_points,
-    :capital_league,
-    :required_trophies,
-    :war_frequency,
-    :war_win_streak,
-    :war_wins,
-    :war_ties,
-    :war_losses,
-    :is_war_log_public,
-    :war_league,
-    :members,
-    :member_list,
-    :labels,
-    :required_builder_base_trophies,
-    :required_townhall_level,
-    :clan_capital,
-  ]
-
-  @doc """
-  Retrieve information about clan's current clan war league group.
-
-  ## Parameters
-
-    * `tag` - The clan tag.
-    * `opts` - Additional `Req` options.
-
-  ## Examples
-
-      iex> ExClash.Clan.cwl_group("#JU2QJCLG")
-      %ExClash.WarLeague{
-        state: :in_war,
-        season: "2024-05",
-        clans: [%ExClash.WarLeagueClan{...}],
-        rounds: %ExClash.WarLeague.Rounds{}
-      }
-  """
-  @spec cwl_group(tag :: String.t(), opts :: Keyword.t()) :: ExClash.WarLeague.t() | {:error, atom()}
-  def cwl_group(tag, opts \\ []) do
-    case ExClash.HTTP.get("/clans/#{tag}/currentwar/leaguegroup", opts) do
-      {:ok, body} -> ExClash.WarLeague.format(body)
-      error -> error
-    end
-  end
 
   @doc """
   Search for clans using the various `filters`.
@@ -208,11 +51,11 @@ defmodule ExClash.Clan do
         %ExClash.Paging{after: "eyJwb3MiOjV9", before: nil}
       }
   """
-  @spec search(filters :: Keyword.t()) :: {list(__MODULE__.t()), Paging.t()} | {:error, atom()}
+  @spec search(filters :: Keyword.t()) :: {list(ExClash.Type.Clan.t()), Paging.t()} | {:error, atom()}
   def search(filters \\ []) do
     case ExClash.HTTP.get("/clans", Enum.map(filters, &convert_filters/1)) do
       {:ok, %{"items" => clans, "paging" => paging}} ->
-        {Enum.map(clans, &format/1), Paging.format(paging)}
+        {Enum.map(clans, &ExClash.Type.Clan.format/1), Paging.format(paging)}
 
       error ->
         error
@@ -252,17 +95,43 @@ defmodule ExClash.Clan do
         is_war_log_public: false,
         war_league: nil,
         members: 45,
-        member_list: nil,
+        member_list: [...],
         labels: nil,
         required_builder_base_trophies: 0,
         required_townhall_level: 15,
         clan_capital: nil
       }
   """
-  @spec details(tag :: String.t(), opts :: Keyword.t()) :: __MODULE__.t() | {:error, atom()}
+  @spec details(tag :: String.t(), opts :: Keyword.t()) :: ExClash.Type.Clan.t() | {:error, atom()}
   def details(tag, opts \\ []) do
     case ExClash.HTTP.get("/clans/#{tag}", opts) do
-      {:ok, clan} -> format(clan)
+      {:ok, clan} -> ExClash.Type.Clan.format(clan)
+      error -> error
+    end
+  end
+
+  @doc """
+  Retrieve information about clan's current clan war league group.
+
+  ## Parameters
+
+    * `tag` - The clan tag.
+    * `opts` - Additional `Req` options.
+
+  ## Examples
+
+      iex> ExClash.Clan.cwl_group("#JU2QJCLG")
+      %ExClash.WarLeague{
+        state: :in_war,
+        season: "2024-05",
+        clans: [%ExClash.WarLeagueClan{...}],
+        rounds: %ExClash.WarLeague.Rounds{}
+      }
+  """
+  @spec cwl_group(tag :: String.t(), opts :: Keyword.t()) :: ExClash.WarLeague.t() | {:error, atom()}
+  def cwl_group(tag, opts \\ []) do
+    case ExClash.HTTP.get("/clans/#{tag}/currentwar/leaguegroup", opts) do
+      {:ok, body} -> ExClash.WarLeague.format(body)
       error -> error
     end
   end
@@ -354,33 +223,6 @@ defmodule ExClash.Clan do
       {:ok, war} -> ExClash.War.format(war)
       error -> error
     end
-  end
-
-  defp format(api_clan) do
-    {badges, api_clan} = Map.pop(api_clan, "badgeUrls")
-    {capital, api_clan} = Map.pop(api_clan, "clanCapital")
-    {capital_league, api_clan} = Map.pop(api_clan, "capitalLeague")
-    {chat_language, api_clan} = Map.pop(api_clan, "chatLanguage")
-    {labels, api_clan} = Map.pop(api_clan, "labels")
-    {location, api_clan} = Map.pop(api_clan, "location")
-    {member_list, api_clan} = Map.pop(api_clan, "memberList")
-    {type, api_clan} = Map.pop(api_clan, "type")
-    {war_freq, api_clan} = Map.pop(api_clan, "warFrequency")
-    {war_league, api_clan} = Map.pop(api_clan, "warLeague")
-
-    %__MODULE__{
-      ExClash.HTTP.resp_to_struct(api_clan, __MODULE__) |
-      badge_urls: ExClash.HTTP.resp_to_struct(badges, ExClash.Badges),
-      capital_league: ExClash.League.format(capital_league),
-      chat_language: ExClash.HTTP.resp_to_struct(chat_language, ExClash.ChatLanguage),
-      clan_capital: ExClash.Capital.format(capital),
-      labels: ExClash.Label.format(labels),
-      location: ExClash.HTTP.resp_to_struct(location, ExClash.Location),
-      member_list: ExClash.ClanMember.format(member_list),
-      type: ExClash.camel_to_atom(type),
-      war_frequency: ExClash.camel_to_atom(war_freq),
-      war_league: ExClash.League.format(war_league)
-    }
   end
 
   defp convert_filters({key, value}), do: {Map.get(@search_filters, key, key), value}

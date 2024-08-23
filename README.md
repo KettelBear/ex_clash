@@ -61,30 +61,30 @@ for the one that is labelled "POST."
 
 * ✅ `/clans`
 * ✅ `/clans/{clanTag}`
-* ✅ `/clans/{clanTag}/capitalraidseasons`
-* ✅ `/clans/{clanTag}/members`
-* ✅ `/clans/{clanTag}/warlog`
-* ✅ `/clans/{clanTag}/currentwar`
-* ✅ `/clans/{clanTag}/currentwar/leaguegroup`
-* ✅ `/clanwarleagues/wars/{warTag}`
+* `/clans/{clanTag}/capitalraidseasons`
+* `/clans/{clanTag}/members`
+* `/clans/{clanTag}/warlog`
+* `/clans/{clanTag}/currentwar`
+* `/clans/{clanTag}/currentwar/leaguegroup`
+* `/clanwarleagues/wars/{warTag}`
 
 ### Player specific information
 
-* ✅ `/players/{playerTag}`
+* `/players/{playerTag}`
 * `/players/{playerTag}/verifytoken` (POST)
 
 ### League information
 
-* ✅ `/capitalleagues`
-* ✅ `/capitalleagues/{leagueId}`
-* ✅ `/leagues`
-* ✅ `/leagues/{leagueId}`
-* ✅ `/leagues/{leagueId}/seasons`
-* ✅ `/leagues/{leagueId}/seasons/{seasonId}`
-* ✅ `/builderbaseleagues`
-* ✅ `/builderbaseleagues/{leagueId}`
-* ✅ `/warleagues`
-* ✅ `/warleagues/{leagueId}`
+* `/capitalleagues`
+* `/capitalleagues/{leagueId}`
+* `/leagues`
+* `/leagues/{leagueId}`
+* `/leagues/{leagueId}/seasons`
+* `/leagues/{leagueId}/seasons/{seasonId}`
+* `/builderbaseleagues`
+* `/builderbaseleagues/{leagueId}`
+* `/warleagues`
+* `/warleagues/{leagueId}`
 
 ### Rankings
 

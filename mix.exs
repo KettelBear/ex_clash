@@ -26,12 +26,12 @@ defmodule ExClash.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:req, "~> 0.5.0"},
+      {:req, "~> 0.5"},
 
       # Dev dependencies
       {:ex_doc, "~> 0.34", only: :dev, runtime: false},
       {:faker, "~> 0.18", only: [:dev, :test]},
-      {:plug, "~> 1.16.0", only: [:dev, :test]},
+      {:plug, "~> 1.16", only: [:dev, :test]},
     ]
   end
 end
