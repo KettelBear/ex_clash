@@ -1,4 +1,4 @@
-defmodule ExClash.Achievements do
+defmodule ExClash.Type.Achievements do
   @moduledoc """
   The Achievement struct.
 
@@ -11,6 +11,8 @@ defmodule ExClash.Achievements do
     * `value` - The current value towards or beyond the `target`.
     * `village` - Whether this belongs to the home village or the builder base.
   """
+
+  @behaviour ExClash.Type
 
   @type t() :: %__MODULE__{
     info: String.t(),
@@ -33,7 +35,7 @@ defmodule ExClash.Achievements do
   def format(achievements) do
     achievements
     |> Map.delete("completionInfo")
-    |> ExClash.HTTP.resp_to_struct(__MODULE__)
+    |> ExClash.cell_map_to_struct(__MODULE__)
   end
 end
 

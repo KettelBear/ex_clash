@@ -75,20 +75,23 @@ for the one that is labelled "POST."
 
 ### League information
 
+* `/builderbaseleagues`
+* `/builderbaseleagues/{leagueId}`
+
 * `/capitalleagues`
 * `/capitalleagues/{leagueId}`
+
 * `/leagues`
 * `/leagues/{leagueId}`
 * `/leagues/{leagueId}/seasons`
 * `/leagues/{leagueId}/seasons/{seasonId}`
-* `/builderbaseleagues`
-* `/builderbaseleagues/{leagueId}`
+
 * `/warleagues`
 * `/warleagues/{leagueId}`
 
 ### Rankings
 
-* `/locations`
+* ✅ `/locations`
 * `/locations/{locationId}`
 * `/locations/{locationId}/rankings/clans`
 * `/locations/{locationId}/rankings/players`

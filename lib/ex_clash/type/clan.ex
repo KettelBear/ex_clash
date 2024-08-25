@@ -121,19 +121,28 @@ defmodule ExClash.Type.Clan do
     :war_wins
   ]
 
-  @impl ExClash.Type
-  @spec format(api_clan :: ExClash.cell_map()) :: __MODULE__.t()
-  def format(api_clan) do
-    {_badge_urls, api_clan} = Map.pop(api_clan, "badgeUrls")
-    {_capital_league, api_clan} = Map.pop(api_clan, "capitalLeague")
-    {_clan_capital, api_clan} = Map.pop(api_clan, "clanCapital")
-    {_labels, api_clan} = Map.pop(api_clan, "labels")
-    {_location, api_clan} = Map.pop(api_clan, "location")
-    {_member_list, api_clan} = Map.pop(api_clan, "memberList")
-    {_type, api_clan} = Map.pop(api_clan, "type")
-    {_war_frequency, api_clan} = Map.pop(api_clan, "warFrequency")
-    {_war_league, api_clan} = Map.pop(api_clan, "warLeague")
+  @spec format(cell_map :: ExClash.cell_map()) :: __MODULE__.t()
+  def format(cell_map) do
+    {badge_urls, cell_map} = Map.pop(cell_map, "badgeUrls")
+    {capital_league, cell_map} = Map.pop(cell_map, "capitalLeague")
 
-    ExClash.cell_map_to_struct(api_clan, __MODULE__)
+    # TODO: Resume Here
+
+    {_clan_capital, cell_map} = Map.pop(cell_map, "clanCapital") |> IO.inspect()
+    {_labels, cell_map} = Map.pop(cell_map, "labels")
+    {location, cell_map} = Map.pop(cell_map, "location")
+    {_member_list, cell_map} = Map.pop(cell_map, "memberList")
+    {type, cell_map} = Map.pop(cell_map, "type")
+    {war_frequency, cell_map} = Map.pop(cell_map, "warFrequency")
+    {_war_league, cell_map} = Map.pop(cell_map, "warLeague")
+
+    %__MODULE__{
+      ExClash.cell_map_to_struct(cell_map, __MODULE__) |
+      badge_urls: ExClash.Type.Badges.format(badge_urls),
+      capital_league: ExClash.Type.League.format(capital_league),
+      location: ExClash.Type.Location.format(location),
+      type: ExClash.camel_to_atom(type),
+      war_frequency: ExClash.camel_to_atom(war_frequency)
+    }
   end
 end

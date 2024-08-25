@@ -1,4 +1,4 @@
-defmodule ExClash.IconUrls do
+defmodule ExClash.Type.IconUrls do
   @moduledoc """
   The IconUrls struct.
 
@@ -7,13 +7,12 @@ defmodule ExClash.IconUrls do
   Attributes:
 
     * `tiny` - The URL leading to the tiny icon.
-
     * `small` - The URL leading to the small icon.
-
     * `medium` - The URL leading to the medium icon.
-
     * `large` - The URL leading to the large icon.
   """
+
+  @behaviour ExClash.Type
 
   @type t() :: %__MODULE__{
     tiny: String.t(),
@@ -23,4 +22,8 @@ defmodule ExClash.IconUrls do
   }
 
   defstruct [:tiny, :small, :medium, :large]
+
+  @spec format(cell_icons :: ExClash.cell_map() | nil) :: __MODULE__.t() | nil
+  def format(nil), do: nil
+  def format(cell_icons), do: ExClash.cell_map_to_struct(cell_icons, __MODULE__)
 end

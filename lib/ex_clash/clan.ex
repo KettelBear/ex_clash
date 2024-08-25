@@ -1,4 +1,8 @@
 defmodule ExClash.Clan do
+  @moduledoc """
+  This module contains all the `/clans*` routes.
+  """
+
   alias ExClash.ClanMember
   alias ExClash.Paging
 
@@ -73,40 +77,42 @@ defmodule ExClash.Clan do
   ## Examples
 
       iex> ExClash.Clan.details("#G0RY89LU")
-      %ExClash.Clan{
-        tag: "#G0RY89LU",
-        name: "MY CLAN",
-        type: :invite_only,
-        description: "",
-        location: nil,
-        is_family_friendly: false,
-        badge_urls: %ExClash.Badges{...},
-        clan_level: 19,
-        clan_points: 47181,
-        clan_builder_base_points: 41464,
-        clan_capital_points: 3159,
-        capital_league: nil,
-        required_trophies: 2200,
-        war_frequency: :always,
-        war_win_streak: 0,
-        war_wins: 272,
-        war_ties: nil,
-        war_losses: nil,
-        is_war_log_public: false,
-        war_league: nil,
-        members: 45,
-        member_list: [...],
-        labels: nil,
-        required_builder_base_trophies: 0,
-        required_townhall_level: 15,
-        clan_capital: nil
-      }
+      %ExClash.Clan{tag: "#G0RY89LU", name: "MY CLAN", ...}
   """
   @spec details(tag :: String.t(), opts :: Keyword.t()) :: ExClash.Type.Clan.t() | {:error, atom()}
   def details(tag, opts \\ []) do
     case ExClash.HTTP.get("/clans/#{tag}", opts) do
       {:ok, clan} -> ExClash.Type.Clan.format(clan)
       error -> error
+    end
+  end
+
+  @doc """
+  Get the capital raid history for the `clan_tag`.
+
+  The available options are pagination options. A lot of detail comes back from
+  this call. For each raid season; the list capitals raided which includes each
+  district raided and the list of attacks on each district, the list of defenses
+  from each clan that attacked their clan capital including the districts and
+  lists of attacks against them, and the list of clan members that participated
+  in the raid.
+
+  ## Param Options
+
+    * `clan_tag` - Tag for the clan to get past raid seasons.
+    * `opts` - Paging and additional `Req` options.
+      * `limit` - Limit the number of items returned in the response.
+      * `after` - Return only items that occur after this marker.
+      * `before` - Return only items that occur before this marker.
+  """
+  @spec raid_seasons(clan_tag :: String.t(), opts :: Keyword.t()) :: ExClash.RaidSeason.response() | {:error, atom()}
+  def raid_seasons(clan_tag, opts \\ []) do
+    case ExClash.HTTP.get("/clans/#{clan_tag}/capitalraidseasons", opts) do
+      {:ok, %{"items" => seasons, "paging" => paging}} ->
+        {ExClash.RaidSeason.format(seasons), Paging.format(paging)}
+
+      err ->
+        err
     end
   end
 
