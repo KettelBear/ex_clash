@@ -1,4 +1,4 @@
-defmodule ExClash.CapitalRaid do
+defmodule ExClash.Type.CapitalRaid do
   @moduledoc """
   The Capital Raid module.
 
@@ -23,6 +23,8 @@ defmodule ExClash.CapitalRaid do
   on Pizza's information will be in the `clan` key.
   """
 
+  @behaviour ExClash.Type
+
   @type t :: %__MODULE__{
     attack_count: integer(),
     clan: ExClash.RaidClan.t(),
@@ -39,27 +41,25 @@ defmodule ExClash.CapitalRaid do
     :districts_destroyed
   ]
 
-  def format(raids) when is_list(raids) do
-    Enum.map(raids, &format/1)
-  end
-
+  @spec format(cell_raids :: ExClash.cell_map() | nil) :: __MODULE__.t() | list(__MODULE__.t()) | nil
+  def format(nil), do: nil
+  def format(raids) when is_list(raids), do: Enum.map(raids, &format/1)
   def format(%{"attacker" => _} = api_raid) do
     {clan, api_raid} = Map.pop(api_raid, "attacker")
     {districts, api_raid} = Map.pop(api_raid, "districts")
 
     %__MODULE__{
-      ExClash.HTTP.resp_to_struct(api_raid, __MODULE__) |
+      ExClash.cell_map_to_struct(api_raid, __MODULE__) |
       clan: ExClash.RaidClan.format(clan),
       districts: ExClash.DistrictRaid.format(districts)
     }
   end
-
   def format(%{"defender" => _} = api_raid) do
     {clan, api_raid} = Map.pop(api_raid, "defender")
     {districts, api_raid} = Map.pop(api_raid, "districts")
 
     %__MODULE__{
-      ExClash.HTTP.resp_to_struct(api_raid, __MODULE__) |
+      ExClash.cell_map_to_struct(api_raid, __MODULE__) |
       clan: ExClash.RaidClan.format(clan),
       districts: ExClash.DistrictRaid.format(districts)
     }

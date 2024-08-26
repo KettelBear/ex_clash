@@ -1,7 +1,15 @@
-defmodule ExClash.DistrictAttack do
+defmodule ExClash.Type.DistrictAttack do
   @moduledoc """
   The District Attack module.
+
+  Attributes:
+
+    * `attacker` - The name and tag of the attacker.
+    * `destruction_percent` - The percent achieved by the attacker.
+    * `stars` - How many stars obtained by the attacker.
   """
+
+  @behaviour ExClash.Type
 
   @type t :: %__MODULE__{
     attacker: %{name: String.t(), tag: String.t()},
@@ -9,17 +17,11 @@ defmodule ExClash.DistrictAttack do
     stars: integer()
   }
 
-  defstruct [
-    :attacker,
-    :destruction_percent,
-    :stars
-  ]
+  defstruct [:attacker, :destruction_percent, :stars]
 
-  @spec format(api_attack :: ExClash.cell_map()) :: __MODULE__.t()
+  @spec format(api_attack :: ExClash.cell_map() | nil) :: __MODULE__.t() | nil
   def format(nil), do: nil
-
   def format(attacks) when is_list(attacks), do: Enum.map(attacks, &format/1)
-
   def format(api_attack) do
     attacker = Map.get(api_attack, "attacker")
 

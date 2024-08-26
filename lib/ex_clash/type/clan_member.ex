@@ -1,11 +1,11 @@
-defmodule ExClash.ClanMember do
+defmodule ExClash.Type.ClanMember do
   # TODO: This module-doc
   @moduledoc """
   """
 
-  @type member_data :: ExClash.cell_map() | list(ExClash.cell_map()) | nil
+  @behaviour ExClash.Type
 
-  alias ExClash.PlayerHouse
+  @type member_data :: ExClash.cell_map() | list(ExClash.cell_map()) | nil
 
   @type t() :: %__MODULE__{
     builder_base_league: ExClash.League.t(),
@@ -53,10 +53,10 @@ defmodule ExClash.ClanMember do
     {house, clan_player} = Map.pop(clan_player, "playerHouse")
 
     %__MODULE__{
-      ExClash.HTTP.resp_to_struct(clan_player, __MODULE__) |
-      builder_base_league: ExClash.League.format(builder_league),
-      league: ExClash.League.format(league),
-      player_house: PlayerHouse.format(house)
+      ExClash.cell_map_to_struct(clan_player, __MODULE__) |
+      builder_base_league: ExClash.Type.League.format(builder_league),
+      league: ExClash.Type.League.format(league),
+      player_house: ExClash.PlayerHouse.format(house)
     }
   end
 end

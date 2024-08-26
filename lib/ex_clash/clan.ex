@@ -137,7 +137,7 @@ defmodule ExClash.Clan do
   @spec cwl_group(tag :: String.t(), opts :: Keyword.t()) :: ExClash.WarLeague.t() | {:error, atom()}
   def cwl_group(tag, opts \\ []) do
     case ExClash.HTTP.get("/clans/#{tag}/currentwar/leaguegroup", opts) do
-      {:ok, body} -> ExClash.WarLeague.format(body)
+      {:ok, body} -> ExClash.Type.ClanWarLeague.format(body)
       error -> error
     end
   end

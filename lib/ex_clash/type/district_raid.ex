@@ -1,10 +1,12 @@
-defmodule ExClash.DistrictRaid do
+defmodule ExClash.Type.DistrictRaid do
   @moduledoc """
   The District Raid module.
 
   This module represents the raid for the specific district within a capital
   raid.
   """
+
+  @behaviour ExClash.Type
 
   @type t :: %__MODULE__{
     attack_count: integer(),
@@ -28,15 +30,15 @@ defmodule ExClash.DistrictRaid do
     :total_looted,
   ]
 
-  @spec format(api_district_raid :: ExClash.cell_map()) :: __MODULE__.t()
-  def format(raids) when is_list(raids), do: Enum.map(raids, &format/1)
-
-  def format(api_district_raid) do
-    {attacks, api_district_raid} = Map.pop(api_district_raid, "attacks")
+  @spec format(cell_raid :: ExClash.cell_map() | list(ExClash.cell_map()) | nil) :: __MODULE__.t() | list(__MODULE__.t()) | nil
+  def format(nil), do: nil
+  def format(cell_raids) when is_list(cell_raids), do: Enum.map(cell_raids, &format/1)
+  def format(cell_raid) do
+    {attacks, cell_raid} = Map.pop(cell_raid, "attacks")
 
     %__MODULE__{
-      ExClash.HTTP.resp_to_struct(api_district_raid, __MODULE__) |
-      attacks: ExClash.DistrictAttack.format(attacks)
+      ExClash.cell_map_to_struct(cell_raid, __MODULE__) |
+      attacks: ExClash.Type.DistrictAttack.format(attacks)
     }
   end
 end
