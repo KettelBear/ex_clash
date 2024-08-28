@@ -1,4 +1,4 @@
-defmodule ExClash.RaidMember do
+defmodule ExClash.Type.RaidMember do
   @moduledoc """
   The Raid Member struct.
 
@@ -6,6 +6,8 @@ defmodule ExClash.RaidMember do
   for. In other words, the raid season was searched based on clan tag, and
   this raid member belongs to that clan.
   """
+
+  @behaviour ExClash.Type
 
   @type t :: %__MODULE__{
     attack_limit: integer(),
@@ -25,11 +27,8 @@ defmodule ExClash.RaidMember do
     :tag
   ]
 
-  def format(members) when is_list(members) do
-    Enum.map(members, &format/1)
-  end
-
-  def format(api_member) do
-    ExClash.HTTP.resp_to_struct(api_member, __MODULE__)
-  end
+  @spec format(cell_member :: ExClash.cell_map() | list(ExClash.cell_map()) | nil) :: __MODULE__.t() | list(__MODULE__.t()) | nil
+  def format(nil), do: nil
+  def format(cell_member) when is_list(cell_member), do: Enum.map(cell_member, &format/1)
+  def format(cell_member), do: ExClash.cell_map_to_struct(cell_member, __MODULE__)
 end

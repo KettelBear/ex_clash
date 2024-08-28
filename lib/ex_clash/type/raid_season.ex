@@ -1,8 +1,12 @@
-defmodule ExClash.RaidSeason do
+defmodule ExClash.Type.RaidSeason do
   # TODO:
   @moduledoc """
   
   """
+
+  @behaviour ExClash.Type
+
+  alias ExClash.Type.{CapitalRaid, RaidMember}
 
   # TODO:
   @typedoc """
@@ -38,23 +42,19 @@ defmodule ExClash.RaidSeason do
     :members,
   ]
 
-  # TODO:
-  @doc """
-  
-  """
-  @spec format(api_season :: ExClash.cell_map()) :: __MODULE__.t()
-  def format(seasons) when is_list(seasons), do: Enum.map(seasons, &format/1)
-
-  def format(api_season) do
-    {attack_log, api_season} = Map.pop(api_season, "attackLog")
-    {defense_log, api_season} = Map.pop(api_season, "defenseLog")
-    {members, api_season} = Map.pop(api_season, "members")
+  @spec format(cell_raid_season :: ExClash.cell_map() | list(ExClash.cell_map()) | nil) :: __MODULE__.t() | list(__MODULE__.t()) | nil
+  def format(nil), do: nil
+  def format(cell_raid_season) when is_list(cell_raid_season), do: Enum.map(cell_raid_season, &format/1)
+  def format(cell_raid_season) do
+    {attack_log, cell_raid_season} = Map.pop(cell_raid_season, "attackLog")
+    {defense_log, cell_raid_season} = Map.pop(cell_raid_season, "defenseLog")
+    {members, cell_raid_season} = Map.pop(cell_raid_season, "members")
 
     %__MODULE__{
-      ExClash.HTTP.resp_to_struct(api_season, __MODULE__) |
-      attack_log: ExClash.CapitalRaid.format(attack_log),
-      defense_log: ExClash.CapitalRaid.format(defense_log),
-      members: ExClash.RaidMember.format(members)
+      ExClash.cell_map_to_struct(cell_raid_season, __MODULE__) |
+      attack_log: CapitalRaid.format(attack_log),
+      defense_log: CapitalRaid.format(defense_log),
+      members: RaidMember.format(members)
     }
   end
 end
