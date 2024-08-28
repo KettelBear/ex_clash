@@ -1,4 +1,4 @@
-defmodule ExClash.Hero do
+defmodule ExClash.Type.Hero do
   @moduledoc """
   The Hero struct.
 
@@ -15,12 +15,16 @@ defmodule ExClash.Hero do
     * `equipment` - See `ExClash.Equipment` for more details.
   """
 
+  @behaviour ExClash.Type
+
+  alias ExClash.Type.Equipment
+
   @type t() :: %__MODULE__{
     name: String.t(),
     level: integer(),
     max_level: integer(),
     village: ExClash.village(),
-    equipment: list(ExClash.Equipment.t())
+    equipment: list(Equipment.t())
   }
 
   defstruct [:name, :level, :max_level, :village, :equipment]
@@ -34,13 +38,8 @@ defmodule ExClash.Hero do
     {equipment, api_hero} = Map.pop(api_hero, "equipment")
 
     %__MODULE__{
-      ExClash.HTTP.resp_to_struct(api_hero, __MODULE__) |
-      equipment: format_equipment(equipment)
+      ExClash.cell_map_to_struct(api_hero, __MODULE__) |
+      equipment: Equipment.format(equipment)
     }
-  end
-
-  defp format_equipment(nil), do: nil
-  defp format_equipment(pieces) do
-    Enum.map(pieces, &ExClash.HTTP.resp_to_struct(&1, ExClash.Equipment))
   end
 end

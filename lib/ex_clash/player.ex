@@ -123,27 +123,7 @@ defmodule ExClash.Player do
   ## Examples
 
       iex> ExClash.Player.details("#QVRVCY28")
-      %ExClash.Player{
-        tag: "#QVRVCY28",
-        name: "Sean",
-        town_hall_level: 16,
-        town_hall_weapon_level: 1,
-        exp_level: 241,
-        trophies: 6120,
-        best_trophies: 6330,
-        war_stars: 1706,
-        attack_wins: 143,
-        defense_wins: 0,
-        builder_hall_level: 10,
-        builder_base_trophies: 3875,
-        best_builder_base_trophies: 5709,
-        role: :elder,
-        war_preference: "in",
-        donations: 501,
-        donations_received: 348,
-        clan_capital_contributions: 2405921,
-        # ...
-      }
+      %ExClash.Player{tag: "#QVRVCY28", name: "Sean", ...}
 
       iex> ExClash.Player.details("#000000")
       {:error, :not_found}

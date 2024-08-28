@@ -1,4 +1,4 @@
-defmodule ExClash.Label do
+defmodule ExClash.Type.Label do
   @moduledoc """
   The Label struct.
 
@@ -9,6 +9,10 @@ defmodule ExClash.Label do
     * `icon_urls` - See `ExClash.IconUrls` for details.
   """
 
+  @behaviour ExClash.Type
+
+  alias ExClash.Type.IconUrls
+
   @type t() :: %__MODULE__{
     id: integer(),
     name: String.t(),
@@ -17,13 +21,14 @@ defmodule ExClash.Label do
 
   defstruct [:id, :name, :icon_urls]
 
-  @spec format(data :: ExClash.cell_map() | list(ExClash.cell_map())) :: __MODULE__.t() | list(__MODULE__.t())
+  @spec format(data :: ExClash.cell_map() | list(ExClash.cell_map()) | nil) :: __MODULE__.t() | list(__MODULE__.t()) | nil
+  def format(nil), do: nil
   def format(data) when is_list(data), do: Enum.map(data, &format/1)
   def format(data) do
     %__MODULE__{
       id: Map.get(data, "id"),
       name: Map.get(data, "name"),
-      icon_urls: ExClash.HTTP.resp_to_struct(Map.get(data, "iconUrls"), ExClash.IconUrls)
+      icon_urls: data |> Map.get("iconUrls") |> IconUrls.format()
     }
   end
 end

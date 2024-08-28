@@ -1,14 +1,13 @@
-defmodule ExClash.Paging do
+defmodule ExClash.HTTP.Paging do
   @moduledoc """
   The Paging struct.
 
   For calls that may be paginated, the response will from the function will be
-  a tuple in the form of `{[DATA], %ExClash.Paging{}}`.
+  a tuple in the form of `{[DATA], %ExClash.HTTP.Paging{}}`.
 
   Attributes:
 
     * `after` - Marker to fetch results after the current dataset.
-
     * `before` - Marker to fetch results before the current dataset.
   """
 
@@ -19,7 +18,9 @@ defmodule ExClash.Paging do
   @doc """
   Handles the parsing of the pagination parameters.
   """
-  @spec format(api_paging :: ExClash.cell_map()) :: __MODULE__.t()
+  @spec format(api_paging :: ExClash.cell_map() | nil) :: __MODULE__.t() | nil
+  def format(nil), do: nil
+  def format(%{"cursors" => nil}), do: nil
   def format(%{"cursors" => cursors}) do
     %__MODULE__{
       after: Map.get(cursors, "after"),
