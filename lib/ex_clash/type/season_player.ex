@@ -48,14 +48,14 @@ defmodule ExClash.Type.SeasonPlayer do
   @doc """
   Format the API response for the Season Player.
   """
-  @spec format(api_season_player :: ExClash.cell_map() | list(ExClash.cell_map()) | nil) :: __MODULE__.t() | list(__MODULE__.t()) | nil
+  @spec format(data :: ExClash.Type.cell_input()) :: __MODULE__.t() | list(__MODULE__.t()) | nil
   def format(nil), do: nil
-  def format(api_player) when is_list(api_player), do: Enum.map(api_player, &format/1)
-  def format(api_player) do
-    {%{"name" => clan_name, "tag" => clan_tag}, api_player} = Map.pop(api_player, "clan")
+  def format(data) when is_list(data), do: Enum.map(data, &format/1)
+  def format(data) do
+    {%{"name" => clan_name, "tag" => clan_tag}, data} = Map.pop(data, "clan")
 
     %__MODULE__{
-      ExClash.cell_map_to_struct(api_player, __MODULE__) |
+      ExClash.cell_map_to_struct(data, __MODULE__) |
       clan_name: clan_name,
       clan_tag: clan_tag
     }

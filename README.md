@@ -59,8 +59,8 @@ for the one that is labelled "POST."
 
 ### Clan specific information
 
-* ✅ `/clans`
-* ✅ `/clans/{clanTag}`
+* `/clans`
+* `/clans/{clanTag}`
 * `/clans/{clanTag}/capitalraidseasons`
 * `/clans/{clanTag}/members`
 * `/clans/{clanTag}/warlog`
@@ -91,7 +91,7 @@ for the one that is labelled "POST."
 
 ### Rankings
 
-* ✅ `/locations`
+* `/locations`
 * `/locations/{locationId}`
 * `/locations/{locationId}/rankings/clans`
 * `/locations/{locationId}/rankings/players`

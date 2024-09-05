@@ -5,13 +5,9 @@ defmodule ExClash.Type.Hero do
   Attributes:
 
     * `name` - The hero name.
-
     * `level` - The hero's current level.
-
     * `max_level` - The hero's max level possible for the town hall level.
-
     * `village` - The village that the hero belongs to.
-
     * `equipment` - See `ExClash.Equipment` for more details.
   """
 
@@ -33,12 +29,14 @@ defmodule ExClash.Type.Hero do
   When player details are fetched, this will handle the embedded JSON object
   that are the heroes that the player has.
   """
-  @spec format(api_hero :: ExClash.cell_map()) :: __MODULE__.t()
-  def format(api_hero) do
-    {equipment, api_hero} = Map.pop(api_hero, "equipment")
+  @spec format(data :: ExClash.Type.cell_input()) :: __MODULE__.t() | list(__MODULE__.t()) | nil
+  def format(nil), do: nil
+  def format(data) when is_list(data), do: Enum.map(data, &format/1)
+  def format(data) do
+    {equipment, data} = Map.pop(data, "equipment")
 
     %__MODULE__{
-      ExClash.cell_map_to_struct(api_hero, __MODULE__) |
+      ExClash.cell_map_to_struct(data, __MODULE__) |
       equipment: Equipment.format(equipment)
     }
   end

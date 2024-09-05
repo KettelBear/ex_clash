@@ -21,9 +21,13 @@ defmodule ExClash.Type.PlayerHouse do
 
   defstruct [:ground, :walls, :roof, :decoration]
 
-  @spec format(api_house :: ExClash.cell_map() | nil) :: __MODULE__.t() | nil
+  @doc """
+  
+  """
+  @spec format(data :: ExClash.Type.cell_input()) :: __MODULE__.t() | list(__MODULE__.t()) | nil
   def format(nil), do: nil
-  def format(%{"elements" => elements}) do
+  def format(data) when is_list(data), do: Enum.map(data, &format/1)
+  def format(%{"elements" => elements} = _data) do
     elements
     |> Enum.reduce(%{}, fn %{"id" => id, "type" => type}, acc ->
       Map.put(acc, String.to_atom(type), id)

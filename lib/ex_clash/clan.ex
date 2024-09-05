@@ -3,8 +3,8 @@ defmodule ExClash.Clan do
   This module contains all the `/clans*` routes.
   """
 
-  alias ExClash.ClanMember
-  alias ExClash.Paging
+  alias ExClash.Type.ClanMember
+  alias ExClash.HTTP.Paging
 
   @search_filters %{
     war_frequency: "warFrequency",
@@ -52,7 +52,7 @@ defmodule ExClash.Clan do
           %ExClash.Clan{tag: "#G0RY89LU", name: "MY CLAN", clan_level: 19, ...},
           %ExClash.Clan{tag: "#2PYGGVYQC", name: "my clan", clan_level: 17, ...}
         ],
-        %ExClash.Paging{after: "eyJwb3MiOjV9", before: nil}
+        %ExClash.HTTP.Paging{after: "eyJwb3MiOjV9", before: nil}
       }
   """
   @spec search(filters :: Keyword.t()) :: {list(ExClash.Type.Clan.t()), Paging.t()} | {:error, atom()}
@@ -109,7 +109,7 @@ defmodule ExClash.Clan do
   def raid_seasons(clan_tag, opts \\ []) do
     case ExClash.HTTP.get("/clans/#{clan_tag}/capitalraidseasons", opts) do
       {:ok, %{"items" => seasons, "paging" => paging}} ->
-        {ExClash.RaidSeason.format(seasons), Paging.format(paging)}
+        {ExClash.Type.RaidSeason.format(seasons), Paging.format(paging)}
 
       err ->
         err
@@ -158,11 +158,11 @@ defmodule ExClash.Clan do
       iex> ExClash.Clan.members("#G0RY89LU", limit: 3)
       {
         [
-          %ExClash.ClanMember{...},
-          %ExClash.ClanMember{...},
-          %ExClash.ClanMember{...}
+          %ExClash.Type.ClanMember{...},
+          %ExClash.Type.ClanMember{...},
+          %ExClash.Type.ClanMember{...}
         ],
-        %ExClash.Paging{after: "eyJwb3MiOjN9", before: nil}
+        %ExClash.HTTP.Paging{after: "eyJwb3MiOjN9", before: nil}
       }
   """
   @spec members(tag :: String.t(), opts :: Keyword.t()) :: {list(ClanMember.t()), Paging.t()} | {:error, atom()}
@@ -194,16 +194,16 @@ defmodule ExClash.Clan do
   ## Examples
 
       iex> ExClash.Clan.war_log("#ABCDEFGH")
-      {[%ExClash.Clan.War{...}, ...], %ExClash.Paging{...}}
+      {[%ExClash.Clan.War{...}, ...], %ExClash.HTTP.Paging{...}}
 
       iex> ExClash.Clan.war_log("#ABCDEFGH", limit: 2)
-      {[%ExClash.Clan.War{...}, %ExClash.Clan.War{...}], %ExClash.Paging{...}}
+      {[%ExClash.Type.War{...}, %ExClash.Type.War{...}], %ExClash.HTTP.Paging{...}}
   """
   @spec war_log(tag :: String.t(), opts :: Keyword.t()) :: ExClash.War.war_log() | {:error, atom()}
   def war_log(tag, opts \\ []) do
     case ExClash.HTTP.get("/clans/#{tag}/warlog", opts) do
       {:ok, %{"items" => wars, "paging" => paging}} ->
-        {Enum.map(wars, &ExClash.War.format/1), Paging.format(paging)}
+        {Enum.map(wars, &ExClash.Type.War.format/1), Paging.format(paging)}
 
       error ->
         error
@@ -221,12 +221,12 @@ defmodule ExClash.Clan do
   ## Examples
 
       iex> ExClash.Clan.current_war("#ABCDEFGH")
-      %ExClash.Clan.War{...}
+      %ExClash.Type.War{...}
   """
   @spec current_war(tag :: String.t(), opts :: Keyword.t()) :: ExClash.War.t() | {:error, atom()}
   def current_war(tag, opts \\ []) do
     case ExClash.HTTP.get("/clans/#{tag}/currentwar", opts) do
-      {:ok, war} -> ExClash.War.format(war)
+      {:ok, war} -> ExClash.Type.War.format(war)
       error -> error
     end
   end

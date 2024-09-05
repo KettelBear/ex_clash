@@ -24,8 +24,11 @@ defmodule ExClash.Type.Equipment do
 
   defstruct [:name, :level, :max_level, :village]
 
-  @spec format(cell_equipment :: ExClash.cell_map() | list(ExClash.cell_map()) | nil) :: __MODULE__.t() | list(__MODULE__.t()) | nil
+  @doc """
+  
+  """
+  @spec format(data :: ExClash.Type.cell_input()) :: __MODULE__.t() | list(__MODULE__.t()) | nil
   def format(nil), do: nil
-  def format(cell_equipment) when is_list(cell_equipment), do: Enum.map(cell_equipment, &format/1)
-  def format(cell_equipment), do: ExClash.cell_map_to_struct(cell_equipment, __MODULE__)
+  def format(data) when is_list(data), do: Enum.map(data, &format/1)
+  def format(data), do: ExClash.cell_map_to_struct(data, __MODULE__)
 end

@@ -40,15 +40,15 @@ defmodule ExClash.Type.League do
   Clans, Players, Capitals. This will take the JSON object and return this
   struct.
   """
-  @spec format(cell_league :: ExClash.cell_map() | list(ExClash.cell_map()) | nil) :: __MODULE__.t() | list(__MODULE__.t()) | nil
+  @spec format(data :: ExClash.Type.cell_input()) :: __MODULE__.t() | list(__MODULE__.t()) | nil
   def format(nil), do: nil
-  def format(cell_league) when is_list(cell_league), do: Enum.map(cell_league, &format/1)
-  def format(cell_league) do
-    icons = Map.get(cell_league, "iconUrls")
+  def format(data) when is_list(data), do: Enum.map(data, &format/1)
+  def format(data) do
+    icons = Map.get(data, "iconUrls")
 
     %__MODULE__{
-      id: Map.get(cell_league, "id"),
-      name: Map.get(cell_league, "name"),
+      id: Map.get(data, "id"),
+      name: Map.get(data, "name"),
       icon_urls: ExClash.Type.IconUrls.format(icons)
     }
   end

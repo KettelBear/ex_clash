@@ -21,7 +21,10 @@ defmodule ExClash.Type.Label do
 
   defstruct [:id, :name, :icon_urls]
 
-  @spec format(data :: ExClash.cell_map() | list(ExClash.cell_map()) | nil) :: __MODULE__.t() | list(__MODULE__.t()) | nil
+  @doc """
+  
+  """
+  @spec format(data :: ExClash.Type.cell_input()) :: __MODULE__.t() | list(__MODULE__.t()) | nil
   def format(nil), do: nil
   def format(data) when is_list(data), do: Enum.map(data, &format/1)
   def format(data) do

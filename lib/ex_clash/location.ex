@@ -13,7 +13,7 @@ defmodule ExClash.Location do
   def list(opts \\ []) do
     case ExClash.HTTP.get("/locations", opts) do
       {:ok, %{"items" => items, "paging" => pagination}} ->
-        {ExClash.cell_map_to_struct(items, LocationType), ExClash.Paging.format(pagination)}
+        {ExClash.cell_map_to_struct(items, LocationType), ExClash.HTTP.Paging.format(pagination)}
 
       err ->
         err

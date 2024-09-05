@@ -1,30 +1,23 @@
-defmodule ExClash.War do
+defmodule ExClash.Type.War do
   @moduledoc """
   The War struct.
 
   Attributes:
 
     * `clan` - This is the name of the clan that was searched for.
-
     * `opponent` - The is the searched clan's opponent.
-
     * `result` - The result of the war, if there is one.
-
     * `team_size` - How many clan members participated in the war.
-
     * `attacks_per_member` - How many attacks for each member.
-
     * `state` - The current state of the war.
-
-    * `preparation_start_time` - The date time that the war preparation
-    started.
-
+    * `preparation_start_time` - The date time that the war preparation started.
     * `start_time` - The date time that the war started.
-
     * `end_time` - The dat time that the war ended.
   """
 
-  alias ExClash.WarClan
+  alias ExClash.Type.WarClan
+
+  @behaviour ExClash.Type
 
   @type t() :: %__MODULE__{
     clan: WarClan.t(),
@@ -75,14 +68,16 @@ defmodule ExClash.War do
   Will convert the JSON objects returned from Supercell into nice tidy structs
   with atom keys.
   """
-  @spec format(api_war :: ExClash.cell_map()) :: __MODULE__.t()
-  def format(api_war) do
-    {api_clan, api_war} = Map.pop(api_war, "clan")
-    {api_opponent, api_war} = Map.pop(api_war, "opponent")
-    {state, api_war} = Map.pop(api_war, "state")
+  @spec format(data :: ExClash.Type.cell_input()) :: __MODULE__.t() | list(__MODULE__.t()) | nil
+  def format(nil), do: nil
+  def format(data) when is_list(data), do: Enum.map(data, &format/1)
+  def format(data) do
+    {api_clan, data} = Map.pop(data, "clan")
+    {api_opponent, data} = Map.pop(data, "opponent")
+    {state, data} = Map.pop(data, "state")
 
     %__MODULE__{
-      ExClash.HTTP.resp_to_struct(api_war, __MODULE__) |
+      ExClash.cell_map_to_struct(data, __MODULE__) |
       clan: WarClan.format(api_clan),
       opponent: WarClan.format(api_opponent),
       state: convert_state(state)

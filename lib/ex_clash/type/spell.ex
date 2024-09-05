@@ -21,7 +21,11 @@ defmodule ExClash.Type.Spell do
 
   defstruct [:name, :level, :max_level, :village]
 
-  @spec format(cell_spell :: ExClash.cell_map() | nil) :: __MODULE__.t() | nil
+  @doc """
+  
+  """
+  @spec format(data :: ExClash.Type.cell_input()) :: __MODULE__.t() | list(__MODULE__.t()) | nil
   def format(nil), do: nil
-  def format(cell_spell), do: ExClash.cell_map_to_struct(cell_spell, __MODULE__)
+  def format(data) when is_list(data), do: Enum.map(data, &format/1)
+  def format(data), do: ExClash.cell_map_to_struct(data, __MODULE__)
 end

@@ -28,16 +28,20 @@ defmodule ExClash.Type.LegendStats do
     :previous_builder_season
   ]
 
-  @spec format(cell_stats :: ExClash.cell_map() | nil) :: __MODULE__.t() | nil
+  @doc """
+  
+  """
+  @spec format(data :: ExClash.Type.cell_input()) :: __MODULE__.t() | list(__MODULE__.t()) | nil
   def format(nil), do: nil
-  def format(cell_stats) do
+  def format(data) when is_list(data), do: Enum.map(data, &format/1)
+  def format(data) do
     %__MODULE__{
-      legend_trophies: Map.get(cell_stats, "legendTrophies"),
-      best_season: cell_stats |> Map.get("bestSeason") |> Season.format(),
-      current_season: cell_stats |> Map.get("currentSeason") |> Season.format(),
-      previous_season: cell_stats |> Map.get("previousSeason") |> Season.format(),
-      best_builder_season: cell_stats |> Map.get("bestBuilderBaseSeason") |> Season.format(),
-      previous_builder_season: cell_stats |> Map.get("previousBuilderBaseSeason") |> Season.format(),
+      legend_trophies: Map.get(data, "legendTrophies"),
+      best_season: data |> Map.get("bestSeason") |> Season.format(),
+      current_season: data |> Map.get("currentSeason") |> Season.format(),
+      previous_season: data |> Map.get("previousSeason") |> Season.format(),
+      best_builder_season: data |> Map.get("bestBuilderBaseSeason") |> Season.format(),
+      previous_builder_season: data |> Map.get("previousBuilderBaseSeason") |> Season.format(),
     }
   end
 end

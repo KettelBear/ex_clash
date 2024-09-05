@@ -1,7 +1,9 @@
-defmodule ExClash.WarAttack do
+defmodule ExClash.Type.WarAttack do
   @moduledoc """
   A player's attack in war.
   """
+
+  @behaviour ExClash.Type
 
   @typedoc """
   """
@@ -22,4 +24,12 @@ defmodule ExClash.WarAttack do
     :order,
     :stars
   ]
+
+  @doc """
+  
+  """
+  @spec format(data :: ExClash.Type.cell_input()) :: __MODULE__.t() | list(__MODULE__.t()) | nil
+  def format(nil), do: nil
+  def format(data) when is_list(data), do: Enum.map(data, &format/1)
+  def format(data), do: ExClash.cell_map_to_struct(data, __MODULE__)
 end

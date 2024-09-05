@@ -42,16 +42,19 @@ defmodule ExClash.Type.RaidSeason do
     :members,
   ]
 
-  @spec format(cell_raid_season :: ExClash.cell_map() | list(ExClash.cell_map()) | nil) :: __MODULE__.t() | list(__MODULE__.t()) | nil
+  @doc """
+  
+  """
+  @spec format(data :: ExClash.Type.cell_input()) :: __MODULE__.t() | list(__MODULE__.t()) | nil
   def format(nil), do: nil
-  def format(cell_raid_season) when is_list(cell_raid_season), do: Enum.map(cell_raid_season, &format/1)
-  def format(cell_raid_season) do
-    {attack_log, cell_raid_season} = Map.pop(cell_raid_season, "attackLog")
-    {defense_log, cell_raid_season} = Map.pop(cell_raid_season, "defenseLog")
-    {members, cell_raid_season} = Map.pop(cell_raid_season, "members")
+  def format(data) when is_list(data), do: Enum.map(data, &format/1)
+  def format(data) do
+    {attack_log, data} = Map.pop(data, "attackLog")
+    {defense_log, data} = Map.pop(data, "defenseLog")
+    {members, data} = Map.pop(data, "members")
 
     %__MODULE__{
-      ExClash.cell_map_to_struct(cell_raid_season, __MODULE__) |
+      ExClash.cell_map_to_struct(data, __MODULE__) |
       attack_log: CapitalRaid.format(attack_log),
       defense_log: CapitalRaid.format(defense_log),
       members: RaidMember.format(members)

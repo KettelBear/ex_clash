@@ -40,12 +40,6 @@ defmodule ExClash.Type.Clan do
   """
   @type clan_type() :: :open | :invite_only | :closed
 
-  # TODO: Move this to the player structs named `clan_role`
-  @typedoc """
-  The available memeber roles.
-  """
-  @type member_role() :: :member | :elder | :co_leader | :leader
-
   @typedoc """
   Represents the setting the clan has set for themselves representing how often
   they sign up for clan wars.
@@ -121,28 +115,31 @@ defmodule ExClash.Type.Clan do
     :war_wins
   ]
 
-  @spec format(cell_map :: ExClash.cell_map()) :: __MODULE__.t()
-  def format(cell_map) do
-    {badge_urls, cell_map} = Map.pop(cell_map, "badgeUrls")
-    {capital_league, cell_map} = Map.pop(cell_map, "capitalLeague")
-
-    # TODO: Resume Here
-
-    {_clan_capital, cell_map} = Map.pop(cell_map, "clanCapital") |> IO.inspect()
-    {_labels, cell_map} = Map.pop(cell_map, "labels")
-    {location, cell_map} = Map.pop(cell_map, "location")
-    {_member_list, cell_map} = Map.pop(cell_map, "memberList")
-    {type, cell_map} = Map.pop(cell_map, "type")
-    {war_frequency, cell_map} = Map.pop(cell_map, "warFrequency")
-    {_war_league, cell_map} = Map.pop(cell_map, "warLeague")
+  @spec format(data :: ExClash.Type.cell_input()) :: __MODULE__.t() | list(__MODULE__.t()) | nil
+  def format(nil), do: nil
+  def format(data) when is_list(data), do: Enum.map(data, &format/1)
+  def format(data) do
+    {badge_urls, data} = Map.pop(data, "badgeUrls")
+    {capital_league, data} = Map.pop(data, "capitalLeague")
+    {clan_capital, data} = Map.pop(data, "clanCapital")
+    {labels, data} = Map.pop(data, "labels")
+    {location, data} = Map.pop(data, "location")
+    {member_list, data} = Map.pop(data, "memberList")
+    {type, data} = Map.pop(data, "type")
+    {war_frequency, data} = Map.pop(data, "warFrequency")
+    {war_league, data} = Map.pop(data, "warLeague")
 
     %__MODULE__{
-      ExClash.cell_map_to_struct(cell_map, __MODULE__) |
+      ExClash.cell_map_to_struct(data, __MODULE__) |
       badge_urls: ExClash.Type.Badges.format(badge_urls),
       capital_league: ExClash.Type.League.format(capital_league),
+      clan_capital: ExClash.Type.Capital.format(clan_capital),
+      labels: ExClash.Type.Label.format(labels),
       location: ExClash.Type.Location.format(location),
+      member_list: ExClash.Type.ClanMember.format(member_list),
       type: ExClash.camel_to_atom(type),
-      war_frequency: ExClash.camel_to_atom(war_frequency)
+      war_frequency: ExClash.camel_to_atom(war_frequency),
+      war_league: ExClash.Type.League.format(war_league)
     }
   end
 end

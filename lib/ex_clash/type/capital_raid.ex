@@ -41,27 +41,30 @@ defmodule ExClash.Type.CapitalRaid do
     :districts_destroyed
   ]
 
-  @spec format(cell_raids :: ExClash.cell_map() | nil) :: __MODULE__.t() | list(__MODULE__.t()) | nil
+  @doc """
+  
+  """
+  @spec format(data :: ExClash.Type.cell_input()) :: __MODULE__.t() | list(__MODULE__.t()) | nil
   def format(nil), do: nil
-  def format(raids) when is_list(raids), do: Enum.map(raids, &format/1)
-  def format(%{"attacker" => _} = api_raid) do
-    {clan, api_raid} = Map.pop(api_raid, "attacker")
-    {districts, api_raid} = Map.pop(api_raid, "districts")
+  def format(data) when is_list(data), do: Enum.map(data, &format/1)
+  def format(%{"attacker" => _} = data) do
+    {clan, data} = Map.pop(data, "attacker")
+    {districts, data} = Map.pop(data, "districts")
 
     %__MODULE__{
-      ExClash.cell_map_to_struct(api_raid, __MODULE__) |
-      clan: ExClash.RaidClan.format(clan),
-      districts: ExClash.DistrictRaid.format(districts)
+      ExClash.cell_map_to_struct(data, __MODULE__) |
+      clan: ExClash.Type.RaidClan.format(clan),
+      districts: ExClash.Type.DistrictRaid.format(districts)
     }
   end
-  def format(%{"defender" => _} = api_raid) do
-    {clan, api_raid} = Map.pop(api_raid, "defender")
-    {districts, api_raid} = Map.pop(api_raid, "districts")
+  def format(%{"defender" => _} = data) do
+    {clan, data} = Map.pop(data, "defender")
+    {districts, data} = Map.pop(data, "districts")
 
     %__MODULE__{
-      ExClash.cell_map_to_struct(api_raid, __MODULE__) |
-      clan: ExClash.RaidClan.format(clan),
-      districts: ExClash.DistrictRaid.format(districts)
+      ExClash.cell_map_to_struct(data, __MODULE__) |
+      clan: ExClash.Type.RaidClan.format(clan),
+      districts: ExClash.Type.DistrictRaid.format(districts)
     }
   end
 end

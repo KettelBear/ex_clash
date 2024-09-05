@@ -30,14 +30,17 @@ defmodule ExClash.Type.DistrictRaid do
     :total_looted,
   ]
 
-  @spec format(cell_raid :: ExClash.cell_map() | list(ExClash.cell_map()) | nil) :: __MODULE__.t() | list(__MODULE__.t()) | nil
+  @doc """
+  
+  """
+  @spec format(data :: ExClash.Type.cell_input()) :: __MODULE__.t() | list(__MODULE__.t()) | nil
   def format(nil), do: nil
-  def format(cell_raids) when is_list(cell_raids), do: Enum.map(cell_raids, &format/1)
-  def format(cell_raid) do
-    {attacks, cell_raid} = Map.pop(cell_raid, "attacks")
+  def format(data) when is_list(data), do: Enum.map(data, &format/1)
+  def format(data) do
+    {attacks, data} = Map.pop(data, "attacks")
 
     %__MODULE__{
-      ExClash.cell_map_to_struct(cell_raid, __MODULE__) |
+      ExClash.cell_map_to_struct(data, __MODULE__) |
       attacks: ExClash.Type.DistrictAttack.format(attacks)
     }
   end

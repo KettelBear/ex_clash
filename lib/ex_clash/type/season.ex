@@ -21,7 +21,11 @@
 
     defstruct [:id, :rank, :trophies]
 
-    @spec format(cell_season :: ExClash.cell_map() | nil) :: __MODULE__.t() | nil
-    def format(nil), do: nil
-    def format(cell_season), do: ExClash.cell_map_to_struct(cell_season, __MODULE__)
-  end
+  @doc """
+  
+  """
+  @spec format(data :: ExClash.Type.cell_input()) :: __MODULE__.t() | list(__MODULE__.t()) | nil
+  def format(nil), do: nil
+  def format(data) when is_list(data), do: Enum.map(data, &format/1)
+  def format(data), do: ExClash.cell_map_to_struct(data, __MODULE__)
+end

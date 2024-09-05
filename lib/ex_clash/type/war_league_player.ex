@@ -1,24 +1,29 @@
-defmodule ExClash.Type.ChatLanguage do
+defmodule ExClash.Type.WarLeaguePlayer do
   @moduledoc """
-  The ChatLanguage struct.
+  The War League Player struct.
 
   Attributes:
 
-    * `id` - The integer identifier of the chat langauge.
-    * `name` - The name of the language.
-    * `language_code` - The 2-letter code.
+    * `name` - The name of the player participant.
+    * `tag` - The player's tag.
+    * `town_hall_level` - It is in the name.
   """
 
   @behaviour ExClash.Type
 
+  @type output() :: __MODULE__.t() | list(__MODULE__.t()) | nil
+
   @type t() :: %__MODULE__{
-    id: integer(),
     name: String.t(),
-    language_code: String.t()
+    tag: String.t(),
+    town_hall_level: integer()
   }
 
-  defstruct [:id, :name, :language_code]
+  defstruct [:tag, :name, :town_hall_level]
 
+  @doc """
+  
+  """
   @spec format(data :: ExClash.Type.cell_input()) :: __MODULE__.t() | list(__MODULE__.t()) | nil
   def format(nil), do: nil
   def format(data) when is_list(data), do: Enum.map(data, &format/1)

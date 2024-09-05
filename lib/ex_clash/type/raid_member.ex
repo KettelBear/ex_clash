@@ -27,8 +27,11 @@ defmodule ExClash.Type.RaidMember do
     :tag
   ]
 
-  @spec format(cell_member :: ExClash.cell_map() | list(ExClash.cell_map()) | nil) :: __MODULE__.t() | list(__MODULE__.t()) | nil
+  @doc """
+  
+  """
+  @spec format(data :: ExClash.Type.cell_input()) :: __MODULE__.t() | list(__MODULE__.t()) | nil
   def format(nil), do: nil
-  def format(cell_member) when is_list(cell_member), do: Enum.map(cell_member, &format/1)
-  def format(cell_member), do: ExClash.cell_map_to_struct(cell_member, __MODULE__)
+  def format(data) when is_list(data), do: Enum.map(data, &format/1)
+  def format(data), do: ExClash.cell_map_to_struct(data, __MODULE__)
 end

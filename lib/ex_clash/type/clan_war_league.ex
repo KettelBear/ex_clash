@@ -28,14 +28,15 @@ defmodule ExClash.Type.ClanWarLeague do
   @doc """
   Format the war league from the API response to the struct.
   """
-  @spec format(war_league :: ExClash.cell_map() | nil) :: __MODULE__.t() | nil
+  @spec format(data :: ExClash.Type.cell_input()) :: __MODULE__.t() | list(__MODULE__.t()) | nil
   def format(nil), do: nil
-  def format(war_league) do
+  def format(data) when is_list(data), do: Enum.map(data, &format/1)
+  def format(data) do
     %__MODULE__{
-      clans: Map.get(war_league, "clans") |> ExClash.WarLeagueClan.format(),
-      rounds: Map.get(war_league, "rounds") |> WarLeagueRounds.format(),
-      season: Map.get(war_league, "season"),
-      state: Map.get(war_league, "state") |> ExClash.camel_to_atom()
+      clans: Map.get(data, "clans") |> ExClash.Type.WarLeagueClan.format(),
+      rounds: Map.get(data, "rounds") |> WarLeagueRounds.format(),
+      season: Map.get(data, "season"),
+      state: Map.get(data, "state") |> ExClash.camel_to_atom()
     }
   end
 end

@@ -29,11 +29,13 @@ defmodule ExClash.Type.Achievements do
   Format achievements into this struct.
 
   Players earn achievements, and this will take the JSON response from
-  Supercell and convert it into the `ExClash.Achievements` struct.
+  Supercell and convert it into the `ExClash.Type.Achievements` struct.
   """
-  @spec format(achievements :: ExClash.cell_map()) :: __MODULE__.t()
-  def format(achievements) do
-    achievements
+  @spec format(data :: ExClash.Type.cell_input()) :: __MODULE__.t() | list(__MODULE__.t()) | nil
+  def format(nil), do: nil
+  def format(data) when is_list(data), do: Enum.map(data, &format/1)
+  def format(data) do
+    data
     |> Map.delete("completionInfo")
     |> ExClash.cell_map_to_struct(__MODULE__)
   end

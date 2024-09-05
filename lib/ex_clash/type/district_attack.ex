@@ -19,16 +19,19 @@ defmodule ExClash.Type.DistrictAttack do
 
   defstruct [:attacker, :destruction_percent, :stars]
 
-  @spec format(api_attack :: ExClash.cell_map() | nil) :: __MODULE__.t() | nil
+  @doc """
+  
+  """
+  @spec format(data :: ExClash.Type.cell_input()) :: __MODULE__.t() | list(__MODULE__.t()) | nil
   def format(nil), do: nil
-  def format(attacks) when is_list(attacks), do: Enum.map(attacks, &format/1)
-  def format(api_attack) do
-    attacker = Map.get(api_attack, "attacker")
+  def format(data) when is_list(data), do: Enum.map(data, &format/1)
+  def format(data) do
+    attacker = Map.get(data, "attacker")
 
     %__MODULE__{
       attacker: %{name: Map.get(attacker, "name"), tag: Map.get(attacker, "tag")},
-      destruction_percent: Map.get(api_attack, "destructionPercent"),
-      stars: Map.get(api_attack, "stars")
+      destruction_percent: Map.get(data, "destructionPercent"),
+      stars: Map.get(data, "stars")
     }
   end
 end

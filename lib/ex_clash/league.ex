@@ -4,9 +4,10 @@ defmodule ExClash.League do
   
   """
 
+  alias ExClash.HTTP.Paging
   alias ExClash.Type.League, as: LeagueType
 
-  @type top_return() :: {list(ExClash.Type.SeasonPlayer.t()), ExClash.HTTP.Paging.t()} | {:error, atom()}
+  @type top_return() :: {list(ExClash.Type.SeasonPlayer.t()), Paging.t()} | {:error, atom()}
 
   @doc """
   Get the details of the Builder Base league.
@@ -64,7 +65,7 @@ defmodule ExClash.League do
   def builder_leagues(opts \\ []) do
     case ExClash.HTTP.get("/builderbaseleagues", opts) do
       {:ok, %{"items" => leagues, "paging" => paging}} ->
-        {LeagueType.format(leagues), ExClash.Paging.format(paging)}
+        {LeagueType.format(leagues), Paging.format(paging)}
 
       err ->
         err
@@ -118,7 +119,7 @@ defmodule ExClash.League do
   def capital_leagues(opts) do
     case ExClash.HTTP.get("/capitalleagues", opts) do
       {:ok, %{"items" => items, "paging" => paging}} ->
-        {Enum.map(items, &ExClash.Type.League.format/1), ExClash.Paging.format(paging)}
+        {Enum.map(items, &ExClash.Type.League.format/1), Paging.format(paging)}
 
       err ->
         err
@@ -135,7 +136,7 @@ defmodule ExClash.League do
         war
         # This is a duplicate value.
         |> Map.delete("warStartTime")
-        |> ExClash.War.format()
+        |> ExClash.Type.War.format()
 
       err ->
         err
@@ -186,7 +187,7 @@ defmodule ExClash.League do
   def home_leagues(opts \\ []) do
     case ExClash.HTTP.get("/leagues", opts) do
       {:ok, %{"items" => leagues, "paging" => paging}} ->
-        {LeagueType.format(leagues), ExClash.Paging.format(paging)}
+        {LeagueType.format(leagues), Paging.format(paging)}
 
       err ->
         err
@@ -208,14 +209,14 @@ defmodule ExClash.League do
       iex> ExClash.League.seasons(29000022, limit: 5)
       {
         ["2015-07", "2015-08", "2015-09", "2015-10", "2015-11"],
-        %ExClash.Paging{after: "eyJwb3MiOjV9", before: nil}
+        %ExClash.HTTP.Paging{after: "eyJwb3MiOjV9", before: nil}
       }
   """
-  @spec seasons(id :: integer(), opts :: Keyword.t()) :: {list(LeagueType.cell_season()), ExClash.Paging.t()} | {:error, atom()}
+  @spec seasons(id :: integer(), opts :: Keyword.t()) :: {list(LeagueType.cell_season()), Paging.t()} | {:error, atom()}
   def seasons(id, opts \\ []) do
     case ExClash.HTTP.get("/leagues/#{id}/seasons", opts) do
       {:ok, %{"items" => seasons, "paging" => paging}} ->
-        {Enum.map(seasons, fn %{"id" => season} -> season end), ExClash.Paging.format(paging)}
+        {Enum.map(seasons, fn %{"id" => season} -> season end), Paging.format(paging)}
 
       err ->
         err
@@ -259,7 +260,7 @@ defmodule ExClash.League do
   def top_players(league_id, season_id, opts \\ []) do
     case ExClash.HTTP.get("/leagues/#{league_id}/seasons/#{season_id}", opts) do
       {:ok, %{"items" => top_players, "paging" => paging}} ->
-        {ExClash.Type.SeasonPlayer.format(top_players), ExClash.Paging.format(paging)}
+        {ExClash.Type.SeasonPlayer.format(top_players), Paging.format(paging)}
 
       err ->
         err
@@ -305,7 +306,7 @@ defmodule ExClash.League do
   def war_leagues(opts \\ []) do
     case ExClash.HTTP.get("/warleagues", opts) do
       {:ok, %{"items" => leagues, "paging" => paging}} ->
-        {ExClash.Type.League.format(leagues), ExClash.Paging.format(paging)}
+        {ExClash.Type.League.format(leagues), Paging.format(paging)}
 
       err ->
         err
