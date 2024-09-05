@@ -6,17 +6,17 @@ defmodule ExClash.Type.ClanMember do
   @behaviour ExClash.Type
 
   @type t() :: %__MODULE__{
-    builder_base_league: ExClash.League.t(),
+    builder_base_league: ExClash.Type.League.t(),
     builder_base_trophies: integer(),
     clan_rank: integer(),
     donations: integer(),
     donations_received: integer(),
     exp_level: integer(),
-    league: ExClash.League.t(),
+    league: ExClash.Type.League.t(),
     name: String.t(),
-    player_house: PlayerHouse.t(),
+    player_house: ExClash.Type.PlayerHouse.t(),
     previous_clan_rank: integer(),
-    role: ExClash.Clan.member_role(),
+    role: ExClash.Type.Player.clan_role(),
     tag: String.t(),
     town_hall_level: integer(),
     trophies: integer()

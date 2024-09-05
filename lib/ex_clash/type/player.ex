@@ -66,16 +66,16 @@ defmodule ExClash.Type.Player do
     donations_received: integer(),
     clan_capital_contributions: integer(),
     clan: %{tag: ExClash.tag(), name: String.t(), badges: ExClash.Type.Badges.t()},
-    league: ExClash.League.t(),
-    builder_base_league: ExClash.League.t(),
-    player_house: ExClash.PlayerHouse.t(),
-    legend_statistics: ExClash.LegendStats.t(),
-    achievements: list(ExClash.Achievements.t()),
-    labels: list(ExClash.Label.t()),
-    troops: list(ExClash.Troop.t()),
-    heroes: list(ExClash.Hero.t()),
-    hero_equipment: list(ExClash.Equipment.t()),
-    spells: list(ExClash.Spell.t())
+    league: ExClash.Type.League.t(),
+    builder_base_league: ExClash.Type.League.t(),
+    player_house: ExClash.Type.PlayerHouse.t(),
+    legend_statistics: ExClash.Type.LegendStats.t(),
+    achievements: list(ExClash.Type.Achievements.t()),
+    labels: list(ExClash.Type.Label.t()),
+    troops: list(ExClash.Type.Troop.t()),
+    heroes: list(ExClash.Type.Hero.t()),
+    hero_equipment: list(ExClash.Type.Equipment.t()),
+    spells: list(ExClash.Type.Spell.t())
   }
 
   defstruct [

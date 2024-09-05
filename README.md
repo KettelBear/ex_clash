@@ -40,9 +40,9 @@ end
     ```
 * Get well-defined structs back from responses instead of parsing maps with
   string keys.
-* HTTP functions are available to make your own API requests. Just use
-  `ExClash.HTTP.get/2` which will handle auth, the url, and query params for
-  you.
+* HTTP functions are available to make your own API requests, though not
+  documented. Instead, just use `Req` to make any other HTTP requests as
+  necessary.
 * Not sure if feature; this library is not going to tell you if you got a
   parameter wrong in your `Keyword` list. It'll just forward it along to `Req`
   to consume, who will just attach it as a query param and Supercell's API
