@@ -1,9 +1,9 @@
 defmodule ExClash.CapitalTest do
   use ExClash.Case, async: true
 
-  alias ExClash.Capital
+  alias ExClash.HTTP.Paging
   alias ExClash.League
-  alias ExClash.Paging
+  alias ExClash.Type.League, as: LeagueStruct
 
   test "Gets the specific league when provided an ID" do
     id = :rand.uniform(99999999)
@@ -11,9 +11,9 @@ defmodule ExClash.CapitalTest do
 
     plug = &Req.Test.json(&1, %{"id" => id, "name" => name})
 
-    actual = Capital.league(id, plug: plug)
+    actual = League.capital_league(id, plug: plug)
 
-    assert %League{id: id, name: name, icon_urls: nil} == actual
+    assert %LeagueStruct{id: id, name: name, icon_urls: nil} == actual
   end
 
   test "Makes a request to get the capital leagues" do
@@ -25,10 +25,10 @@ defmodule ExClash.CapitalTest do
       "paging" => %{"cursors" => %{"after" => nil, "before" => nil}}
     }
 
-    {items, paging} = Capital.leagues(plug: &Req.Test.json(&1, response))
+    {items, paging} = League.capital_leagues(plug: &Req.Test.json(&1, response))
 
     assert %Paging{after: nil, before: nil} == paging
 
-    assert [%League{id: id, name: name, icon_urls: nil}] == items
+    assert [%LeagueStruct{id: id, name: name, icon_urls: nil}] == items
   end
 end

@@ -12,8 +12,6 @@ defmodule ExClash.Type.ClanWarLeague do
 
   @behaviour ExClash.Type
 
-  alias ExClash.Type.WarLeagueRounds
-
   @type war_state() :: :group_not_found | :not_in_war | :preparation | :in_war | :ended
 
   @type t() :: %__MODULE__{
@@ -34,7 +32,7 @@ defmodule ExClash.Type.ClanWarLeague do
   def format(data) do
     %__MODULE__{
       clans: Map.get(data, "clans") |> ExClash.Type.WarLeagueClan.format(),
-      rounds: Map.get(data, "rounds") |> WarLeagueRounds.format(),
+      rounds: Map.get(data, "rounds") |> ExClash.Type.WarLeagueRounds.format(),
       season: Map.get(data, "season"),
       state: Map.get(data, "state") |> ExClash.camel_to_atom()
     }

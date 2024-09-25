@@ -37,10 +37,9 @@ defmodule ExClash.Type.WarLeagueRounds do
   """
   @spec format(data :: ExClash.Type.cell_input()) :: __MODULE__.t() | list(__MODULE__.t()) | nil
   def format(nil), do: nil
-  def format(data) when is_list(data), do: Enum.map(data, &format/1)
   def format(data), do: format(%{}, data, [:one, :two, :three, :four, :five, :six, :seven])
 
-  defp format(map, [], []), do: struct(WarLeagueRounds, map)
+  defp format(map, [], []), do: struct(__MODULE__, map)
   defp format(map, [%{"warTags" => tags} | rounds], [rnd_num | nums]) do
     map
     |> Map.put(rnd_num, tags)

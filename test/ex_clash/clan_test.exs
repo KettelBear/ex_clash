@@ -17,23 +17,21 @@ defmodule ExClash.ClanTest do
   use ExClash.Case, async: true
 
   alias ExClash.Clan
-  alias ExClash.ClanMember
-  alias ExClash.Paging
-  alias ExClash.War
-  alias ExClash.WarLeague
-  alias ExClash.WarLeagueClan
-  alias ExClash.WarLeague.Rounds
+  alias ExClash.HTTP.Paging
+  alias ExClash.Type.Clan, as: ClanStruct
+  alias ExClash.Type.ClanMember
+  alias ExClash.Type.War
+  alias ExClash.Type.ClanWarLeague
+  alias ExClash.Type.WarLeagueClan
+  alias ExClash.Type.WarLeagueRounds
 
   test "Get the CWL Group" do
-    %WarLeague{
-      clans: [%WarLeagueClan{} | _],
-      rounds: %Rounds{}
-    } = Clan.cwl_group("Should be a clan tag", plug: plug("mock_cwl_group.json"))
+    %ClanWarLeague{clans: [%WarLeagueClan{} | _], rounds: %WarLeagueRounds{}} = Clan.cwl_group("Should be a clan tag", plug: plug("mock_cwl_group.json"))
   end
 
   test "Search returns a list of possible clans" do
     {
-      [%Clan{}, %Clan{}, %Clan{}, %Clan{}, %Clan{}],
+      [%ClanStruct{}, %ClanStruct{}, %ClanStruct{}, %ClanStruct{}, %ClanStruct{}],
       %Paging{}
     } = Clan.search(
       name: "My Clan",
@@ -55,7 +53,7 @@ defmodule ExClash.ClanTest do
     %{"tag" => tag} = mock = mock("mock_clan.json")
 
     # There is a lot of information that could be validated here, A LOT.
-    %Clan{tag: ^tag} = Clan.details(tag, plug: &Req.Test.json(&1, mock))
+    %ClanStruct{tag: ^tag} = Clan.details(tag, plug: &Req.Test.json(&1, mock))
   end
 
   describe "The clan has a public war log" do

@@ -4,7 +4,7 @@ defmodule ExClash.HTTP do
   # This module should not be documented, as it is not intended for use
   # outside of this project. This wraps `Req` for the requests going
   # specifically to Supercell. Since `Req` is included in this project,
-  # just use that for additional requests.
+  # just use that for additional requests outside of Supercell's API.
 
   require Logger
 
